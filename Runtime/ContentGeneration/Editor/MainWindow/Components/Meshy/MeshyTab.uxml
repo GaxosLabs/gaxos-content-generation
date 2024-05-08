@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ui:UXML
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:ui="UnityEngine.UIElements"
+    xmlns:editor="UnityEditor.UIElements"
+    xsi:noNamespaceSchemaLocation="../../../../../../UIElementsSchema/UIElements.xsd"
+>
+    <Style src="project://database/Assets/ContentGeneration/Editor/MainWindow/Components/Common.uss?fileID=7433441132597879392&amp;guid=4c0a09080b844861802367d6e07fa07b&amp;type=3#Common" />
+    <Style src="project://database/Assets/ContentGeneration/Editor/MainWindow/Components/Meshy/MeshyTab.uss?fileID=7433441132597879392&amp;guid=6adc5cbd173034215a2fce44ed240e74&amp;type=3#MeshyTab" />
+    <ContentGeneration.Editor.MainWindow.Components.SubWindow Sub-Window-Name="Meshy" style="flex-grow: 1;">
+        <ContentGeneration.Editor.MainWindow.Components.TabsContainer>
+            <ContentGeneration.Editor.MainWindow.Components.Tab Tab-Name="Text To Mesh" name="textToMesh">
+                <ContentGeneration.Editor.MainWindow.Components.Meshy.TextToMesh style="flex-direction: column-reverse;" />
+            </ContentGeneration.Editor.MainWindow.Components.Tab>
+            <ContentGeneration.Editor.MainWindow.Components.Tab Tab-Name="Text To Texture" name="textToTexture">
+                <ContentGeneration.Editor.MainWindow.Components.Meshy.TextToTexture style="flex-direction: column-reverse;" />
+            </ContentGeneration.Editor.MainWindow.Components.Tab>
+        </ContentGeneration.Editor.MainWindow.Components.TabsContainer>
+    </ContentGeneration.Editor.MainWindow.Components.SubWindow>
+
+</ui:UXML>

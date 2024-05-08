@@ -1,0 +1,44 @@
+#subWindow {
+    flex-grow: 1;
+    background-color: rgb(73, 73, 73);
+    border-top-left-radius: 20px;
+    border-top-right-radius: 20px;
+}
+
+#subWindow #header {
+    flex-grow: 0;
+    height: 52px;
+    background-color: rgb(115, 115, 115);
+    border-top-left-radius: 20px;
+    border-top-right-radius: 20px;
+}
+
+#subWindow #label {
+    flex-grow: 0;
+    -unity-text-align: middle-right;
+    -unity-font: url('project://database/Assets/ContentGeneration/Editor/MainWindow/Bebas%20Neue%20Pro%20Regular.otf?fileID=12800000&guid=c131d7916ee2d4b6297a8159ebdb3061&type=3#Bebas Neue Pro Regular');
+    -unity-font-definition: url('project://database/Assets/ContentGeneration/Editor/MainWindow/Bebas%20Neue%20Pro%20Regular%20SDF.asset?fileID=11400000&guid=789701d1b063142659d1609ccbd8db2a&type=2#Bebas Neue Pro Regular SDF');
+    color: rgb(255, 255, 255);
+    font-size: 25px;
+    position: absolute;
+    left: 12px;
+    top: 0;
+    right: 12px;
+    bottom: 0;
+    -unity-font-style: bold;
+}
+
+#subWindow #icon {
+    flex-grow: 1;
+    position: absolute;
+    left: 18px;
+    top: 0;
+    bottom: 0;
+    width: 36.25px;
+    -unity-background-scale-mode: scale-to-fit;
+}
+
+#subWindow #headerBar {
+    height: 5px;
+    background-image: url('project://database/Assets/ContentGeneration/Editor/MainWindow/separator.png?fileID=2800000&guid=d5c9c845b0ca4402f9d86d6f4159f38e&type=3#separator');
+}

@@ -1,0 +1,16 @@
+{
+	"name": "gaxos.content-generation",
+	"displayName": "Gaxos Content Generation",
+	"version": "0.0.1",
+	"unity": "2021.3",
+	"description": "",
+	"keywords": [],
+	"dependencies": {
+		"com.unity.editorcoroutines": "1.0.0"
+	},
+	"samples": [],
+	"repository": {
+		"type": "git",
+		"url": "https://github.com/nftgco/gaxos-content-generation.git"
+	}
+}

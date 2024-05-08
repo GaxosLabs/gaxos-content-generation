@@ -1,0 +1,17 @@
+<ui:UXML xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" xsi="http://www.w3.org/2001/XMLSchema-instance" engine="UnityEngine.UIElements" editor="UnityEditor.UIElements" noNamespaceSchemaLocation="../../../UIElementsSchema/UIElements.xsd" editor-extension-mode="False">
+    <Style src="project://database/Assets/ContentGeneration/Editor/MainWindow/Components/Common.uss?fileID=7433441132597879392&amp;guid=4c0a09080b844861802367d6e07fa07b&amp;type=3#Common" />
+    <Style src="project://database/Assets/ContentGeneration/Editor/MainWindow/Components/StabilityAI/StabilityParametersElement.uss?fileID=7433441132597879392&amp;guid=6038dbd302ad4677a0e8d5b9e37f0683&amp;type=3#StabilityParametersElement" />
+    <ui:VisualElement name="stabilityParametersElement" class="container-spaced">
+        <ui:VisualElement name="promptsContainer" style="min-height: 20px;" />
+        <ui:Button text="Add another prompt" parse-escape-sequences="true" display-tooltip-when-elided="true" name="addPrompt" />
+        <ui:Label name="promptRequiredLabel" text="At least one prompt is required" class="error-label" style="visibility: hidden;" />
+        <ui:SliderInt show-input-field="true" picking-mode="Ignore" label="Cfg scale" value="7" high-value="35" name="cfgScale" />
+        <ui:EnumField label="Clip guidance preset" type="ContentGeneration.Models.Stability.ClipGuidancePreset, ContentGeneration" name="clipGuidancePreset" />
+        <ui:Toggle label="Send sampler" name="sendSampler" value="false" />
+        <ui:EnumField label="Sampler" type="ContentGeneration.Models.Stability.Sampler, ContentGeneration" name="sampler" />
+        <ui:SliderInt show-input-field="true" picking-mode="Ignore" label="Samples" value="4" high-value="10" name="samples" />
+        <ui:SliderInt show-input-field="true" picking-mode="Ignore" label="Seed" value="0" high-value="4294967295" name="seed" />
+        <ui:SliderInt show-input-field="true" picking-mode="Ignore" label="Steps" value="30" low-value="10" high-value="50" name="steps" />
+        <ui:DropdownField label="Style" name="stylePreset" />
+    </ui:VisualElement>
+</ui:UXML>

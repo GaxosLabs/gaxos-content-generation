@@ -1,0 +1,30 @@
+<ui:UXML xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" xsi="http://www.w3.org/2001/XMLSchema-instance" editor="UnityEditor.UIElements" noNamespaceSchemaLocation="../../../../UIElementsSchema/UIElements.xsd" editor-extension-mode="False">
+    <Style src="project://database/Assets/ContentGeneration/Editor/MainWindow/Components/Common.uss?fileID=7433441132597879392&amp;guid=4c0a09080b844861802367d6e07fa07b&amp;type=3#Common" />
+    <Style src="project://database/Assets/ContentGeneration/Editor/MainWindow/Components/StabilityAI/ImageToImage.uss?fileID=7433441132597879392&amp;guid=dc4b1cc0f03b8470c966fc429333fe1e&amp;type=3#ImageToImage" />
+    <ui:ScrollView name="root" class="container-spaced" style="flex-grow: 1;">
+        <ContentGeneration.Editor.MainWindow.Components.StabilityAI.StabilityParametersElement name="stabilityParameters" />
+        <ui:DropdownField label="Engine" name="engine" />
+        <ContentGeneration.Editor.MainWindow.Components.ImageSelection name="image" Label="Image" Button-Text="Select Image" />
+        <ui:Label name="imageRequired" text="Image is required" class="error-label" />
+        <ui:EnumField label="Mask source" type="ContentGeneration.Models.Stability.MaskSource, ContentGeneration" name="maskSource" value="InitImageAlpha" />
+        <ContentGeneration.Editor.MainWindow.Components.ImageSelection name="mask" Label="Mask" Button-Text="Select Mask" />
+        <ui:Label name="maskRequired" text="Mask is required" class="error-label" />
+        <ContentGeneration.Editor.MainWindow.Components.GenerationOptionsElement name="generationOptions" />
+        <ui:Button name="generate" text="Generate" class="generateButton" />
+        <ui:VisualElement>
+            <ui:VisualElement name="sendingRequest">
+                <ui:Label text="Sending request" />
+            </ui:VisualElement>
+            <ui:VisualElement name="requestSent">
+                <ui:Label text="Request sent" />
+            </ui:VisualElement>
+            <ui:VisualElement name="requestFailed" class="error-label">
+                <ui:Label text="Request failed, check the console for details" />
+            </ui:VisualElement>
+        </ui:VisualElement>
+        <ui:VisualElement style="flex-grow: 1;">
+            <ui:Label tabindex="-1" text="Code" parse-escape-sequences="true" display-tooltip-when-elided="true" />
+            <ui:TextField picking-mode="Ignore" readonly="true" multiline="true" name="code" class="code" />
+        </ui:VisualElement>
+    </ui:ScrollView>
+</ui:UXML>

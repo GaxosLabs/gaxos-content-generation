@@ -1,0 +1,38 @@
+<ui:UXML xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" xsi="http://www.w3.org/2001/XMLSchema-instance" editor="UnityEditor.UIElements" noNamespaceSchemaLocation="../../../../../../UIElementsSchema/UIElements.xsd" editor-extension-mode="True">
+    <Style src="project://database/Assets/ContentGeneration/Editor/MainWindow/Components/Common.uss?fileID=7433441132597879392&amp;guid=4c0a09080b844861802367d6e07fa07b&amp;type=3#Common" />
+    <Style src="project://database/Assets/ContentGeneration/Editor/MainWindow/Components/DallE/TextToImage.uss?fileID=7433441132597879392&amp;guid=8226d0b1cff434780857bf3926a69a8f&amp;type=3#TextToImage" />
+    <ui:VisualElement class="container-spaced">
+        <uie:ObjectField label="Model" name="model" type="UnityEngine.Object, UnityEngine.CoreModule" allow-scene-objects="false" />
+        <ui:Label name="modelRequired" text="Model is required" class="error-label" style="visibility: hidden;" />
+        <ui:Label tabindex="-1" text="Object prompt:" parse-escape-sequences="true" display-tooltip-when-elided="true" />
+        <ContentGeneration.Editor.MainWindow.Components.PromptInput name="objectPrompt" style="height: 140px;" />
+        <ui:Label name="objectPromptRequired" text="Object prompt is required" class="error-label" style="visibility: hidden;" />
+        <ui:Label tabindex="-1" text="Style prompt:" parse-escape-sequences="true" display-tooltip-when-elided="true" />
+        <ContentGeneration.Editor.MainWindow.Components.PromptInput name="stylePrompt" style="height: 140px;" />
+        <ui:Label name="stylePromptRequired" text="Style prompt is required" class="error-label" style="visibility: hidden;" />
+        <ui:Button name="improvePrompt" text="Improve prompt" />
+        <ui:Label tabindex="-1" text="Negative prompt:" parse-escape-sequences="true" display-tooltip-when-elided="true" />
+        <ContentGeneration.Editor.MainWindow.Components.PromptInput name="negativePrompt" style="height: 140px;" />
+        <ui:Toggle label="Enable Original UV" name="enableOriginalUv" value="true" />
+        <ui:Toggle label="Enable PBR" name="enablePbr" value="true" />
+        <ui:EnumField label="Resolution" type="ContentGeneration.Models.Meshy.Resolution, ContentGeneration" name="resolution" />
+        <ui:EnumField label="Art Style" type="ContentGeneration.Models.Meshy.TextToTextureArtStyle, ContentGeneration" name="artStyle" />
+        <ContentGeneration.Editor.MainWindow.Components.GenerationOptionsElement name="generationOptions" />
+        <ui:Button name="generateButton" text="Generate" class="generateButton" />
+        <ui:VisualElement>
+            <ui:VisualElement name="sendingRequest">
+                <ui:Label text="Sending request" />
+            </ui:VisualElement>
+            <ui:VisualElement name="requestSent">
+                <ui:Label text="Request sent" />
+            </ui:VisualElement>
+            <ui:VisualElement name="requestFailed" class="error-label">
+                <ui:Label text="Request failed, check the console for details" />
+            </ui:VisualElement>
+        </ui:VisualElement>
+        <ui:VisualElement style="flex-grow: 1;">
+            <ui:Label tabindex="-1" text="Code" parse-escape-sequences="true" display-tooltip-when-elided="true" />
+            <ui:TextField picking-mode="Ignore" readonly="true" multiline="true" name="code" class="code" />
+        </ui:VisualElement>
+    </ui:VisualElement>
+</ui:UXML>

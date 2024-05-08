@@ -1,0 +1,86 @@
+using System;
+using System.Collections;
+using System.Collections.Generic;
+using System.IO;
+using ContentGeneration.Models;
+using Unity.EditorCoroutines.Editor;
+using UnityEditor;
+using UnityEngine;
+using UnityEngine.Networking;
+using UnityEngine.UIElements;
+
+namespace ContentGeneration.Editor.MainWindow.Components.RequestsList
+{
+    public class GeneratedImageElement : VisualElement
+    {
+        public new class UxmlFactory : UxmlFactory<GeneratedImageElement, UxmlTraits>
+        {
+        }
+
+        public new class UxmlTraits : VisualElement.UxmlTraits
+        {
+            public override IEnumerable<UxmlChildElementDescription> uxmlChildElementsDescription
+            {
+                get { yield break; }
+            }
+        }
+
+        Image image => this.Q<Image>("image");
+        Button saveToProject => this.Q<Button>("saveToProject");
+
+        public GeneratedImageElement() : this(null)
+        {
+        }
+
+        public GeneratedImageElement(GeneratedImage image)
+        {
+            var asset = AssetDatabase.LoadAssetAtPath<VisualTreeAsset>(
+                "Assets/ContentGeneration/Editor/MainWindow/Components/RequestsList/GeneratedImageElement.uxml");
+            asset.CloneTree(this);
+
+            this.image.image = null;
+            this.image.AddManipulator(new Clickable(evt =>
+            {
+                Application.OpenURL(image.URL);
+            }));
+            saveToProject.SetEnabled(false);
+            EditorCoroutineUtility.StartCoroutine(
+                LoadImage(image.URL), this);
+            
+            saveToProject.RegisterCallback<ClickEvent>(_ =>
+            {
+                if (!saveToProject.enabledSelf || this.image.image == null) return;
+                
+                var path = EditorUtility.SaveFilePanel(
+                    "Save texture as PNG",
+                    "Assets/",
+                    "",
+                    "png");
+
+                if (path.Length == 0) return;
+                
+                var pngData = ((Texture2D)this.image.image).EncodeToPNG();
+                if (pngData != null)
+                {
+                    File.WriteAllBytes(path, pngData);
+                    AssetDatabase.Refresh();
+                }
+            });
+        }
+
+        IEnumerator LoadImage(string imageUrl)
+        {
+            var www = UnityWebRequestTexture.GetTexture(imageUrl);
+            yield return www.SendWebRequest();
+
+            if (www.result != UnityWebRequest.Result.Success)
+            {
+                throw new Exception(www.error);
+            }
+
+            var texture = ((DownloadHandlerTexture)www.downloadHandler).texture;
+            image.image = texture;
+            saveToProject.SetEnabled(true);
+        }
+    }
+}

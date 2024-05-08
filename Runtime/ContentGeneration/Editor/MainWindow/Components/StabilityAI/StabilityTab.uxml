@@ -1,0 +1,17 @@
+<ui:UXML xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" xsi="http://www.w3.org/2001/XMLSchema-instance" editor="UnityEditor.UIElements" noNamespaceSchemaLocation="../../../../../UIElementsSchema/UIElements.xsd" editor-extension-mode="False">
+    <Style src="project://database/Assets/ContentGeneration/Editor/MainWindow/Components/Common.uss?fileID=7433441132597879392&amp;guid=4c0a09080b844861802367d6e07fa07b&amp;type=3#Common" />
+    <Style src="project://database/Assets/ContentGeneration/Editor/MainWindow/Components/StabilityAI/StabilityTab.uss?fileID=7433441132597879392&amp;guid=daa26be3f7df74c60bc6b140af566e1a&amp;type=3#StabilityTab" />
+    <ContentGeneration.Editor.MainWindow.Components.SubWindow Sub-Window-Name="Stability AI" style="flex-grow: 1;">
+        <ContentGeneration.Editor.MainWindow.Components.TabsContainer>
+            <ContentGeneration.Editor.MainWindow.Components.Tab Tab-Name="Text To Image" name="textToImage">
+                <ContentGeneration.Editor.MainWindow.Components.StabilityAI.TextToImage style="flex-direction: column-reverse;" />
+            </ContentGeneration.Editor.MainWindow.Components.Tab>
+            <ContentGeneration.Editor.MainWindow.Components.Tab Tab-Name="Image To Image" name="imageToImage">
+                <ContentGeneration.Editor.MainWindow.Components.StabilityAI.ImageToImage />
+            </ContentGeneration.Editor.MainWindow.Components.Tab>
+            <ContentGeneration.Editor.MainWindow.Components.Tab name="masking" Tab-Name="Masking">
+                <ContentGeneration.Editor.MainWindow.Components.StabilityAI.Masking />
+            </ContentGeneration.Editor.MainWindow.Components.Tab>
+        </ContentGeneration.Editor.MainWindow.Components.TabsContainer>
+    </ContentGeneration.Editor.MainWindow.Components.SubWindow>
+</ui:UXML>

@@ -1,0 +1,7 @@
+<ui:UXML xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" xsi="http://www.w3.org/2001/XMLSchema-instance" editor="UnityEditor.UIElements" noNamespaceSchemaLocation="../../../../../UIElementsSchema/UIElements.xsd" editor-extension-mode="False">
+    <Style src="project://database/Assets/ContentGeneration/Editor/MainWindow/Components/SubWindowToggle.uss?fileID=7433441132597879392&amp;guid=1d7a9e659b8b446808de85da652689ba&amp;type=3#SubWindowToggle" />
+    <ui:Toggle label="Sub Window Name" name="subWindowToggle" class="sideMenuItemToggle" style="margin-top: 8px; margin-bottom: 8px;">
+        <ui:Label tabindex="-1" name="label" parse-escape-sequences="true" display-tooltip-when-elided="true" text="Sub Window Name" />
+        <ui:VisualElement name="icon" />
+    </ui:Toggle>
+</ui:UXML>

@@ -1,0 +1,67 @@
+using System;
+using System.Collections.Generic;
+using UnityEditor;
+using UnityEngine;
+using UnityEngine.UIElements;
+
+namespace ContentGeneration.Editor.MainWindow.Components
+{
+    public class SubWindowToggle : VisualElement
+    {
+        public new class UxmlFactory : UxmlFactory<SubWindowToggle, UxmlTraits>
+        {
+        }
+
+        public new class UxmlTraits : VisualElement.UxmlTraits
+        {
+            readonly UxmlStringAttributeDescription _subWindowName = new() { name = "Sub-Window-Name" };
+
+            public override IEnumerable<UxmlChildElementDescription> uxmlChildElementsDescription
+            {
+                get { yield break; }
+            }
+
+            public override void Init(VisualElement ve, IUxmlAttributes bag, CreationContext cc)
+            {
+                base.Init(ve, bag, cc);
+                var element = (SubWindowToggle)ve;
+                element.subWindowName = _subWindowName.GetValueFromBag(bag, cc);
+            }
+        }
+
+        public event Action<SubWindowToggle, bool> OnToggled;
+        public SubWindowToggle()
+        {
+            var asset = AssetDatabase.LoadAssetAtPath<VisualTreeAsset>(
+                "Assets/ContentGeneration/Editor/MainWindow/Components/SubWindowToggle.uxml");
+            asset.CloneTree(this);
+
+            toggle.RegisterValueChangedCallback(v =>
+            {
+                OnToggled?.Invoke(this, v.newValue);
+            });
+        }
+
+        public void ToggleOff()
+        {
+            toggle.value = false;
+        }
+
+
+        Label label => this.Q<Label>("label");
+        Toggle toggle => this.Q<Toggle>("subWindowToggle");
+        VisualElement icon => this.Q<VisualElement>("icon");
+
+        public string subWindowName
+        {
+            get => label.text;
+            set
+            {
+                label.text = value;
+                icon.style.backgroundImage = new StyleBackground(
+                    AssetDatabase.LoadAssetAtPath<Sprite>(
+                        $"Assets/ContentGeneration/Editor/MainWindow/{value}.png"));
+            }
+        }
+    }
+}
