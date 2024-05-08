@@ -10,7 +10,7 @@ namespace ContentGeneration
     public class Settings : ScriptableObject
     {
 #if UNITY_EDITOR
-        const string Path = "Assets/ContentGeneration/" + nameof(Settings) + ".asset";
+        const string Path = "Assets/" + nameof(ContentGeneration) + "." + nameof(Settings) + ".asset";
         [InitializeOnLoadMethod]
         static void CheckCreated()
         {
