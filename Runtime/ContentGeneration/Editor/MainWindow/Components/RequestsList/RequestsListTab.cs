@@ -5,6 +5,7 @@ using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using ContentGeneration.Editor.MainWindow.Components.Meshy;
+using ContentGeneration.Helpers;
 using ContentGeneration.Models;
 using UnityEditor;
 using UnityEngine.UIElements;
