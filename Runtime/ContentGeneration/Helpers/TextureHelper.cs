@@ -7,7 +7,7 @@ using UnityEngine.Networking;
 
 namespace ContentGeneration.Helpers
 {
-    internal static class TextureHelper
+    public static class TextureHelper
     {
         public static Task<Texture2D> DownloadImage(string url)
         {

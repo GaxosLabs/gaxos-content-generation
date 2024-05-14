@@ -59,7 +59,7 @@ namespace ContentGeneration.Editor.MainWindow.Components
                 "\tnew GenerationOptions{\n" +
                 (makeTransparentColor.value
                     ? $"\t\tTransparentColor = new Color({transparentColor.value.r}f, {transparentColor.value.g}f, {transparentColor.value.b}f),\n" +
-                      $"\t\tReplaceDelta = {transparentColor.value}f,\n"
+                      $"\t\tReplaceDelta = {transparentColorReplaceDelta.value}f,\n"
                     : "") +
                 (improvePrompt.value ? $"\t\tImprovePrompt = {improvePrompt.value},\n" : "") +
                 "\t}";

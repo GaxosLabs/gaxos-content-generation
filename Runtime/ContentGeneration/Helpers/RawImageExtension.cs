@@ -1,26 +1,28 @@
 using System.Threading;
 using System.Threading.Tasks;
-using ContentGeneration.Helpers;
 using UnityEngine.UI;
 
-public static class RawImageExtension
+namespace ContentGeneration.Helpers
 {
-    public static Task DownloadImage(this RawImage me, string url)
+    public static class RawImageExtension
     {
-        return me.DownloadImage(url, CancellationToken.None);
-    }
-    public static async Task DownloadImage(this RawImage me, string url, CancellationToken cancellationToken)
-    {
-        var texture = await TextureHelper.DownloadImage(url, cancellationToken);
-
-        if(cancellationToken.IsCancellationRequested)
-            return;
-        
-        me.texture = texture;
-        var aspectRatioFitter = me.GetComponent<AspectRatioFitter>();
-        if (aspectRatioFitter != null)
+        public static Task DownloadImage(this RawImage me, string url)
         {
-            aspectRatioFitter.aspectRatio = me.texture.width / (float)me.texture.height;
+            return me.DownloadImage(url, CancellationToken.None);
+        }
+        public static async Task DownloadImage(this RawImage me, string url, CancellationToken cancellationToken)
+        {
+            var texture = await TextureHelper.DownloadImage(url, cancellationToken);
+
+            if(cancellationToken.IsCancellationRequested)
+                return;
+        
+            me.texture = texture;
+            var aspectRatioFitter = me.GetComponent<AspectRatioFitter>();
+            if (aspectRatioFitter != null)
+            {
+                aspectRatioFitter.aspectRatio = me.texture.width / (float)me.texture.height;
+            }
         }
     }
 }

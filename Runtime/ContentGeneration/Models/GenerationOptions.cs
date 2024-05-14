@@ -8,13 +8,13 @@ namespace ContentGeneration.Models
     {
         public const GenerationOptions None = null;
 
-        [JsonProperty("transparentColor"), JsonConverter(typeof(ColorConverter))]
+        [JsonProperty("transparent_color"), JsonConverter(typeof(ColorConverter))]
         public Color? TransparentColor;
 
-        [JsonProperty("transparentColorReplaceDelta")]
+        [JsonProperty("transparent_color_replace_delta")]
         public float TransparentColorReplaceDelta = 20;
 
-        [JsonProperty("improvePrompt")]
+        [JsonProperty("improve_prompt")]
         public bool ImprovePrompt;
     }
 }

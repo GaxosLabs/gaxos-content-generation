@@ -9,7 +9,7 @@
         <ui:EnumField label="Clip guidance preset" type="ContentGeneration.Models.Stability.ClipGuidancePreset, ContentGeneration" name="clipGuidancePreset" />
         <ui:Toggle label="Send sampler" name="sendSampler" value="false" />
         <ui:EnumField label="Sampler" type="ContentGeneration.Models.Stability.Sampler, ContentGeneration" name="sampler" />
-        <ui:SliderInt show-input-field="true" picking-mode="Ignore" label="Samples" value="4" high-value="10" name="samples" />
+        <ui:SliderInt show-input-field="true" picking-mode="Ignore" label="Samples" value="4" low-value="1" high-value="10" name="samples" />
         <ui:SliderInt show-input-field="true" picking-mode="Ignore" label="Seed" value="0" high-value="4294967295" name="seed" />
         <ui:SliderInt show-input-field="true" picking-mode="Ignore" label="Steps" value="30" low-value="10" high-value="50" name="steps" />
         <ui:DropdownField label="Style" name="stylePreset" />

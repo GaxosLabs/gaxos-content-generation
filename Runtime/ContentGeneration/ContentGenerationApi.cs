@@ -129,7 +129,7 @@ namespace ContentGeneration
                 {
                     data,
                     generator = GeneratorTypeConverter.ToString(generator),
-                    generatorParameters,
+                    generator_parameters = generatorParameters,
                     options
                 });
         }

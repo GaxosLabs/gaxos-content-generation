@@ -61,11 +61,13 @@ namespace ContentGeneration.Editor.MainWindow.Components.StabilityAI
                     return;
 
                 improvePrompt.SetEnabled(false);
-                
+                promptInput.SetEnabled(false);
+
                 ContentGenerationApi.Instance.ImprovePrompt(promptInput.value, "stability").ContinueInMainThreadWith(
                     t =>
                     {
                         improvePrompt.SetEnabled(true);
+                        promptInput.SetEnabled(true);
                         if (t.IsFaulted)
                         {
                             Debug.LogException(t.Exception!.InnerException!);

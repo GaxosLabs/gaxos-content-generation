@@ -15,7 +15,7 @@ namespace ContentGeneration.Models
         [JsonProperty("data")]
         public JObject Data;
         
-        [JsonProperty("createdAt"), JsonConverter(typeof(DateTimeFromUnixTimeStampConverter))]
+        [JsonProperty("created_at"), JsonConverter(typeof(DateTimeFromUnixTimeStampConverter))]
         public DateTime CreatedAt;
 
         [JsonProperty("request")]

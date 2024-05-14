@@ -6,29 +6,29 @@ namespace ContentGeneration.Models
 {
     public record Request
     {
-        [JsonProperty("completedAt"), JsonConverter(typeof(DateTimeFromUnixTimeStampConverter))]
+        [JsonProperty("completed_at"), JsonConverter(typeof(DateTimeFromUnixTimeStampConverter))]
         public DateTime CompletedAt;
-        [JsonProperty("createdAt"), JsonConverter(typeof(DateTimeFromUnixTimeStampConverter))]
+        [JsonProperty("created_at"), JsonConverter(typeof(DateTimeFromUnixTimeStampConverter))]
         public DateTime CreatedAt;
 
         [JsonProperty("data")]
         public JObject Data;
         [JsonProperty("generator"), JsonConverter(typeof(GeneratorTypeConverter))]
         public Generator Generator;
-        [JsonProperty("generatorParameters")]
+        [JsonProperty("generator_parameters")]
         public JObject GeneratorParameters;
         [JsonProperty("id")]
         public string ID;
         [JsonProperty("status"), JsonConverter(typeof(RequestStatusConverter))]
         public RequestStatus Status;
 
-        [JsonProperty("failedDetails")]
+        [JsonProperty("failed_details")]
         public FailedDetails FailedDetails;
 
         [JsonProperty("images")]
         public GeneratedImage[] Images;
 
-        [JsonProperty("generationResult")] 
+        [JsonProperty("generation_result")] 
         public JObject GenerationResult;
     }
 }

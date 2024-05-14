@@ -59,11 +59,12 @@ namespace ContentGeneration.Editor.MainWindow.Components.Meshy
                     return;
 
                 improvePrompt.SetEnabled(false);
-                
+                prompt.SetEnabled(false);
                 ContentGenerationApi.Instance.ImprovePrompt(prompt.value, "dalle-3").ContinueInMainThreadWith(
                     t =>
                     {
                         improvePrompt.SetEnabled(true);
+                        prompt.SetEnabled(true);
                         if (t.IsFaulted)
                         {
                             Debug.LogException(t.Exception!.InnerException!);

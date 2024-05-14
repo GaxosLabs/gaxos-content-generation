@@ -46,11 +46,13 @@ namespace ContentGeneration.Editor.MainWindow.Components.DallE
                     return;
 
                 improvePromptButton.SetEnabled(false);
-
+                prompt.SetEnabled(false);
                 ContentGenerationApi.Instance.ImprovePrompt(prompt.value, "dall-e").ContinueInMainThreadWith(
                     t =>
                     {
                         improvePromptButton.SetEnabled(true);
+                        prompt.SetEnabled(true);
+
                         if (t.IsFaulted)
                         {
                             Debug.LogException(t.Exception!.InnerException!);

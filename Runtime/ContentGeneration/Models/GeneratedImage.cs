@@ -8,7 +8,7 @@ namespace ContentGeneration.Models
         public string ID;
         [JsonProperty("url")]
         public string URL;
-        [JsonProperty("willBePublic")]
+        [JsonProperty("will_be_public")]
         public bool WillBePublic;
     }
 }

@@ -69,9 +69,10 @@ namespace ContentGeneration.Editor.MainWindow.Components.Meshy
             videoButton.clicked += () =>
             {
                 Application.OpenURL(
-                    value.GenerationResult["refineResult"]?["video_url"]!.ToObject<string>() ??
+                    value.GenerationResult["refine_result"]?["video_url"]!.ToObject<string>() ??
                     value.GenerationResult["video_url"]!.ToObject<string>());
             };
+            saveButton.SetEnabled(false);
             saveButton.clicked += () =>
             {
                 if (!saveButton.enabledSelf)
@@ -79,7 +80,7 @@ namespace ContentGeneration.Editor.MainWindow.Components.Meshy
 
                 saveButton.SetEnabled(false);
                 MeshyModelHelper.Save(
-                    value.GenerationResult["refineResult"] ?? value.GenerationResult
+                    value.GenerationResult["refine_result"] ?? value.GenerationResult
                     ).ContinueInMainThreadWith(t =>
                 {
                     if (t.IsFaulted)
@@ -109,14 +110,15 @@ namespace ContentGeneration.Editor.MainWindow.Components.Meshy
 
                 videoButton.SetEnabled(value.GenerationResult != null);
                 refineButton.SetEnabled(
-                    value.GenerationResult != null && !value.GenerationResult.ContainsKey("refineStatus"));
+                    value.GenerationResult != null && !value.GenerationResult.ContainsKey("refine_status"));
+                saveButton.SetEnabled(value.GenerationResult != null);
 
                 refineStatus.text = "Not requested";
                 refineErrorDetails.style.display = DisplayStyle.None;
 
-                if (value.GenerationResult != null && value.GenerationResult.ContainsKey("refineStatus"))
+                if (value.GenerationResult != null && value.GenerationResult.ContainsKey("refine_status"))
                 {
-                    var refineStatusText = value.GenerationResult["refineStatus"]!.ToObject<string>();
+                    var refineStatusText = value.GenerationResult["refine_result"]!.ToObject<string>();
                     var refineStatusValue = Enum.Parse<RequestStatus>(refineStatusText, true);
 
                     refineStatus.text = refineStatusValue.ToString();

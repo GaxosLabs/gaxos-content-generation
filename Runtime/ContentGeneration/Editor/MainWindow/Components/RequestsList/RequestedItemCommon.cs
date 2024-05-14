@@ -134,7 +134,7 @@ namespace ContentGeneration.Editor.MainWindow.Components.RequestsList
                 error.text = value.FailedDetails?.Message +
                              (string.IsNullOrEmpty(value.FailedDetails?.Error) ? "" : $" [{value?.FailedDetails?.Error}]");
 
-                generatorParameters.value = value.GeneratorParameters.ToString();
+                generatorParameters.value = value.GeneratorParameters?.ToString();
 
                 imagesContainer.Clear();
                 imagesContainer.style.display = DisplayStyle.None;
