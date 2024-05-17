@@ -32,7 +32,7 @@ namespace ContentGeneration.Editor.MainWindow.Components.RequestsList
         {
         }
 
-        public GeneratedImageElement(GeneratedImage image)
+        public GeneratedImageElement(GeneratedAssets assets)
         {
             var asset = AssetDatabase.LoadAssetAtPath<VisualTreeAsset>(
                 "Assets/ContentGeneration/Editor/MainWindow/Components/RequestsList/GeneratedImageElement.uxml");
@@ -41,11 +41,11 @@ namespace ContentGeneration.Editor.MainWindow.Components.RequestsList
             this.image.image = null;
             this.image.AddManipulator(new Clickable(evt =>
             {
-                Application.OpenURL(image.URL);
+                Application.OpenURL(assets.URL);
             }));
             saveToProject.SetEnabled(false);
             EditorCoroutineUtility.StartCoroutine(
-                LoadImage(image.URL), this);
+                LoadImage(assets.URL), this);
             
             saveToProject.RegisterCallback<ClickEvent>(_ =>
             {
@@ -71,6 +71,7 @@ namespace ContentGeneration.Editor.MainWindow.Components.RequestsList
         IEnumerator LoadImage(string imageUrl)
         {
             var www = UnityWebRequestTexture.GetTexture(imageUrl);
+            www.SetRequestHeader("Authorization", $"Bearer {Settings.instance.apiKey}");
             yield return www.SendWebRequest();
 
             if (www.result != UnityWebRequest.Result.Success)

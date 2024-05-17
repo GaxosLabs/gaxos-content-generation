@@ -25,8 +25,8 @@ namespace ContentGeneration.Models
         [JsonProperty("failed_details")]
         public FailedDetails FailedDetails;
 
-        [JsonProperty("images")]
-        public GeneratedImage[] Images;
+        [JsonProperty("assets")]
+        public GeneratedAssets[] Assets;
 
         [JsonProperty("generation_result")] 
         public JObject GenerationResult;

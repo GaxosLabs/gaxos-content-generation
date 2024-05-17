@@ -4,7 +4,12 @@
     <ui:VisualElement name="textToImage" class="container-spaced">
         <ContentGeneration.Editor.MainWindow.Components.StabilityAI.StabilityParametersElement name="stabilityParameters" />
         <ui:DropdownField label="Engine" name="engine" />
-        <ui:DropdownField label="Resolution" name="resolution" />
+        <ui:VisualElement style="flex-grow: 1; flex-direction: row; height: 20px;">
+            <ui:Label tabindex="-1" text="Resolution" parse-escape-sequences="true" display-tooltip-when-elided="true" style="width: 151px;" />
+            <ui:DropdownField name="width" style="min-width: 111px;" />
+            <ui:Label tabindex="-1" text="x" parse-escape-sequences="true" display-tooltip-when-elided="true" />
+            <ui:DropdownField name="height" style="min-width: 111px;" />
+        </ui:VisualElement>
         <ContentGeneration.Editor.MainWindow.Components.GenerationOptionsElement name="generationOptions" />
         <ui:Button name="generate" text="Generate!" class="generateButton" />
         <ui:VisualElement>

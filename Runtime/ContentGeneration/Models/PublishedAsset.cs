@@ -4,7 +4,7 @@ using Newtonsoft.Json.Linq;
 
 namespace ContentGeneration.Models
 {
-    public record PublishedImage
+    public record PublishedAsset
     {
         [JsonProperty("id")]
         public string ID;

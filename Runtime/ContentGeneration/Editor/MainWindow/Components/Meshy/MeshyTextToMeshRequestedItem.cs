@@ -118,7 +118,7 @@ namespace ContentGeneration.Editor.MainWindow.Components.Meshy
 
                 if (value.GenerationResult != null && value.GenerationResult.ContainsKey("refine_status"))
                 {
-                    var refineStatusText = value.GenerationResult["refine_result"]!.ToObject<string>();
+                    var refineStatusText = value.GenerationResult["refine_status"]!.ToObject<string>();
                     var refineStatusValue = Enum.Parse<RequestStatus>(refineStatusText, true);
 
                     refineStatus.text = refineStatusValue.ToString();

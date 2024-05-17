@@ -27,6 +27,7 @@ namespace ContentGeneration
 
         const string BaseUrl = "https://content-generation-21ab4.web.app/";
         // const string BaseUrl = "http://localhost:5002/";
+        // const string BaseUrl = "https://dev.gaxoslabs.ai/api/connect/v1/";
 
         Task<string> SendRequest(ApiMethod method, string endpoint,
             Dictionary<string, string> headers = null,
@@ -111,9 +112,9 @@ namespace ContentGeneration
             return JsonConvert.DeserializeObject<Request>(await SendRequest(ApiMethod.Get, $"request/{id}"));
         }
 
-        public async Task<PublishedImage[]> DeleteRequest(string id)
+        public async Task<PublishedAsset[]> DeleteRequest(string id)
         {
-            return JsonConvert.DeserializeObject<PublishedImage[]>(await SendRequest(ApiMethod.Delete,
+            return JsonConvert.DeserializeObject<PublishedAsset[]>(await SendRequest(ApiMethod.Delete,
                 $"request/{id}"));
         }
 
@@ -185,27 +186,27 @@ namespace ContentGeneration
                 generatorParameters, options, data);
         }
 
-        public async Task MakeImagePublic(string id, uint index, bool makeItPublic)
+        public async Task MakeAssetPublic(string id, uint index, bool makeItPublic)
         {
             await SendRequest(ApiMethod.Patch, $"request/{id}/{(makeItPublic ? "publish" : "unpublish")}/{index}");
         }
 
-        public async Task<PublishedImage[]> GetPublishedImages()
+        public async Task<PublishedAsset[]> GetPublishedAssets()
         {
-            return JsonConvert.DeserializeObject<PublishedImage[]>(await SendRequest(ApiMethod.Get,
-                $"image"));
+            return JsonConvert.DeserializeObject<PublishedAsset[]>(await SendRequest(ApiMethod.Get,
+                $"asset"));
         }
 
-        public async Task<PublishedImage> GetPublishedImage(string publishedImageId)
+        public async Task<PublishedAsset> GetPublishedAsset(string publishedImageId)
         {
-            return JsonConvert.DeserializeObject<PublishedImage>(await SendRequest(ApiMethod.Get,
-                $"image/{publishedImageId}"));
+            return JsonConvert.DeserializeObject<PublishedAsset>(await SendRequest(ApiMethod.Get,
+                $"asset/{publishedImageId}"));
         }
 
         public async Task<string> ImprovePrompt(string prompt, string generator)
         {
             return (await SendRequest(ApiMethod.Get,
-                "improvePrompt" +
+                "request/improve-prompt" +
                 $"?generator={WebUtility.UrlDecode(generator)}" +
                 $"&prompt={WebUtility.UrlDecode(prompt)}"
             )).Trim('"');

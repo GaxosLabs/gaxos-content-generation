@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using ContentGeneration.Helpers;
 using ContentGeneration.Models.Stability;
 using UnityEditor;
@@ -21,17 +22,18 @@ namespace ContentGeneration.Editor.MainWindow.Components.StabilityAI
                 get { yield break; }
             }
         }
-        
+
         TextField code => this.Q<TextField>("code");
         DropdownField engine => this.Q<DropdownField>("engine");
-        DropdownField resolution => this.Q<DropdownField>("resolution");
+        DropdownField width => this.Q<DropdownField>("width");
+        DropdownField height => this.Q<DropdownField>("height");
         Button generateButton => this.Q<Button>("generate");
         VisualElement sendingRequest => this.Q<VisualElement>("sendingRequest");
         VisualElement requestSent => this.Q<VisualElement>("requestSent");
         VisualElement requestFailed => this.Q<VisualElement>("requestFailed");
         StabilityParametersElement stabilityParameters => this.Q<StabilityParametersElement>("stabilityParameters");
         GenerationOptionsElement generationOptions => this.Q<GenerationOptionsElement>("generationOptions");
-        
+
         public TextToImage()
         {
             var asset = AssetDatabase.LoadAssetAtPath<VisualTreeAsset>(
@@ -52,19 +54,18 @@ namespace ContentGeneration.Editor.MainWindow.Components.StabilityAI
             };
             engine.choices = new List<string>(engines);
             engine.index = Array.IndexOf(engines, "stable-diffusion-v1-6");
-            
-            void RefreshResolutionDropdown(string value)
+
+            string[] GetPossibleResolutions(string engineId)
             {
-                resolution.choices.Clear();
                 uint xMin;
                 uint xMax;
                 uint yMin;
                 uint yMax;
-                switch (value)
+                switch (engineId)
                 {
                     case "stable-diffusion-xl-1024-v0-9":
                     case "stable-diffusion-xl-1024-v1-0":
-                        resolution.choices.AddRange(new[]
+                        return new[]
                         {
                             "1024x1024",
                             "1152x896",
@@ -75,9 +76,7 @@ namespace ContentGeneration.Editor.MainWindow.Components.StabilityAI
                             "768x1344",
                             "832x1216",
                             "896x1152"
-                        });
-                        resolution.value = "1024x1024";
-                        return;
+                        };
                     case "stable-diffusion-v1-6":
                         xMin = 320;
                         xMax = 1536;
@@ -98,56 +97,120 @@ namespace ContentGeneration.Editor.MainWindow.Components.StabilityAI
                         yMax = 1536;
                         break;
                     default:
-                        throw new ArgumentOutOfRangeException(nameof(StabilityTextToImageParameters.EngineId), value);
+                        throw new ArgumentOutOfRangeException(nameof(StabilityTextToImageParameters.EngineId), engineId);
                 }
-        
+
+                var ret = new List<string>();
                 for (var x = xMin; x <= xMax; x += 64)
                 {
                     for (var y = yMin; y <= yMax; y += 64)
                     {
-                        resolution.choices.Add($"{x}x{y}");
+                        ret.Add($"{x}x{y}");
                     }
                 }
-        
-                if (value == "stable-diffusion-xl-beta-v2-2-2")
+
+                if (engineId == "stable-diffusion-xl-beta-v2-2-2")
                 {
                     for (var i = 512 + 64; i <= 896; i += 64)
                     {
-                        resolution.choices.Add($"512x{i}");
-                        resolution.choices.Add($"{i}x512");
+                        ret.Add($"512x{i}");
+                        ret.Add($"{i}x512");
                     }
                 }
-        
-                resolution.value = "512x512";
+
+                return ret.ToArray();
             }
-        
-            engine.RegisterValueChangedCallback(evt => { RefreshResolutionDropdown(evt.newValue); });
-            RefreshResolutionDropdown(engine.value);
-        
+
+            void RefreshResolutions(string newWidth = null, string newHeight = null)
+            {
+                var possibleResolutions = GetPossibleResolutions(engine.value);
+                var widths = new HashSet<string>(possibleResolutions.
+                    Select(i => i.Split('x')[0])).ToList();
+                var heights = new HashSet<string>(possibleResolutions.
+                        Select(i => i.Split('x')[1])).ToList();
+                width.choices = widths;
+                height.choices = heights;
+
+                if (newWidth != null && !widths.Contains(newWidth))
+                {
+                    RefreshResolutions(null, newHeight);
+                    return;
+                }
+
+                if (newHeight != null && !heights.Contains(newHeight))
+                {
+                    RefreshResolutions(newWidth, null);
+                    return;
+                }
+
+                if (newWidth == null && newHeight == null)
+                {
+                    newWidth = widths[0]; 
+                }
+
+                if (newWidth != null)
+                {
+                    width.value = newWidth;
+                    
+                    var possibleHeights = new HashSet<string>(
+                        possibleResolutions.
+                            Where(i => i.StartsWith($"{width.value}x")).
+                            Select(i => i.Split('x')[1])).ToList();
+                    if (newHeight == null)
+                    {
+                        newHeight = height.value;
+                    }
+                    if (newHeight == null || !possibleHeights.Contains(newHeight))
+                    {
+                        newHeight = possibleHeights[0];
+                    }
+                    height.value = newHeight;
+                }
+                else
+                {
+                    height.value = newHeight;
+
+                    var possibleWidths = (new HashSet<string>(
+                        possibleResolutions.
+                            Where(i => i.EndsWith($"x{height.value}")).
+                            Select(i => i.Split('x')[0]))).ToList();
+                    if (!possibleWidths.Contains(newWidth))
+                    {
+                        newWidth = possibleWidths[0];
+                    }
+                    width.value = newWidth;
+                }
+            }
+
+            engine.RegisterValueChangedCallback(_ =>
+            {
+                RefreshResolutions(width.value, height.value);
+            });
+            RefreshResolutions();
+
             sendingRequest.style.display = DisplayStyle.None;
             requestSent.style.display = DisplayStyle.None;
             requestFailed.style.display = DisplayStyle.None;
-        
+
             generateButton.RegisterCallback<ClickEvent>(_ =>
             {
                 if (!generateButton.enabledSelf) return;
-        
+
                 requestSent.style.display = DisplayStyle.None;
                 requestFailed.style.display = DisplayStyle.None;
                 if (!stabilityParameters.Valid())
                 {
                     return;
                 }
-        
+
                 generateButton.SetEnabled(false);
                 sendingRequest.style.display = DisplayStyle.Flex;
-        
-                var resolutionSplit = resolution.value.Split('x');
+
                 var parameters = new StabilityTextToImageParameters
                 {
                     EngineId = engine.value,
-                    Width = uint.Parse(resolutionSplit[0]),
-                    Height = uint.Parse(resolutionSplit[1]),
+                    Width = uint.Parse(width.value),
+                    Height = uint.Parse(height.value),
                 };
                 stabilityParameters.ApplyParameters(parameters);
                 ContentGenerationApi.Instance.RequestStabilityTextToImageGeneration(
@@ -168,24 +231,32 @@ namespace ContentGeneration.Editor.MainWindow.Components.StabilityAI
                         }
                     });
             });
-        
+
             engine.RegisterValueChangedCallback(_ => RefreshCode());
-            resolution.RegisterValueChangedCallback(_ => RefreshCode());
-        
+            width.RegisterValueChangedCallback(evt =>
+            {
+                RefreshResolutions(evt.newValue, null);
+                RefreshCode();
+            });
+            height.RegisterValueChangedCallback(evt =>
+            {
+                RefreshResolutions(null, evt.newValue);
+                RefreshCode();
+            });
+
             code.SetVerticalScrollerVisibility(ScrollerVisibility.Auto);
             RefreshCode();
         }
-        
+
         void RefreshCode()
         {
-            var resolutionSplit = this.resolution.value.Split('x');
             code.value =
                 "var requestId = await ContentGenerationApi.Instance.RequestTextToImageGeneration\n" +
                 "\t(new StabilityTextToImageParameters\n" +
                 "\t{\n" +
                 $"\t\tEngineId = \"{engine.value}\",\n" +
-                $"\t\tWidth = {uint.Parse(resolutionSplit[0])},\n" +
-                $"\t\tHeight = {uint.Parse(resolutionSplit[1])},\n" +
+                $"\t\tWidth = {uint.Parse(width.value)},\n" +
+                $"\t\tHeight = {uint.Parse(height.value)},\n" +
                 stabilityParameters.GetCode() +
                 "\t},\n" +
                 $"{generationOptions.GetCode()}" +

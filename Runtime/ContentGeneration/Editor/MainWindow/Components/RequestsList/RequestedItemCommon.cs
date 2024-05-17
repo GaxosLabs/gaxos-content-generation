@@ -138,9 +138,9 @@ namespace ContentGeneration.Editor.MainWindow.Components.RequestsList
 
                 imagesContainer.Clear();
                 imagesContainer.style.display = DisplayStyle.None;
-                if (value is { Status: RequestStatus.Generated, Images: not null })
+                if (value is { Status: RequestStatus.Generated, Assets: not null })
                 {
-                    foreach (var image in value.Images)
+                    foreach (var image in value.Assets)
                     {
                         imagesContainer.style.display = DisplayStyle.Flex;
                         imagesContainer.Add(new GeneratedImageElement(image));
