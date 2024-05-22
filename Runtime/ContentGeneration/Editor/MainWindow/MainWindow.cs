@@ -15,7 +15,7 @@ namespace ContentGeneration.Editor.MainWindow
         [SerializeField] VisualTreeAsset _root;
         SubWindowToggle[] _allToggles;
 
-        [MenuItem("Content Generation/Main window")]
+        [MenuItem("AI Content Generation/Main window")]
         public static void ShowMainWindow()
         {
             var wnd = GetWindow<MainWindow>();
