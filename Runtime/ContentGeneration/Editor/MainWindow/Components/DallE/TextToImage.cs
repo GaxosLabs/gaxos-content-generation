@@ -1,13 +1,12 @@
 using System.Collections.Generic;
 using ContentGeneration.Helpers;
 using ContentGeneration.Models.DallE;
-using UnityEditor;
 using UnityEngine;
 using UnityEngine.UIElements;
 
 namespace ContentGeneration.Editor.MainWindow.Components.DallE
 {
-    public class TextToImage : VisualElement
+    public class TextToImage : VisualElementComponent
     {
         public new class UxmlFactory : UxmlFactory<TextToImage, UxmlTraits>
         {
@@ -31,10 +30,6 @@ namespace ContentGeneration.Editor.MainWindow.Components.DallE
 
         public TextToImage()
         {
-            var asset = AssetDatabase.LoadAssetAtPath<VisualTreeAsset>(
-                "Assets/ContentGeneration/Editor/MainWindow/Components/DallE/TextToImage.uxml");
-            asset.CloneTree(this);
-
             dallEParametersElement.OnCodeChanged += RefreshCode;
             generationOptionsElement.OnCodeChanged += RefreshCode;
 

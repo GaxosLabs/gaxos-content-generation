@@ -6,7 +6,7 @@ using UnityEngine.UIElements;
 
 namespace ContentGeneration.Editor.MainWindow.Components
 {
-    public class ImageSelection : VisualElement
+    public class ImageSelection : VisualElementComponent
     {
         public new class UxmlFactory : UxmlFactory<ImageSelection, UxmlTraits>
         {
@@ -54,10 +54,6 @@ namespace ContentGeneration.Editor.MainWindow.Components
         
         public ImageSelection()
         {
-            var asset = AssetDatabase.LoadAssetAtPath<VisualTreeAsset>(
-                "Assets/ContentGeneration/Editor/MainWindow/Components/ImageSelection.uxml");
-            asset.CloneTree(this);
-            
             selectImage.RegisterCallback<ClickEvent>(_ =>
             {
                 var path = EditorUtility.OpenFilePanelWithFilters(

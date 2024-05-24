@@ -6,7 +6,7 @@ using UnityEngine.UIElements;
 
 namespace ContentGeneration.Editor.MainWindow.Components
 {
-    public class SubWindowToggle : VisualElement
+    public class SubWindowToggle : VisualElementComponent
     {
         public new class UxmlFactory : UxmlFactory<SubWindowToggle, UxmlTraits>
         {
@@ -32,10 +32,6 @@ namespace ContentGeneration.Editor.MainWindow.Components
         public event Action<SubWindowToggle, bool> OnToggled;
         public SubWindowToggle()
         {
-            var asset = AssetDatabase.LoadAssetAtPath<VisualTreeAsset>(
-                "Assets/ContentGeneration/Editor/MainWindow/Components/SubWindowToggle.uxml");
-            asset.CloneTree(this);
-
             toggle.RegisterValueChangedCallback(v =>
             {
                 OnToggled?.Invoke(this, v.newValue);

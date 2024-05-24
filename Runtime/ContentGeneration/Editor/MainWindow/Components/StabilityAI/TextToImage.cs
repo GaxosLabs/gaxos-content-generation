@@ -3,13 +3,12 @@ using System.Collections.Generic;
 using System.Linq;
 using ContentGeneration.Helpers;
 using ContentGeneration.Models.Stability;
-using UnityEditor;
 using UnityEngine;
 using UnityEngine.UIElements;
 
 namespace ContentGeneration.Editor.MainWindow.Components.StabilityAI
 {
-    public class TextToImage : VisualElement
+    public class TextToImage : VisualElementComponent
     {
         public new class UxmlFactory : UxmlFactory<TextToImage, UxmlTraits>
         {
@@ -36,10 +35,6 @@ namespace ContentGeneration.Editor.MainWindow.Components.StabilityAI
 
         public TextToImage()
         {
-            var asset = AssetDatabase.LoadAssetAtPath<VisualTreeAsset>(
-                "Assets/ContentGeneration/Editor/MainWindow/Components/StabilityAI/TextToImage.uxml");
-            asset.CloneTree(this);
-
             stabilityParameters.OnCodeChanged += RefreshCode;
             generationOptions.OnCodeChanged += RefreshCode;
 
@@ -174,11 +169,10 @@ namespace ContentGeneration.Editor.MainWindow.Components.StabilityAI
                         possibleResolutions.
                             Where(i => i.EndsWith($"x{height.value}")).
                             Select(i => i.Split('x')[0]))).ToList();
-                    if (!possibleWidths.Contains(newWidth))
+                    if (!possibleWidths.Contains(width.value))
                     {
-                        newWidth = possibleWidths[0];
+                        width.value = possibleWidths[^1];
                     }
-                    width.value = newWidth;
                 }
             }
 

@@ -1,10 +1,9 @@
 using System.Collections.Generic;
-using UnityEditor;
 using UnityEngine.UIElements;
 
 namespace ContentGeneration.Editor.MainWindow.Components
 {
-    public class Tab : VisualElement
+    public class Tab : VisualElementComponent
     {
         public new class UxmlFactory : UxmlFactory<Tab, UxmlTraits>
         {
@@ -32,13 +31,6 @@ namespace ContentGeneration.Editor.MainWindow.Components
         public string tabName { get; private set; }
 
         public override VisualElement contentContainer => this.Q<VisualElement>("tabContents");
-
-        public Tab()
-        {
-            var asset = AssetDatabase.LoadAssetAtPath<VisualTreeAsset>(
-                "Assets/ContentGeneration/Editor/MainWindow/Components/Tab.uxml");
-            asset.CloneTree(this);
-        }
     }
 }
 

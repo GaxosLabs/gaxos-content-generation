@@ -2,13 +2,12 @@ using System;
 using System.Collections.Generic;
 using ContentGeneration.Helpers;
 using ContentGeneration.Models.Stability;
-using UnityEditor;
 using UnityEngine;
 using UnityEngine.UIElements;
 
 namespace ContentGeneration.Editor.MainWindow.Components.StabilityAI
 {
-    public class TextPrompt : VisualElement
+    public class TextPrompt : VisualElementComponent
     {
         public new class UxmlFactory : UxmlFactory<TextPrompt, UxmlTraits>
         {
@@ -41,10 +40,6 @@ namespace ContentGeneration.Editor.MainWindow.Components.StabilityAI
 
         public TextPrompt(Action<TextPrompt> onRemove, Action onChanged)
         {
-            var asset = AssetDatabase.LoadAssetAtPath<VisualTreeAsset>(
-                "Assets/ContentGeneration/Editor/MainWindow/Components/StabilityAI/TextPrompt.uxml");
-            asset.CloneTree(this);
-
             removePrompt.clicked += () => onRemove(this);
             promptInput.OnChanged += _ => onChanged();
             weight.RegisterValueChangedCallback(v =>

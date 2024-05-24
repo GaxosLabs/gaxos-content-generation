@@ -2,7 +2,7 @@ using Newtonsoft.Json;
 
 namespace ContentGeneration.Models
 {
-    public record GeneratedAssets
+    public record GeneratedAsset
     {
         [JsonProperty("id")]
         public string ID;

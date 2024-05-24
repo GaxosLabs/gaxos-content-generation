@@ -1,13 +1,12 @@
 using System.Collections.Generic;
 using ContentGeneration.Helpers;
 using ContentGeneration.Models.Meshy;
-using UnityEditor;
 using UnityEngine;
 using UnityEngine.UIElements;
 
 namespace ContentGeneration.Editor.MainWindow.Components.Meshy
 {
-    public class TextToMesh : VisualElement
+    public class TextToMesh : VisualElementComponent
     {
         public new class UxmlFactory : UxmlFactory<TextToMesh, UxmlTraits>
         {
@@ -37,10 +36,6 @@ namespace ContentGeneration.Editor.MainWindow.Components.Meshy
         
         public TextToMesh()
         {
-            var asset = AssetDatabase.LoadAssetAtPath<VisualTreeAsset>(
-                "Assets/ContentGeneration/Editor/MainWindow/Components/Meshy/TextToMesh.uxml");
-            asset.CloneTree(this);
-
             generationOptionsElement.OnCodeChanged += RefreshCode;
             prompt.OnChanged += _ => RefreshCode();
             negativePrompt.OnChanged += _ => RefreshCode();

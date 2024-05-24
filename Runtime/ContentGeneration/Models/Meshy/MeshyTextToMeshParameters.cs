@@ -6,6 +6,8 @@ namespace ContentGeneration.Models.Meshy
     {
         [JsonProperty("prompt")] public string Prompt;
 
+        [JsonProperty("mode")] string mode => "preview";
+
         [JsonProperty("negative_prompt", NullValueHandling = NullValueHandling.Ignore)] 
         public string NegativePrompt;
 

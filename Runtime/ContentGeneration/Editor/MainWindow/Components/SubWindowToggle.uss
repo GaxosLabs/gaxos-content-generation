@@ -21,8 +21,8 @@
     right: 0;
     bottom: 0;
     -unity-text-align: middle-right;
-    -unity-font: url('project://database/Assets/ContentGeneration/Editor/MainWindow/Lato-Regular.ttf?fileID=12800000&guid=b761843480c2147308adadea52248446&type=3#Lato-Regular');
-    -unity-font-definition: url('project://database/Assets/ContentGeneration/Editor/MainWindow/Lato-Regular%20SDF.asset?fileID=11400000&guid=881a6b016fb3940a6aed1ddf078e388f&type=2#Lato-Regular SDF');
+    -unity-font: url('../Lato-Regular.ttf');
+    -unity-font-definition: url('../Lato-Regular SDF.asset');
     font-size: 15px;
     color: rgb(255, 255, 255);
     margin-top: 2px;
@@ -39,7 +39,7 @@
     flex-grow: 1;
     width: auto;
     height: 100%;
-    background-image: url('project://database/Assets/ContentGeneration/Editor/MainWindow/separator.png?fileID=2800000&guid=d5c9c845b0ca4402f9d86d6f4159f38e&type=3#separator');
+    background-image: url('../separator.png');
 }
 
 #subWindowToggle .unity-toggle__checkmark {
@@ -52,6 +52,6 @@
     left: 5px;
     width: 38px;
     height: 35px;
-    background-image: url('project://database/Assets/ContentGeneration/Editor/MainWindow/dall-e-icon.png?fileID=2800000&guid=1f95aefd3e3e54a54911a129fc2e8dd9&type=3#dall-e-icon');
+    background-image: url('../Dall-E.png');
     top: 5px;
 }

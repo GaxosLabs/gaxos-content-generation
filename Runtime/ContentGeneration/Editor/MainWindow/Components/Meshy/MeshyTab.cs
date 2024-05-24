@@ -1,10 +1,9 @@
 using System.Collections.Generic;
-using UnityEditor;
 using UnityEngine.UIElements;
 
 namespace ContentGeneration.Editor.MainWindow.Components.Meshy
 {
-    public class MeshyTab: VisualElement
+    public class MeshyTab: VisualElementComponent
     {
         public new class UxmlFactory : UxmlFactory<MeshyTab, UxmlTraits>
         {
@@ -16,13 +15,6 @@ namespace ContentGeneration.Editor.MainWindow.Components.Meshy
             {
                 get { yield break; }
             }
-        }
-        
-        public MeshyTab()
-        {
-            var asset = AssetDatabase.LoadAssetAtPath<VisualTreeAsset>(
-                "Assets/ContentGeneration/Editor/MainWindow/Components/Meshy/MeshyTab.uxml");
-            asset.CloneTree(this);
         }
     }
 }

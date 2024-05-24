@@ -2,7 +2,7 @@ using Newtonsoft.Json;
 
 namespace ContentGeneration.Models
 {
-    public record FailedDetails
+    public record GeneratorError
     {
         [JsonProperty("message")]
         public string Message;

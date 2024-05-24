@@ -2,13 +2,12 @@ using System;
 using System.Collections.Generic;
 using ContentGeneration.Helpers;
 using ContentGeneration.Models.Stability;
-using UnityEditor;
 using UnityEngine;
 using UnityEngine.UIElements;
 
 namespace ContentGeneration.Editor.MainWindow.Components.StabilityAI
 {
-    public class Masking : VisualElement
+    public class Masking : VisualElementComponent
     {
         public new class UxmlFactory : UxmlFactory<Masking, UxmlTraits>
         {
@@ -38,10 +37,6 @@ namespace ContentGeneration.Editor.MainWindow.Components.StabilityAI
 
         public Masking()
         {
-            var asset = AssetDatabase.LoadAssetAtPath<VisualTreeAsset>(
-                "Assets/ContentGeneration/Editor/MainWindow/Components/StabilityAI/Masking.uxml");
-            asset.CloneTree(this);
-
             stabilityParameters.OnCodeChanged += RefreshCode;
             generationOptions.OnCodeChanged += RefreshCode;
             

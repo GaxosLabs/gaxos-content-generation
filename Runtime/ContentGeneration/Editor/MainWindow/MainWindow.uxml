@@ -1,5 +1,6 @@
 <ui:UXML xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" xsi="http://www.w3.org/2001/XMLSchema-instance" editor="UnityEditor.UIElements" noNamespaceSchemaLocation="../../../../UIElementsSchema/UIElements.xsd" editor-extension-mode="True">
-    <Style src="project://database/Assets/ContentGeneration/Editor/MainWindow/MainWindow.uss?fileID=7433441132597879392&amp;guid=70e0781e73b74492491282378c5e0857&amp;type=3#MainWindow" />
+    <Style src="./Components/Common.uss" />
+    <Style src="./MainWindow.uss" />
     <ui:VisualElement name="mainWindow">
         <ui:VisualElement name="mainContainer">
             <ui:VisualElement name="sideMenuContainer">
@@ -11,6 +12,10 @@
                 <ui:VisualElement name="sideMenuBackground">
                     <ui:ScrollView>
                         <ui:VisualElement name="sideMenuItemsContainer">
+                            <ui:Label tabindex="-1" text="Credits" parse-escape-sequences="true" display-tooltip-when-elided="true" class="sideMenuItemHeader" />
+                            <ui:VisualElement class="sideMenuItemSeparator" />
+                            <ui:TextField picking-mode="Ignore" readonly="true" name="credits" style="margin-bottom: 8px;" />
+                            <ui:Button name="refreshCredits" text="Refresh" />
                             <ui:Label tabindex="-1" text="Generate Content" parse-escape-sequences="true" display-tooltip-when-elided="true" class="sideMenuItemHeader" />
                             <ui:VisualElement class="sideMenuItemSeparator" />
                             <ContentGeneration.Editor.MainWindow.Components.SubWindowToggle Sub-Window-Name="Dall-E" name="subWindowToggleDallE" />
@@ -24,6 +29,9 @@
                             <ContentGeneration.Editor.MainWindow.Components.SubWindowToggle Sub-Window-Name="Basic Generation" name="subWindowToggleBasicGeneration" />
                             <ContentGeneration.Editor.MainWindow.Components.SubWindowToggle Sub-Window-Name="Image To Image" name="subWindowToggleImageToImage" />
                             <ContentGeneration.Editor.MainWindow.Components.SubWindowToggle Sub-Window-Name="Mask Generation" name="subWindowToggleMaskGeneration" />
+                            <ui:Label tabindex="-1" text="Settings" parse-escape-sequences="true" display-tooltip-when-elided="true" class="sideMenuItemHeader" />
+                            <ui:VisualElement class="sideMenuItemSeparator" />
+                            <ContentGeneration.Editor.MainWindow.Components.SubWindowToggle Sub-Window-Name="Configuration" name="subWindowToggleSettings" />
                         </ui:VisualElement>
                     </ui:ScrollView>
                 </ui:VisualElement>
@@ -36,6 +44,7 @@
                 <ContentGeneration.Editor.MainWindow.Components.BasicExamples.BasicGenerationTab />
                 <ContentGeneration.Editor.MainWindow.Components.BasicExamples.ImageToImageTab />
                 <ContentGeneration.Editor.MainWindow.Components.BasicExamples.MaskGenerationTab />
+                <ContentGeneration.Editor.MainWindow.Components.Configuration />
             </ui:VisualElement>
         </ui:VisualElement>
     </ui:VisualElement>

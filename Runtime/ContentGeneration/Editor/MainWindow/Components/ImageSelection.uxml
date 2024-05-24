@@ -5,8 +5,8 @@
     xmlns:editor="UnityEditor.UIElements"
     xsi:noNamespaceSchemaLocation="../../../../../UIElementsSchema/UIElements.xsd"
 >
-    <Style src="project://database/Assets/ContentGeneration/Editor/MainWindow/Components/Common.uss?fileID=7433441132597879392&amp;guid=4c0a09080b844861802367d6e07fa07b&amp;type=3#Common" />
-    <Style src="project://database/Assets/ContentGeneration/Editor/MainWindow/Components/ImageSelection.uss?fileID=7433441132597879392&amp;guid=2f053e724f16f4b9ea35f16cecadbb16&amp;type=3#ImageSelection" />
+    <Style src="./Common.uss" />
+    <Style src="./ImageSelection.uss" />
     <ui:VisualElement class="image-container" style="flex-grow: 1;">
         <ui:Label tabindex="-1" name="labelElement" text="Image" parse-escape-sequences="true" display-tooltip-when-elided="true" />
         <ui:Image name="imageElement" />

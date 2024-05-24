@@ -9,6 +9,7 @@ using ContentGeneration.Models.DallE;
 using ContentGeneration.Models.Meshy;
 using ContentGeneration.Models.Stability;
 using Newtonsoft.Json;
+using UnityEngine;
 using UnityEngine.Networking;
 
 namespace ContentGeneration
@@ -25,9 +26,9 @@ namespace ContentGeneration
             Patch
         }
 
-        const string BaseUrl = "https://content-generation-21ab4.web.app/";
+        // const string BaseUrl = "https://content-generation-21ab4.web.app/";
         // const string BaseUrl = "http://localhost:5002/";
-        // const string BaseUrl = "https://dev.gaxoslabs.ai/api/connect/v1/";
+        const string BaseUrl = "https://dev.gaxoslabs.ai/api/connect/v1/";
 
         Task<string> SendRequest(ApiMethod method, string endpoint,
             Dictionary<string, string> headers = null,
@@ -90,9 +91,7 @@ namespace ContentGeneration
                 yield break;
             }
 
-#if DEBUG_CONTENT_GENERATION
-            Debug.LogWarning(ContentGenerationApiException.GetWwwDetails(www, headers));
-#endif
+            // Debug.LogWarning(ContentGenerationApiException.GetWwwDetails(www, headers, data));
 
             ret.SetResult(www.downloadHandler.text);
         }
@@ -186,9 +185,9 @@ namespace ContentGeneration
                 generatorParameters, options, data);
         }
 
-        public async Task MakeAssetPublic(string id, uint index, bool makeItPublic)
+        public async Task MakeAssetPublic(string requestId, string assetId, bool makeItPublic)
         {
-            await SendRequest(ApiMethod.Patch, $"request/{id}/{(makeItPublic ? "publish" : "unpublish")}/{index}");
+            await SendRequest(ApiMethod.Patch, $"request/{requestId}/{(makeItPublic ? "publish" : "unpublish")}/{assetId}");
         }
 
         public async Task<PublishedAsset[]> GetPublishedAssets()
@@ -206,7 +205,7 @@ namespace ContentGeneration
         public async Task<string> ImprovePrompt(string prompt, string generator)
         {
             return (await SendRequest(ApiMethod.Get,
-                "request/improve-prompt" +
+                "improve-prompt" +
                 $"?generator={WebUtility.UrlDecode(generator)}" +
                 $"&prompt={WebUtility.UrlDecode(prompt)}"
             )).Trim('"');

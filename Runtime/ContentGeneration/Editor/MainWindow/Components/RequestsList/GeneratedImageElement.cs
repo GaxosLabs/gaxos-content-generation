@@ -11,7 +11,7 @@ using UnityEngine.UIElements;
 
 namespace ContentGeneration.Editor.MainWindow.Components.RequestsList
 {
-    public class GeneratedImageElement : VisualElement
+    public class GeneratedImageElement : VisualElementComponent
     {
         public new class UxmlFactory : UxmlFactory<GeneratedImageElement, UxmlTraits>
         {
@@ -32,20 +32,16 @@ namespace ContentGeneration.Editor.MainWindow.Components.RequestsList
         {
         }
 
-        public GeneratedImageElement(GeneratedAssets assets)
+        public GeneratedImageElement(GeneratedAsset generatedAsset)
         {
-            var asset = AssetDatabase.LoadAssetAtPath<VisualTreeAsset>(
-                "Assets/ContentGeneration/Editor/MainWindow/Components/RequestsList/GeneratedImageElement.uxml");
-            asset.CloneTree(this);
-
             this.image.image = null;
             this.image.AddManipulator(new Clickable(evt =>
             {
-                Application.OpenURL(assets.URL);
+                Application.OpenURL(generatedAsset.URL);
             }));
             saveToProject.SetEnabled(false);
             EditorCoroutineUtility.StartCoroutine(
-                LoadImage(assets.URL), this);
+                LoadImage(generatedAsset.URL), this);
             
             saveToProject.RegisterCallback<ClickEvent>(_ =>
             {

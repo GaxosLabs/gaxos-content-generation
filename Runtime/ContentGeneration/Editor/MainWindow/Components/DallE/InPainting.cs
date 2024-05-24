@@ -1,13 +1,12 @@
 using System.Collections.Generic;
 using ContentGeneration.Helpers;
 using ContentGeneration.Models.DallE;
-using UnityEditor;
 using UnityEngine;
 using UnityEngine.UIElements;
 
 namespace ContentGeneration.Editor.MainWindow.Components.DallE
 {
-    public class InPainting : VisualElement
+    public class InPainting : VisualElementComponent
     {
         public new class UxmlFactory : UxmlFactory<InPainting, UxmlTraits>
         {
@@ -34,10 +33,6 @@ namespace ContentGeneration.Editor.MainWindow.Components.DallE
 
         public InPainting()
         {
-            var asset = AssetDatabase.LoadAssetAtPath<VisualTreeAsset>(
-                "Assets/ContentGeneration/Editor/MainWindow/Components/DallE/InPainting.uxml");
-            asset.CloneTree(this);
-
             dallEParametersElement.OnCodeChanged += RefreshCode;
             generationOptionsElement.OnCodeChanged += RefreshCode;
             

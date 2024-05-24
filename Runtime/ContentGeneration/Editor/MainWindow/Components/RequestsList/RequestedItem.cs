@@ -1,12 +1,11 @@
 using System;
 using System.Collections.Generic;
 using ContentGeneration.Models;
-using UnityEditor;
 using UnityEngine.UIElements;
 
 namespace ContentGeneration.Editor.MainWindow.Components.RequestsList
 {
-    public class RequestedItem : VisualElement, IRequestedItem
+    public class RequestedItem : VisualElementComponent, IRequestedItem
     {
         public new class UxmlFactory : UxmlFactory<RequestedItem, UxmlTraits>
         {
@@ -32,9 +31,6 @@ namespace ContentGeneration.Editor.MainWindow.Components.RequestsList
 
         public RequestedItem()
         {
-            var asset = AssetDatabase.LoadAssetAtPath<VisualTreeAsset>(
-                "Assets/ContentGeneration/Editor/MainWindow/Components/RequestsList/RequestedItem.uxml");
-            asset.CloneTree(this);
             requestedItemCommon.OnDeleted += () =>
             {
                 OnDeleted?.Invoke();

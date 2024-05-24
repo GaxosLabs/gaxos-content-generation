@@ -2,12 +2,11 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using ContentGeneration.Models.Stability;
-using UnityEditor;
 using UnityEngine.UIElements;
 
 namespace ContentGeneration.Editor.MainWindow.Components.StabilityAI
 {
-    public class StabilityParametersElement : VisualElement
+    public class StabilityParametersElement : VisualElementComponent
     {
         public new class UxmlFactory : UxmlFactory<StabilityParametersElement, UxmlTraits>
         {
@@ -37,10 +36,6 @@ namespace ContentGeneration.Editor.MainWindow.Components.StabilityAI
 
         public StabilityParametersElement()
         {
-            var asset = AssetDatabase.LoadAssetAtPath<VisualTreeAsset>(
-                "Assets/ContentGeneration/Editor/MainWindow/Components/StabilityAI/StabilityParametersElement.uxml");
-            asset.CloneTree(this);
-
             addPrompt.clicked += () =>
             {
                 promptsContainer.Add(new TextPrompt(sender =>
@@ -69,7 +64,7 @@ namespace ContentGeneration.Editor.MainWindow.Components.StabilityAI
             steps.RegisterValueChangedCallback(_ => OnCodeChanged?.Invoke());
             stylePreset.choices.AddRange(new[]
             {
-                null,
+                "<None>",
                 "3d-model",
                 "analog-film",
                 "anime",
@@ -88,6 +83,7 @@ namespace ContentGeneration.Editor.MainWindow.Components.StabilityAI
                 "pixel-art",
                 "tile-texture"
             });
+            stylePreset.value = stylePreset.choices[0];
             stylePreset.RegisterValueChangedCallback(_ => OnCodeChanged?.Invoke());
         }
 
@@ -133,7 +129,7 @@ namespace ContentGeneration.Editor.MainWindow.Components.StabilityAI
                 $"\t\tSamples = {(uint)samples.value},\n" +
                 $"\t\tSeed = {(uint)seed.value},\n" +
                 $"\t\tSteps = {(uint)steps.value},\n" +
-                (!string.IsNullOrEmpty(stylePreset.value) ? $"\t\tStylePreset = \"{stylePreset.value}\",\n" : "");
+                ((!string.IsNullOrEmpty(stylePreset.value) && stylePreset.value != "<None>") ? $"\t\tStylePreset = \"{stylePreset.value}\",\n" : "");
             return code;
         }
 

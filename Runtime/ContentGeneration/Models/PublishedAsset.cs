@@ -9,12 +9,9 @@ namespace ContentGeneration.Models
         [JsonProperty("id")]
         public string ID;
 
-        [JsonProperty("url")]
+        [JsonProperty("s3_url")]
         public string URL;
 
-        [JsonProperty("data")]
-        public JObject Data;
-        
         [JsonProperty("created_at"), JsonConverter(typeof(DateTimeFromUnixTimeStampConverter))]
         public DateTime CreatedAt;
 

@@ -1,14 +1,13 @@
 using System;
 using System.Collections.Generic;
 using ContentGeneration.Models;
-using UnityEditor;
 using UnityEditor.UIElements;
 using UnityEngine;
 using UnityEngine.UIElements;
 
 namespace ContentGeneration.Editor.MainWindow.Components
 {
-    public class GenerationOptionsElement: VisualElement
+    public class GenerationOptionsElement: VisualElementComponent
     {
         public new class UxmlFactory : UxmlFactory<GenerationOptionsElement, UxmlTraits>
         {
@@ -31,10 +30,6 @@ namespace ContentGeneration.Editor.MainWindow.Components
 
         public GenerationOptionsElement()
         {
-            var asset = AssetDatabase.LoadAssetAtPath<VisualTreeAsset>(
-                "Assets/ContentGeneration/Editor/MainWindow/Components/GenerationOptionsElement.uxml");
-            asset.CloneTree(this);
-
             transparentColor.style.display =
                 transparentColorReplaceDelta.style.display =
                     makeTransparentColor.value ? DisplayStyle.Flex : DisplayStyle.None;

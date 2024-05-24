@@ -1,10 +1,9 @@
 using System.Collections.Generic;
-using UnityEditor;
 using UnityEngine.UIElements;
 
 namespace ContentGeneration.Editor.MainWindow.Components.DallE
 {
-    public class DallETab: VisualElement
+    public class DallETab: VisualElementComponent
     {
         public new class UxmlFactory : UxmlFactory<DallETab, UxmlTraits>
         {
@@ -16,13 +15,6 @@ namespace ContentGeneration.Editor.MainWindow.Components.DallE
             {
                 get { yield break; }
             }
-        }
-        
-        public DallETab()
-        {
-            var asset = AssetDatabase.LoadAssetAtPath<VisualTreeAsset>(
-                "Assets/ContentGeneration/Editor/MainWindow/Components/DallE/DallETab.uxml");
-            asset.CloneTree(this);
         }
     }
 }

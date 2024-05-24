@@ -2,13 +2,12 @@ using System;
 using System.Collections.Generic;
 using ContentGeneration.Helpers;
 using ContentGeneration.Models.Stability;
-using UnityEditor;
 using UnityEngine;
 using UnityEngine.UIElements;
 
 namespace ContentGeneration.Editor.MainWindow.Components.BasicExamples
 {
-    public class ImageToImageTab : VisualElement
+    public class ImageToImageTab : VisualElementComponent
     {
         public new class UxmlFactory : UxmlFactory<ImageToImageTab, UxmlTraits>
         {
@@ -24,10 +23,6 @@ namespace ContentGeneration.Editor.MainWindow.Components.BasicExamples
 
         public ImageToImageTab()
         {
-            var asset = AssetDatabase.LoadAssetAtPath<VisualTreeAsset>(
-                "Assets/ContentGeneration/Editor/MainWindow/Components/BasicExamples/ImageToImageTab.uxml");
-            asset.CloneTree(this);
-            
             var codeTextField = this.Q<TextField>("code");
 
             var prompt = this.Q<PromptInput>("promptInput");

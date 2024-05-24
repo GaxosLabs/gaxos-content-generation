@@ -2,13 +2,12 @@ using System;
 using System.Collections.Generic;
 using ContentGeneration.Helpers;
 using ContentGeneration.Models;
-using UnityEditor;
 using UnityEngine;
 using UnityEngine.UIElements;
 
 namespace ContentGeneration.Editor.MainWindow.Components.RequestsList
 {
-    public class RequestedItemCommon : VisualElement
+    public class RequestedItemCommon : VisualElementComponent
     {
         public new class UxmlFactory : UxmlFactory<RequestedItemCommon, UxmlTraits>
         {
@@ -36,9 +35,6 @@ namespace ContentGeneration.Editor.MainWindow.Components.RequestsList
 
         public RequestedItemCommon()
         {
-            var asset = AssetDatabase.LoadAssetAtPath<VisualTreeAsset>(
-                "Assets/ContentGeneration/Editor/MainWindow/Components/RequestsList/RequestedItemCommon.uxml");
-            asset.CloneTree(this);
             refreshButton.clicked += () =>
             {
                 if (refreshButton.enabledSelf)
@@ -131,8 +127,8 @@ namespace ContentGeneration.Editor.MainWindow.Components.RequestsList
 
                 errorDetails.style.display =
                     value.Status == RequestStatus.Failed ? DisplayStyle.Flex : DisplayStyle.None;
-                error.text = value.FailedDetails?.Message +
-                             (string.IsNullOrEmpty(value.FailedDetails?.Error) ? "" : $" [{value?.FailedDetails?.Error}]");
+                error.text = value.GeneratorError?.Message +
+                             (string.IsNullOrEmpty(value.GeneratorError?.Error) ? "" : $" [{value?.GeneratorError?.Error}]");
 
                 generatorParameters.value = value.GeneratorParameters?.ToString();
 

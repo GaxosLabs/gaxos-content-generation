@@ -1,6 +1,6 @@
 <ui:UXML xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" xsi="http://www.w3.org/2001/XMLSchema-instance" editor="UnityEditor.UIElements" noNamespaceSchemaLocation="../../../../../../UIElementsSchema/UIElements.xsd" editor-extension-mode="True">
-    <Style src="project://database/Assets/ContentGeneration/Editor/MainWindow/Components/Common.uss?fileID=7433441132597879392&amp;guid=4c0a09080b844861802367d6e07fa07b&amp;type=3#Common" />
-    <Style src="project://database/Assets/ContentGeneration/Editor/MainWindow/Components/StabilityAI/TextPrompt.uss?fileID=7433441132597879392&amp;guid=db7f3428fba3949bcb7d3a1ad182bd2c&amp;type=3#TextPrompt" />
+    <Style src="../Common.uss" />
+    <Style src="./TextPrompt.uss" />
     <ui:VisualElement name="textPrompt" style="flex-grow: 1;">
         <ui:VisualElement name="header" style="flex-direction: row; height: 18px;">
             <ui:Label tabindex="-1" text="Text Prompt" parse-escape-sequences="true" display-tooltip-when-elided="true" />

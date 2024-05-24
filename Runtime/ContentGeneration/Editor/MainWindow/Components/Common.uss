@@ -1,6 +1,6 @@
 * {
-    -unity-font: url('project://database/Assets/ContentGeneration/Editor/MainWindow/Lato-Regular.ttf?fileID=12800000&guid=b761843480c2147308adadea52248446&type=3#Lato-Regular');
-    -unity-font-definition: url('project://database/Assets/ContentGeneration/Editor/MainWindow/Lato-Regular%20SDF.asset?fileID=11400000&guid=881a6b016fb3940a6aed1ddf078e388f&type=2#Lato-Regular SDF');
+    -unity-font: url('../Lato-Regular.ttf');
+    -unity-font-definition: url('../Lato-Regular SDF.asset');
     font-size: 12px;
     color: white;
 }
@@ -149,4 +149,15 @@ ScrollerSlider .unity-base-slider__dragger {
 
 .container-spaced > * {
     margin-bottom: 10px;
+}
+
+.documentationLink {
+    width: 180px;
+    margin: 5px 5px;
+}
+.documentationLink > #weblinkButton {
+}
+.documentationLink > #weblinkButton > #label {
+}
+.documentationLink > #weblinkButton > #icon {
 }

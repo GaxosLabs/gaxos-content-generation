@@ -1,10 +1,9 @@
 using System.Collections.Generic;
-using UnityEditor;
 using UnityEngine.UIElements;
 
 namespace ContentGeneration.Editor.MainWindow.Components.StabilityAI
 {
-    public class StabilityTab : VisualElement
+    public class StabilityTab : VisualElementComponent
     {
         public new class UxmlFactory : UxmlFactory<StabilityTab, UxmlTraits>
         {
@@ -16,13 +15,6 @@ namespace ContentGeneration.Editor.MainWindow.Components.StabilityAI
             {
                 get { yield break; }
             }
-        }
-        
-        public StabilityTab()
-        {
-            var asset = AssetDatabase.LoadAssetAtPath<VisualTreeAsset>(
-                "Assets/ContentGeneration/Editor/MainWindow/Components/StabilityAI/StabilityTab.uxml");
-            asset.CloneTree(this);
         }
     }
 }

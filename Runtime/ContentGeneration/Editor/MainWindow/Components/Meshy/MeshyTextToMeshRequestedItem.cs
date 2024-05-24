@@ -4,13 +4,12 @@ using System.Threading;
 using ContentGeneration.Editor.MainWindow.Components.RequestsList;
 using ContentGeneration.Helpers;
 using ContentGeneration.Models;
-using UnityEditor;
 using UnityEngine;
 using UnityEngine.UIElements;
 
 namespace ContentGeneration.Editor.MainWindow.Components.Meshy
 {
-    public class MeshyTextToMeshRequestedItem : VisualElement, IRequestedItem
+    public class MeshyTextToMeshRequestedItem : VisualElementComponent, IRequestedItem
     {
         public new class UxmlFactory : UxmlFactory<MeshyTextToMeshRequestedItem, UxmlTraits>
         {
@@ -35,9 +34,6 @@ namespace ContentGeneration.Editor.MainWindow.Components.Meshy
 
         public MeshyTextToMeshRequestedItem()
         {
-            var asset = AssetDatabase.LoadAssetAtPath<VisualTreeAsset>(
-                "Assets/ContentGeneration/Editor/MainWindow/Components/Meshy/MeshyTextToMeshRequestedItem.uxml");
-            asset.CloneTree(this);
             requestedItemCommon.OnDeleted += () =>
             {
                 OnDeleted?.Invoke();
@@ -69,8 +65,8 @@ namespace ContentGeneration.Editor.MainWindow.Components.Meshy
             videoButton.clicked += () =>
             {
                 Application.OpenURL(
-                    value.GenerationResult["refine_result"]?["video_url"]!.ToObject<string>() ??
-                    value.GenerationResult["video_url"]!.ToObject<string>());
+                    value.GeneratorResult["refine_result"]?["video_url"]!.ToObject<string>() ??
+                    value.GeneratorResult["video_url"]!.ToObject<string>());
             };
             saveButton.SetEnabled(false);
             saveButton.clicked += () =>
@@ -80,7 +76,7 @@ namespace ContentGeneration.Editor.MainWindow.Components.Meshy
 
                 saveButton.SetEnabled(false);
                 MeshyModelHelper.Save(
-                    value.GenerationResult["refine_result"] ?? value.GenerationResult
+                    value.GeneratorResult["refine_result"] ?? value.GeneratorResult
                     ).ContinueInMainThreadWith(t =>
                 {
                     if (t.IsFaulted)
@@ -108,17 +104,17 @@ namespace ContentGeneration.Editor.MainWindow.Components.Meshy
                 if (value == null)
                     return;
 
-                videoButton.SetEnabled(value.GenerationResult != null);
+                videoButton.SetEnabled(value.GeneratorResult != null);
                 refineButton.SetEnabled(
-                    value.GenerationResult != null && !value.GenerationResult.ContainsKey("refine_status"));
-                saveButton.SetEnabled(value.GenerationResult != null);
+                    value.GeneratorResult != null && !value.GeneratorResult.ContainsKey("refine_status"));
+                saveButton.SetEnabled(value.GeneratorResult != null);
 
                 refineStatus.text = "Not requested";
                 refineErrorDetails.style.display = DisplayStyle.None;
 
-                if (value.GenerationResult != null && value.GenerationResult.ContainsKey("refine_status"))
+                if (value.GeneratorResult != null && value.GeneratorResult.ContainsKey("refine_status"))
                 {
-                    var refineStatusText = value.GenerationResult["refine_status"]!.ToObject<string>();
+                    var refineStatusText = value.GeneratorResult["refine_status"]!.ToObject<string>();
                     var refineStatusValue = Enum.Parse<RequestStatus>(refineStatusText, true);
 
                     refineStatus.text = refineStatusValue.ToString();
@@ -127,10 +123,10 @@ namespace ContentGeneration.Editor.MainWindow.Components.Meshy
 
                     refineErrorDetails.style.display =
                         refineStatusValue == RequestStatus.Failed ? DisplayStyle.Flex : DisplayStyle.None;
-                    refineError.text = value.FailedDetails?.Message +
-                                       (string.IsNullOrEmpty(value.FailedDetails?.Error)
+                    refineError.text = value.GeneratorError?.Message +
+                                       (string.IsNullOrEmpty(value.GeneratorError?.Error)
                                            ? ""
-                                           : $" [{value.FailedDetails?.Error}]");
+                                           : $" [{value.GeneratorError?.Error}]");
                 }
 
                 _cancellationTokenSource = new CancellationTokenSource();

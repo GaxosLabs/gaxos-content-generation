@@ -1,6 +1,6 @@
 <ui:UXML xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" xsi="http://www.w3.org/2001/XMLSchema-instance" editor="UnityEditor.UIElements" noNamespaceSchemaLocation="../../../../../../UIElementsSchema/UIElements.xsd" editor-extension-mode="False">
-    <Style src="project://database/Assets/ContentGeneration/Editor/MainWindow/Components/Common.uss?fileID=7433441132597879392&amp;guid=4c0a09080b844861802367d6e07fa07b&amp;type=3#Common" />
-    <Style src="project://database/Assets/ContentGeneration/Editor/MainWindow/Components/RequestsList/GeneratedImageElement.uss?fileID=7433441132597879392&amp;guid=063698759c23d4ee98682bc766f739d5&amp;type=3#GeneratedImageElement" />
+    <Style src="../Common.uss" />
+    <Style src="./GeneratedImageElement.uss" />
     <ui:VisualElement name="generatedImageElement" style="flex-grow: 1;">
         <ui:VisualElement style="flex-grow: 1; background-color: rgb(55, 55, 55); border-top-left-radius: 16px; border-top-right-radius: 16px; border-bottom-right-radius: 16px; border-bottom-left-radius: 16px;">
             <ui:Image name="image" style="flex-grow: 1; margin-top: 14px; margin-right: 14px; margin-bottom: 14px; margin-left: 14px; border-top-left-radius: 9px; border-top-right-radius: 9px; border-bottom-right-radius: 9px; border-bottom-left-radius: 9px; background-color: rgba(255, 0, 213, 0);" />

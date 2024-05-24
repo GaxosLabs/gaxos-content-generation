@@ -1,11 +1,10 @@
 using System;
 using System.Collections.Generic;
-using UnityEditor;
 using UnityEngine.UIElements;
 
 namespace ContentGeneration.Editor.MainWindow.Components
 {
-    public class PromptInput : VisualElement
+    public class PromptInput : VisualElementComponent
     {
         public new class UxmlFactory : UxmlFactory<PromptInput, UxmlTraits>
         {
@@ -13,9 +12,17 @@ namespace ContentGeneration.Editor.MainWindow.Components
 
         public new class UxmlTraits : VisualElement.UxmlTraits
         {
+            readonly UxmlStringAttributeDescription _placeholder = new() { name = "Placeholder" };
             public override IEnumerable<UxmlChildElementDescription> uxmlChildElementsDescription
             {
                 get { yield break; }
+            }
+
+            public override void Init(VisualElement ve, IUxmlAttributes bag, CreationContext cc)
+            {
+                base.Init(ve, bag, cc);
+                var element = (PromptInput)ve;
+                element.value = _placeholder.GetValueFromBag(bag, cc);
             }
         }
 
@@ -29,10 +36,6 @@ namespace ContentGeneration.Editor.MainWindow.Components
         public event Action<string> OnChanged;
         public PromptInput()
         {
-            var asset = AssetDatabase.LoadAssetAtPath<VisualTreeAsset>(
-                "Assets/ContentGeneration/Editor/MainWindow/Components/PromptInput.uxml");
-            asset.CloneTree(this);
-
             text.RegisterValueChangedCallback(v => OnChanged?.Invoke(v.newValue));
         }
     }

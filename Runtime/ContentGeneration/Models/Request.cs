@@ -22,13 +22,13 @@ namespace ContentGeneration.Models
         [JsonProperty("status"), JsonConverter(typeof(RequestStatusConverter))]
         public RequestStatus Status;
 
-        [JsonProperty("failed_details")]
-        public FailedDetails FailedDetails;
+        [JsonProperty("generator_error")]
+        public GeneratorError GeneratorError;
 
         [JsonProperty("assets")]
-        public GeneratedAssets[] Assets;
+        public GeneratedAsset[] Assets;
 
-        [JsonProperty("generation_result")] 
-        public JObject GenerationResult;
+        [JsonProperty("generator_result")] 
+        public JObject GeneratorResult;
     }
 }

@@ -55,43 +55,49 @@ namespace ContentGeneration.Editor.MainWindow.Components.Meshy
                     Path.Combine(localPath, "model.fbx")));
                 var modelRenderer = model.GetComponent<Renderer>();
                 var materials = new List<Material>();
-                for (var i = 0; i < Math.Min(modelRenderer.sharedMaterials.Length, textureNames.Count); i++)
+                for (var i = 0; i < modelRenderer.sharedMaterials.Length; i++)
                 {
                     var material = new Material(Shader.Find("Standard (Specular setup)"));
 
-                    if (textureNames[i].ContainsKey("base_color"))
+                    if(i< textureNames.Count)
                     {
-                        material.SetTexture("_MainTex", 
-                            AssetDatabase.LoadAssetAtPath<Texture2D>(Path.Combine(localPath, textureNames[i]["base_color"])));
-                    }
-
-                    if (textureNames[i].ContainsKey("metallic"))
-                    {
-                        // material.SetTexture("_SpecColor", 
-                        //     AssetDatabase.LoadAssetAtPath<Texture2D>(Path.Combine(localPath, textureNames[i]["metallic"])));
-                    }
-
-                    if (textureNames[i].ContainsKey("normal"))
-                    {
-                        var assetPath = Path.Combine(localPath, textureNames[i]["normal"]);
-                        var importer = (TextureImporter)AssetImporter.GetAtPath(assetPath);
-                        if (importer.textureType != TextureImporterType.NormalMap)
+                        if (textureNames[i].ContainsKey("base_color"))
                         {
-                            importer.SetTextureSettings(new TextureImporterSettings()
-                            {
-                                textureType = TextureImporterType.NormalMap
-                            });
-                            
-                            AssetDatabase.Refresh();
+                            material.SetTexture("_MainTex",
+                                AssetDatabase.LoadAssetAtPath<Texture2D>(Path.Combine(localPath,
+                                    textureNames[i]["base_color"])));
                         }
-                        material.SetTexture("_BumpMap", 
-                            AssetDatabase.LoadAssetAtPath<Texture2D>(assetPath));
-                    }
 
-                    if (textureNames[i].ContainsKey("roughness"))
-                    {
-                        material.SetTexture("_SpecGlossMap", 
-                            AssetDatabase.LoadAssetAtPath<Texture2D>(Path.Combine(localPath, textureNames[i]["roughness"])));
+                        if (textureNames[i].ContainsKey("metallic"))
+                        {
+                            // material.SetTexture("_SpecColor", 
+                            //     AssetDatabase.LoadAssetAtPath<Texture2D>(Path.Combine(localPath, textureNames[i]["metallic"])));
+                        }
+
+                        if (textureNames[i].ContainsKey("normal"))
+                        {
+                            var assetPath = Path.Combine(localPath, textureNames[i]["normal"]);
+                            var importer = (TextureImporter)AssetImporter.GetAtPath(assetPath);
+                            if (importer.textureType != TextureImporterType.NormalMap)
+                            {
+                                importer.SetTextureSettings(new TextureImporterSettings()
+                                {
+                                    textureType = TextureImporterType.NormalMap
+                                });
+
+                                AssetDatabase.Refresh();
+                            }
+
+                            material.SetTexture("_BumpMap",
+                                AssetDatabase.LoadAssetAtPath<Texture2D>(assetPath));
+                        }
+
+                        if (textureNames[i].ContainsKey("roughness"))
+                        {
+                            material.SetTexture("_SpecGlossMap",
+                                AssetDatabase.LoadAssetAtPath<Texture2D>(Path.Combine(localPath,
+                                    textureNames[i]["roughness"])));
+                        }
                     }
 
                     var materialPath = Path.Combine(localPath, $"material_{i}.mat");

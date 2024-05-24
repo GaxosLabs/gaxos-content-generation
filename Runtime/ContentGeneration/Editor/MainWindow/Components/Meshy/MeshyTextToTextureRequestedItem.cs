@@ -4,13 +4,12 @@ using System.Threading;
 using ContentGeneration.Editor.MainWindow.Components.RequestsList;
 using ContentGeneration.Helpers;
 using ContentGeneration.Models;
-using UnityEditor;
 using UnityEngine;
 using UnityEngine.UIElements;
 
 namespace ContentGeneration.Editor.MainWindow.Components.Meshy
 {
-    public class MeshyTextToTextureRequestedItem : VisualElement, IRequestedItem
+    public class MeshyTextToTextureRequestedItem : VisualElementComponent, IRequestedItem
     {
         public new class UxmlFactory : UxmlFactory<MeshyTextToTextureRequestedItem, UxmlTraits>
         {
@@ -30,9 +29,6 @@ namespace ContentGeneration.Editor.MainWindow.Components.Meshy
 
         public MeshyTextToTextureRequestedItem()
         {
-            var asset = AssetDatabase.LoadAssetAtPath<VisualTreeAsset>(
-                "Assets/ContentGeneration/Editor/MainWindow/Components/Meshy/MeshyTextToTextureRequestedItem.uxml");
-            asset.CloneTree(this);
             requestedItemCommon.OnDeleted += () =>
             {
                 OnDeleted?.Invoke();
@@ -46,7 +42,7 @@ namespace ContentGeneration.Editor.MainWindow.Components.Meshy
                     return;
 
                 saveButton.SetEnabled(false);
-                MeshyModelHelper.Save(value.GenerationResult).ContinueInMainThreadWith(t =>
+                MeshyModelHelper.Save(value.GeneratorResult).ContinueInMainThreadWith(t =>
                 {
                     if (t.IsFaulted)
                     {

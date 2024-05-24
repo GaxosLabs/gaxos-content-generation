@@ -1,10 +1,10 @@
 <ui:UXML xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" xsi="http://www.w3.org/2001/XMLSchema-instance" editor="UnityEditor.UIElements" noNamespaceSchemaLocation="../../../../UIElementsSchema/UIElements.xsd" editor-extension-mode="False">
-    <Style src="project://database/Assets/ContentGeneration/Editor/MainWindow/Components/Common.uss?fileID=7433441132597879392&amp;guid=4c0a09080b844861802367d6e07fa07b&amp;type=3#Common" />
-    <Style src="project://database/Assets/ContentGeneration/Editor/MainWindow/Components/StabilityAI/TextToImage.uss?fileID=7433441132597879392&amp;guid=1d917d2ebf894259a884adc7ff779df2&amp;type=3#TextToImage" />
+    <Style src="../Common.uss" />
+    <Style src="./TextToImage.uss" />
     <ui:VisualElement name="textToImage" class="container-spaced">
         <ContentGeneration.Editor.MainWindow.Components.StabilityAI.StabilityParametersElement name="stabilityParameters" />
-        <ui:DropdownField label="Engine" name="engine" />
-        <ui:VisualElement style="flex-grow: 1; flex-direction: row; height: 20px;">
+        <ui:DropdownField label="Engine" name="engine" tooltip="Select the version of the AI engine to use for image generation.  Note: Choose based on desired features and performance" />
+        <ui:VisualElement tooltip="Image resolution returned by the AI.  Recommendation: Select a resolution that meets your project&apos;s needs" style="flex-grow: 1; flex-direction: row; height: 20px;">
             <ui:Label tabindex="-1" text="Resolution" parse-escape-sequences="true" display-tooltip-when-elided="true" style="width: 151px;" />
             <ui:DropdownField name="width" style="min-width: 111px;" />
             <ui:Label tabindex="-1" text="x" parse-escape-sequences="true" display-tooltip-when-elided="true" />
@@ -27,5 +27,6 @@
             <ui:Label tabindex="-1" text="Code" parse-escape-sequences="true" display-tooltip-when-elided="true" />
             <ui:TextField picking-mode="Ignore" readonly="true" multiline="true" name="code" class="code" style="margin-bottom: 20px;" />
         </ui:VisualElement>
+        <ContentGeneration.Editor.MainWindow.Components.WeblinkButton URl="https://platform.stability.ai/docs/api-reference#tag/Text-to-Image" Icon="Stability AI" Title="Stability AI\nDocumentation" class="documentationLink" />
     </ui:VisualElement>
 </ui:UXML>

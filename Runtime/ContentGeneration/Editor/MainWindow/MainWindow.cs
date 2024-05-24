@@ -1,9 +1,11 @@
+using System.Globalization;
 using System.Linq;
 using ContentGeneration.Editor.MainWindow.Components;
 using ContentGeneration.Editor.MainWindow.Components.BasicExamples;
 using ContentGeneration.Editor.MainWindow.Components.DallE;
 using ContentGeneration.Editor.MainWindow.Components.Meshy;
 using ContentGeneration.Editor.MainWindow.Components.RequestsList;
+using ContentGeneration.Helpers;
 using UnityEditor;
 using UnityEngine;
 using UnityEngine.UIElements;
@@ -20,12 +22,11 @@ namespace ContentGeneration.Editor.MainWindow
         {
             var wnd = GetWindow<MainWindow>();
             wnd.minSize = new Vector2(500, 300);
-            wnd.titleContent = new GUIContent("Content Generation");
+            wnd.titleContent = new GUIContent("AI Content Generation");
         }
 
         public void CreateGUI()
         {
-            // rootVisualElement.style.height = new StyleLength(new Length(100, LengthUnit.Percent));
             var rootInstance = _root.Instantiate();
             rootInstance.style.height = new StyleLength(new Length(100, LengthUnit.Percent));
 
@@ -36,6 +37,7 @@ namespace ContentGeneration.Editor.MainWindow
             var basicGeneration = rootInstance.Q<BasicGenerationTab>();
             var imageToImage = rootInstance.Q<ImageToImageTab>();
             var maskGeneration = rootInstance.Q<MaskGenerationTab>();
+            var configuration = rootInstance.Q<Configuration>();
 
             var subWindowsContainer = rootInstance.Q<VisualElement>("subWindowsContainer");
             var subWindows = subWindowsContainer.Children().ToArray();
@@ -48,7 +50,6 @@ namespace ContentGeneration.Editor.MainWindow
             _allToggles = sideMenu.Children().
                 Where(c => c is SubWindowToggle).Cast<SubWindowToggle>().ToArray();
             
-
             rootInstance.Q<SubWindowToggle>("subWindowToggleDallE").OnToggled += (sender, v) =>
             {
                 ToggleSubWindow(sender, v, subWindowsContainer, dallE);
@@ -77,7 +78,39 @@ namespace ContentGeneration.Editor.MainWindow
             {
                 ToggleSubWindow(sender, v, subWindowsContainer, maskGeneration);
             };
+            rootInstance.Q<SubWindowToggle>("subWindowToggleSettings").OnToggled += (sender, v) =>
+            {
+                ToggleSubWindow(sender, v, subWindowsContainer, configuration);
+            };
 
+
+            var credits = rootInstance.Q<TextField>("credits");
+            var refreshCredits = rootInstance.Q<Button>("refreshCredits");
+            void RefreshCredits()
+            {
+                refreshCredits.SetEnabled(false);
+                credits.value = "";
+                ContentGenerationApi.Instance.GetCredits().ContinueInMainThreadWith(t =>
+                {
+                    if (t.IsFaulted)
+                    {
+                        Debug.LogException(t.Exception);
+                    }
+                    else
+                    {
+                        credits.value = t.Result.ToString("r", CultureInfo.InvariantCulture);
+                    }
+                    
+                    refreshCredits.SetEnabled(true);
+                });
+            }
+            refreshCredits.clicked += () =>
+            {
+                if (!refreshCredits.enabledSelf)
+                    return;
+                RefreshCredits();
+            };
+            RefreshCredits();
 
             rootVisualElement.Add(rootInstance);
         }

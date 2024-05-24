@@ -1,13 +1,12 @@
 using System.Collections.Generic;
 using ContentGeneration.Helpers;
 using ContentGeneration.Models.Stability;
-using UnityEditor;
 using UnityEngine;
 using UnityEngine.UIElements;
 
 namespace ContentGeneration.Editor.MainWindow.Components.BasicExamples
 {
-    public class BasicGenerationTab : VisualElement
+    public class BasicGenerationTab : VisualElementComponent
     {
         public new class UxmlFactory : UxmlFactory<BasicGenerationTab, UxmlTraits>
         {
@@ -24,10 +23,6 @@ namespace ContentGeneration.Editor.MainWindow.Components.BasicExamples
         
         public BasicGenerationTab()
         {
-            var asset = AssetDatabase.LoadAssetAtPath<VisualTreeAsset>(
-                "Assets/ContentGeneration/Editor/MainWindow/Components/BasicExamples/BasicGenerationTab.uxml");
-            asset.CloneTree(this);
-            
             var codeTextField = this.Q<TextField>("code");
 
             var prompt = this.Q<PromptInput>("promptInput");

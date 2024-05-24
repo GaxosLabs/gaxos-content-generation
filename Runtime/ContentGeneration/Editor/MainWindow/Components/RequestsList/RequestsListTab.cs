@@ -7,12 +7,11 @@ using System.Threading.Tasks;
 using ContentGeneration.Editor.MainWindow.Components.Meshy;
 using ContentGeneration.Helpers;
 using ContentGeneration.Models;
-using UnityEditor;
 using UnityEngine.UIElements;
 
 namespace ContentGeneration.Editor.MainWindow.Components.RequestsList
 {
-    public class RequestsListTab : VisualElement
+    public class RequestsListTab : VisualElementComponent
     {
         public new class UxmlFactory : UxmlFactory<RequestsListTab, UxmlTraits>
         {
@@ -41,10 +40,6 @@ namespace ContentGeneration.Editor.MainWindow.Components.RequestsList
 
         public RequestsListTab()
         {
-            var asset = AssetDatabase.LoadAssetAtPath<VisualTreeAsset>(
-                "Assets/ContentGeneration/Editor/MainWindow/Components/RequestsList/RequestsListTab.uxml");
-            asset.CloneTree(this);
-
             refreshButton.RegisterCallback<ClickEvent>(_ => { Refresh(); });
 
             listView.itemsSource = _requests;

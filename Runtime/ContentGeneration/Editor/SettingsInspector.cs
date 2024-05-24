@@ -52,7 +52,7 @@ namespace ContentGeneration.Editor
         {
             _credits.value = "";
             var credits = await ContentGenerationApi.Instance.GetCredits();
-            _credits.value = credits.ToString("F", CultureInfo.InvariantCulture);
+            _credits.value = credits.ToString("r", CultureInfo.InvariantCulture);
         }
     }
 }

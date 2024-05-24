@@ -1,5 +1,5 @@
 <ui:UXML xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" xsi="http://www.w3.org/2001/XMLSchema-instance" editor="UnityEditor.UIElements" noNamespaceSchemaLocation="../../../../../UIElementsSchema/UIElements.xsd" editor-extension-mode="False">
-    <Style src="project://database/Assets/ContentGeneration/Editor/MainWindow/Components/TabsContainer.uss?fileID=7433441132597879392&amp;guid=25fbd22e4e14d4903af7f60a1975ac1e&amp;type=3#TabsContainer" />
+    <Style src="./TabsContainer.uss" />
     <ui:VisualElement name="tabsContainer" style="flex-grow: 1;">
         <ui:RadioButtonGroup name="tabToggles" style="flex-grow: 0; flex-direction: row; height: 27px; margin-bottom: 0; margin-top: 0;" />
         <ui:VisualElement name="separator" style="background-color: rgb(0, 218, 234); height: 2px; border-left-color: rgb(30, 163, 220); border-right-color: rgb(30, 163, 220); border-top-color: rgb(30, 163, 220); border-bottom-color: rgb(30, 163, 220); border-top-width: 1px;" />

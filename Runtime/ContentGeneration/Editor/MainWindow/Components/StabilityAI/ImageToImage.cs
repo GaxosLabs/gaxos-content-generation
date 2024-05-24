@@ -2,13 +2,12 @@ using System;
 using System.Collections.Generic;
 using ContentGeneration.Helpers;
 using ContentGeneration.Models.Stability;
-using UnityEditor;
 using UnityEngine;
 using UnityEngine.UIElements;
 
 namespace ContentGeneration.Editor.MainWindow.Components.StabilityAI
 {
-    public class ImageToImage : VisualElement
+    public class ImageToImage : VisualElementComponent
     {
         public new class UxmlFactory : UxmlFactory<ImageToImage, UxmlTraits>
         {
@@ -42,10 +41,6 @@ namespace ContentGeneration.Editor.MainWindow.Components.StabilityAI
 
         public ImageToImage()
         {
-            var asset = AssetDatabase.LoadAssetAtPath<VisualTreeAsset>(
-                "Assets/ContentGeneration/Editor/MainWindow/Components/StabilityAI/ImageToImage.uxml");
-            asset.CloneTree(this);
-
             stabilityParameters.OnCodeChanged += RefreshCode;
             generationOptions.OnCodeChanged += RefreshCode;
 

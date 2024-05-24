@@ -37,8 +37,7 @@ namespace ContentGeneration
             instance = this;
         }
 
-
-        [SerializeField] string _apiKey;
-        public string apiKey => _apiKey;
+        [SerializeField]
+        public string apiKey;
     }
 }

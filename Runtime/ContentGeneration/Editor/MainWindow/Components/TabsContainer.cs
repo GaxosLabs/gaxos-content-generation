@@ -1,10 +1,9 @@
 using System.Collections.Generic;
-using UnityEditor;
 using UnityEngine.UIElements;
 
 namespace ContentGeneration.Editor.MainWindow.Components
 {
-    public class TabsContainer : VisualElement
+    public class TabsContainer : VisualElementComponent
     {
         public new class UxmlFactory : UxmlFactory<TabsContainer, UxmlTraits>
         {
@@ -25,10 +24,6 @@ namespace ContentGeneration.Editor.MainWindow.Components
 
         public TabsContainer()
         {
-            var asset = AssetDatabase.LoadAssetAtPath<VisualTreeAsset>(
-                "Assets/ContentGeneration/Editor/MainWindow/Components/TabsContainer.uxml");
-            asset.CloneTree(this);
-
             RegisterCallback<AttachToPanelEvent>(e =>
             {
                 RadioButton firstRadioButton = null;

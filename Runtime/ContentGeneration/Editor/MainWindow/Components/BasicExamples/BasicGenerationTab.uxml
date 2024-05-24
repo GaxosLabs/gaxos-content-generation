@@ -1,6 +1,6 @@
 <ui:UXML xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" xsi="http://www.w3.org/2001/XMLSchema-instance" editor="UnityEditor.UIElements" noNamespaceSchemaLocation="../../../../../../UIElementsSchema/UIElements.xsd" editor-extension-mode="False">
-    <Style src="project://database/Assets/ContentGeneration/Editor/MainWindow/Components/Common.uss?fileID=7433441132597879392&amp;guid=4c0a09080b844861802367d6e07fa07b&amp;type=3#Common" />
-    <Style src="project://database/Assets/ContentGeneration/Editor/MainWindow/Components/BasicExamples/BasicGenerationTab.uss?fileID=7433441132597879392&amp;guid=7d536ea74471045448b7762add9a10b2&amp;type=3#BasicGenerationTab" />
+    <Style src="../Common.uss" />
+    <Style src="./BasicGenerationTab.uss" />
     <ContentGeneration.Editor.MainWindow.Components.SubWindow Sub-Window-Name="Basic Generation" class="container-spaced" style="flex-grow: 1;">
         <ContentGeneration.Editor.MainWindow.Components.PromptInput name="promptInput" style="height: 141px;" />
         <ui:Label name="promptRequiredLabel" text="Prompt is required" class="error-label" style="visibility: hidden;" />

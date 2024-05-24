@@ -1,6 +1,6 @@
 <ui:UXML xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" xsi="http://www.w3.org/2001/XMLSchema-instance" editor="UnityEditor.UIElements" noNamespaceSchemaLocation="../../../../../../UIElementsSchema/UIElements.xsd" editor-extension-mode="False">
-    <Style src="project://database/Assets/ContentGeneration/Editor/MainWindow/Components/Common.uss?fileID=7433441132597879392&amp;guid=4c0a09080b844861802367d6e07fa07b&amp;type=3#Common" />
-    <Style src="project://database/Assets/ContentGeneration/Editor/MainWindow/Components/DallE/TextToImage.uss?fileID=7433441132597879392&amp;guid=8226d0b1cff434780857bf3926a69a8f&amp;type=3#TextToImage" />
+    <Style src="../Common.uss" />
+    <Style src="./TextToImage.uss" />
     <ui:VisualElement class="container-spaced">
         <ContentGeneration.Editor.MainWindow.Components.DallE.DallEParametersElement name="dallEParametersElement" />
         <ContentGeneration.Editor.MainWindow.Components.GenerationOptionsElement name="generationOptions" />
@@ -20,5 +20,6 @@
             <ui:Label tabindex="-1" text="Code" parse-escape-sequences="true" display-tooltip-when-elided="true" />
             <ui:TextField picking-mode="Ignore" readonly="true" multiline="true" name="code" class="code" />
         </ui:VisualElement>
+        <ContentGeneration.Editor.MainWindow.Components.WeblinkButton URl="https://platform.openai.com/docs/api-reference/images/create" Icon="Dall-E" Title="Dall-E\nDocumentation" class="documentationLink" />
     </ui:VisualElement>
 </ui:UXML>

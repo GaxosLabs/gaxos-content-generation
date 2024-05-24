@@ -5,7 +5,7 @@ using UnityEngine.UIElements;
 
 namespace ContentGeneration.Editor.MainWindow.Components
 {
-    public class SubWindow : VisualElement
+    public class SubWindow : VisualElementComponent
     {
         public new class UxmlFactory : UxmlFactory<SubWindow, UxmlTraits>
         {
@@ -31,13 +31,6 @@ namespace ContentGeneration.Editor.MainWindow.Components
             }
         }
         
-        public SubWindow()
-        {
-            var asset = AssetDatabase.LoadAssetAtPath<VisualTreeAsset>(
-                "Assets/ContentGeneration/Editor/MainWindow/Components/SubWindow.uxml");
-            asset.CloneTree(this);
-        }
-    
         Label label => this.Q<Label>("label");
         VisualElement icon => this.Q<VisualElement>("icon");
         VisualElement contents => this.Q<VisualElement>("contents");

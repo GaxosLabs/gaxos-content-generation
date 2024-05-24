@@ -10,7 +10,7 @@ using Resolution = ContentGeneration.Models.Meshy.Resolution;
 
 namespace ContentGeneration.Editor.MainWindow.Components.Meshy
 {
-    public class TextToTexture : VisualElement
+    public class TextToTexture : VisualElementComponent
     {
         public new class UxmlFactory : UxmlFactory<TextToTexture, UxmlTraits>
         {
@@ -52,10 +52,6 @@ namespace ContentGeneration.Editor.MainWindow.Components.Meshy
 
         public TextToTexture()
         {
-            var asset = AssetDatabase.LoadAssetAtPath<VisualTreeAsset>(
-                "Assets/ContentGeneration/Editor/MainWindow/Components/Meshy/TextToTexture.uxml");
-            asset.CloneTree(this);
-
             generationOptionsElement.OnCodeChanged += RefreshCode;
 
             model.RegisterValueChangedCallback(v =>

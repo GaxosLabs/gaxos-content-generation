@@ -2,13 +2,12 @@ using System;
 using System.Collections.Generic;
 using ContentGeneration.Helpers;
 using ContentGeneration.Models.DallE;
-using UnityEditor;
 using UnityEngine;
 using UnityEngine.UIElements;
 
 namespace ContentGeneration.Editor.MainWindow.Components.DallE
 {
-    public class DallEParametersElement : VisualElement
+    public class DallEParametersElement : VisualElementComponent
     {
         public new class UxmlFactory : UxmlFactory<DallEParametersElement, UxmlTraits>
         {
@@ -33,9 +32,6 @@ namespace ContentGeneration.Editor.MainWindow.Components.DallE
 
         public DallEParametersElement()
         {
-            var asset = AssetDatabase.LoadAssetAtPath<VisualTreeAsset>(
-                "Assets/ContentGeneration/Editor/MainWindow/Components/DallE/DallEParametersElement.uxml");
-            asset.CloneTree(this);
             prompt.OnChanged += _=> RefreshCode();
             improvePromptButton.clicked += () =>
             {
