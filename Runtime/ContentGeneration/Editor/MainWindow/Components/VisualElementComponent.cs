@@ -7,7 +7,7 @@ namespace ContentGeneration.Editor.MainWindow.Components
     public abstract class VisualElementComponent : VisualElement
     {
         static string _componentsBasePath;
-        static string componentsBasePath
+        protected static string componentsBasePath
         {
             get
             {

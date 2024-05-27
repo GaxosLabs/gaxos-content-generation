@@ -56,7 +56,7 @@ namespace ContentGeneration.Editor.MainWindow.Components
                 label.text = value;
                 icon.style.backgroundImage = new StyleBackground(
                     AssetDatabase.LoadAssetAtPath<Sprite>(
-                        $"Assets/ContentGeneration/Editor/MainWindow/{value}.png"));
+                        System.IO.Path.Combine(componentsBasePath, $"MainWindow/{value}.png")));
             }
         }
     }
