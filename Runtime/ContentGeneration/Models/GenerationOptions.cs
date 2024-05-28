@@ -8,7 +8,7 @@ namespace ContentGeneration.Models
     {
         public const GenerationOptions None = null;
 
-        [JsonProperty("transparent_color"), JsonConverter(typeof(ColorConverter))]
+        [JsonProperty("transparent_color", NullValueHandling = NullValueHandling.Ignore), JsonConverter(typeof(ColorConverter))]
         public Color? TransparentColor;
 
         [JsonProperty("transparent_color_replace_delta")]

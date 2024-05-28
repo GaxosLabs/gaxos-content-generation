@@ -22,7 +22,7 @@ namespace ContentGeneration
             message = GetWwwDetails(www, headers, data);
         }
 
-        public static string GetWwwDetails(UnityWebRequest www, Dictionary<string, string> headers, object data)
+        internal static string GetWwwDetails(UnityWebRequest www, Dictionary<string, string> headers, object data)
         {
             var message = $"{www.method} {www.uri}";
 
@@ -40,6 +40,23 @@ namespace ContentGeneration
             if (!string.IsNullOrEmpty(www.downloadHandler?.text))
             {
                 message += $"\n{www.downloadHandler.text}";
+            }
+            
+            return message;
+        }
+        
+        internal static string GetRequestDetails(ContentGenerationApi.ApiMethod method, string endpoint, Dictionary<string, string> headers, object data)
+        {
+            var message = $"{method} {endpoint}";
+
+            if (headers is { Count: > 0 })
+            {
+                var headersArray = headers.Select(h => $"[{h.Key}={h.Value}]");
+                message += $"\nheaders:\n\t{string.Join("\n\t", headersArray)}";
+            }
+            if (data != null)
+            {
+                message += $"\ndata: {JsonConvert.SerializeObject(data)}";
             }
             
             return message;

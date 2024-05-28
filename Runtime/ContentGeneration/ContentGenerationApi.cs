@@ -18,7 +18,7 @@ namespace ContentGeneration
     {
         public static readonly ContentGenerationApi Instance = new();
 
-        enum ApiMethod
+        internal enum ApiMethod
         {
             Get,
             Post,
@@ -29,6 +29,25 @@ namespace ContentGeneration
         // const string BaseUrl = "https://content-generation-21ab4.web.app/";
         // const string BaseUrl = "http://localhost:5002/";
         const string BaseUrl = "https://dev.gaxoslabs.ai/api/connect/v1/";
+
+        async Task<T> SendRequest<T>(ApiMethod method, string endpoint,
+            Dictionary<string, string> headers = null,
+            object data = null)
+        {
+            var json = await SendRequest(method, endpoint, headers, data);
+            try
+            {
+                return JsonConvert.DeserializeObject<T>(json);
+            }
+            catch (JsonSerializationException e)
+            {
+                Debug.LogError(
+                    $"Error deserializing JSON ({e.Message}): \n\n" +
+                    ContentGenerationApiException.GetRequestDetails(method, endpoint, headers, data) + "\n\n" +
+                    json);
+                throw;
+            }
+        }
 
         Task<string> SendRequest(ApiMethod method, string endpoint,
             Dictionary<string, string> headers = null,
@@ -103,18 +122,18 @@ namespace ContentGeneration
 
         public async Task<Request[]> GetRequests()
         {
-            return JsonConvert.DeserializeObject<Request[]>(await SendRequest(ApiMethod.Get, "request"));
+            return await SendRequest<Request[]>(ApiMethod.Get, "request");
         }
 
         public async Task<Request> GetRequest(string id)
         {
-            return JsonConvert.DeserializeObject<Request>(await SendRequest(ApiMethod.Get, $"request/{id}"));
+            return await SendRequest<Request>(ApiMethod.Get, $"request/{id}");
         }
 
         public async Task<PublishedAsset[]> DeleteRequest(string id)
         {
-            return JsonConvert.DeserializeObject<PublishedAsset[]>(await SendRequest(ApiMethod.Delete,
-                $"request/{id}"));
+            return await SendRequest<PublishedAsset[]>(ApiMethod.Delete,
+                $"request/{id}");
         }
 
         public Task<string> RequestGeneration(
@@ -187,19 +206,18 @@ namespace ContentGeneration
 
         public async Task MakeAssetPublic(string requestId, string assetId, bool makeItPublic)
         {
-            await SendRequest(ApiMethod.Patch, $"request/{requestId}/{(makeItPublic ? "publish" : "unpublish")}/{assetId}");
+            await SendRequest(ApiMethod.Patch,
+                $"request/{requestId}/{(makeItPublic ? "publish" : "unpublish")}/{assetId}");
         }
 
         public async Task<PublishedAsset[]> GetPublishedAssets()
         {
-            return JsonConvert.DeserializeObject<PublishedAsset[]>(await SendRequest(ApiMethod.Get,
-                $"asset"));
+            return await SendRequest<PublishedAsset[]>(ApiMethod.Get, "asset");
         }
 
         public async Task<PublishedAsset> GetPublishedAsset(string publishedImageId)
         {
-            return JsonConvert.DeserializeObject<PublishedAsset>(await SendRequest(ApiMethod.Get,
-                $"asset/{publishedImageId}"));
+            return await SendRequest<PublishedAsset>(ApiMethod.Get, $"asset/{publishedImageId}");
         }
 
         public async Task<string> ImprovePrompt(string prompt, string generator)
@@ -219,12 +237,12 @@ namespace ContentGeneration
                 Generator.MeshyTextToMesh,
                 generatorParameters, options, data);
         }
-        
+
         public async Task RefineMeshyTextToMesh(string id, MeshyRefineTextToMeshParameters parameters = null)
         {
             await SendRequest(ApiMethod.Patch, $"request/{id}/meshy-refine-text-to-mesh", data: parameters);
         }
-        
+
         public Task<string> RequestMeshyTextToTextureGeneration(
             MeshyTextToTextureParameters generatorParameters,
             GenerationOptions options = GenerationOptions.None,
