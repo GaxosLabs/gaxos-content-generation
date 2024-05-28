@@ -142,7 +142,10 @@ namespace ContentGeneration.Editor.MainWindow.Components.StabilityAI
             stabilityParameters.Samples = (uint)samples.value;
             stabilityParameters.Seed = (uint)seed.value;
             stabilityParameters.Steps = (uint)steps.value;
-            stabilityParameters.StylePreset = stylePreset.value;
+            if(!string.IsNullOrEmpty(stylePreset.value) && stylePreset.value != "<None>")
+            {
+                stabilityParameters.StylePreset = stylePreset.value;
+            }
         }
     }
 }

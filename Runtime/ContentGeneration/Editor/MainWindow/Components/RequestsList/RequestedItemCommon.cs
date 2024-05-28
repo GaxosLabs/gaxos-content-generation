@@ -128,7 +128,7 @@ namespace ContentGeneration.Editor.MainWindow.Components.RequestsList
                 errorDetails.style.display =
                     value.Status == RequestStatus.Failed ? DisplayStyle.Flex : DisplayStyle.None;
                 error.text = value.GeneratorError?.Message +
-                             (string.IsNullOrEmpty(value.GeneratorError?.Error) ? "" : $" [{value?.GeneratorError?.Error}]");
+                             (value.GeneratorError?.Error == null ? "" : $" [{value?.GeneratorError?.Error}]");
 
                 generatorParameters.value = value.GeneratorParameters?.ToString();
 

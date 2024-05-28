@@ -124,7 +124,7 @@ namespace ContentGeneration.Editor.MainWindow.Components.Meshy
                     refineErrorDetails.style.display =
                         refineStatusValue == RequestStatus.Failed ? DisplayStyle.Flex : DisplayStyle.None;
                     refineError.text = value.GeneratorError?.Message +
-                                       (string.IsNullOrEmpty(value.GeneratorError?.Error)
+                                       (value.GeneratorError?.Error == null 
                                            ? ""
                                            : $" [{value.GeneratorError?.Error}]");
                 }

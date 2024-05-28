@@ -1,4 +1,5 @@
 using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
 
 namespace ContentGeneration.Models
 {
@@ -7,6 +8,6 @@ namespace ContentGeneration.Models
         [JsonProperty("message")]
         public string Message;
         [JsonProperty("error")]
-        public string Error;
+        public JObject Error;
     }
 }
