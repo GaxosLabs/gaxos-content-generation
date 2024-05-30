@@ -112,21 +112,25 @@ namespace ContentGeneration.Editor.MainWindow.Components.Meshy
                 refineStatus.text = "Not requested";
                 refineErrorDetails.style.display = DisplayStyle.None;
 
-                if (value.GeneratorResult != null && value.GeneratorResult.ContainsKey("refine_status"))
+                if (value.GeneratorResult != null && 
+                    value.GeneratorResult.ContainsKey("refine_status"))
                 {
                     var refineStatusText = value.GeneratorResult["refine_status"]!.ToObject<string>();
-                    var refineStatusValue = Enum.Parse<RequestStatus>(refineStatusText, true);
+                    if(!string.IsNullOrEmpty(refineStatusText))
+                    {
+                        var refineStatusValue = Enum.Parse<RequestStatus>(refineStatusText, true);
 
-                    refineStatus.text = refineStatusValue.ToString();
-                    refineStatus.ClearClassList();
-                    refineStatus.AddToClassList(refineStatus.text.ToLower());
+                        refineStatus.text = refineStatusValue.ToString();
+                        refineStatus.ClearClassList();
+                        refineStatus.AddToClassList(refineStatus.text.ToLower());
 
-                    refineErrorDetails.style.display =
-                        refineStatusValue == RequestStatus.Failed ? DisplayStyle.Flex : DisplayStyle.None;
-                    refineError.text = value.GeneratorError?.Message +
-                                       (value.GeneratorError?.Error == null 
-                                           ? ""
-                                           : $" [{value.GeneratorError?.Error}]");
+                        refineErrorDetails.style.display =
+                            refineStatusValue == RequestStatus.Failed ? DisplayStyle.Flex : DisplayStyle.None;
+                        refineError.text = value.GeneratorError?.Message +
+                                           (value.GeneratorError?.Error == null
+                                               ? ""
+                                               : $" [{value.GeneratorError?.Error}]");
+                    }
                 }
 
                 _cancellationTokenSource = new CancellationTokenSource();
