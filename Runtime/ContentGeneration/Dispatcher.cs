@@ -12,7 +12,7 @@ namespace ContentGeneration
     }
     public class Dispatcher : MonoBehaviour, IDispatcher
     {
-        [RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.AfterAssembliesLoaded)]
+        [RuntimeInitializeOnLoadMethod]
         static void Instantiate()
         {
             if(instance == null)
@@ -22,7 +22,7 @@ namespace ContentGeneration
                 instance = gameObject.AddComponent<Dispatcher>();
             }
         }
-
+        
         public static IDispatcher instance { get; private set; }
         #if UNITY_EDITOR
         public static void UseEditorDispatcher(IDispatcher dispatcher)
