@@ -7,7 +7,7 @@ namespace ContentGeneration.Models
     {
         public override void WriteJson(JsonWriter writer, DateTime value, JsonSerializer serializer)
         {
-            writer.WriteValue((long)(value - DateTimeOffset.UnixEpoch).TotalMilliseconds);
+            writer.WriteValue((long)(value - DateTimeOffset.UnixEpoch).TotalSeconds);
         }
 
         public override DateTime ReadJson(
@@ -18,7 +18,7 @@ namespace ContentGeneration.Models
             JsonSerializer serializer)
         {
             var value = (long)reader.Value!;
-            return DateTimeOffset.FromUnixTimeMilliseconds(value).UtcDateTime;
+            return DateTimeOffset.FromUnixTimeSeconds(value).UtcDateTime;
         }
     }
 }
