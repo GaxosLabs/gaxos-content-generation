@@ -135,7 +135,7 @@ namespace ContentGeneration.Editor.MainWindow.Components.Meshy
 
             if (www.result != UnityWebRequest.Result.Success)
             {
-                tcs.SetException(new Exception(www.error));
+                tcs.SetException(new Exception($"{www.error}: {www.downloadHandler?.text}"));
                 yield break;
             }
 
