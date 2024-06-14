@@ -72,7 +72,7 @@ namespace ContentGeneration.Editor.MainWindow.Components.RequestsList
 
             if (www.result != UnityWebRequest.Result.Success)
             {
-                throw new Exception(www.error);
+                throw new Exception($"{www.error}: {www.downloadHandler?.text}");
             }
 
             var texture = ((DownloadHandlerTexture)www.downloadHandler).texture;
