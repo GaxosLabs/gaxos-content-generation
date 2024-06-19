@@ -24,3 +24,7 @@
 .unity-base-text-field__input--multiline TextElement {
     margin-top: 20px;
 }
+
+#unity-text-input TextElement {
+    font-size: 15px;
+}
