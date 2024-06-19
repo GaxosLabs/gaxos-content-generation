@@ -58,7 +58,10 @@ namespace ContentGeneration.Editor.MainWindow.Components
                     return;
                 RefreshCredits();
             };
-            RefreshCredits();
+            if(!string.IsNullOrEmpty(Settings.instance.apiKey))
+            {
+                RefreshCredits();
+            }
         }
     }
 }

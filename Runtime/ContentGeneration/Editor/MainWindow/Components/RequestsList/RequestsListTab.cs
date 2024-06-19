@@ -43,7 +43,10 @@ namespace ContentGeneration.Editor.MainWindow.Components.RequestsList
             refreshButton.RegisterCallback<ClickEvent>(_ => { Refresh(); });
 
             listView.itemsSource = _requests;
-            Refresh();
+            if(!string.IsNullOrEmpty(Settings.instance.apiKey))
+            {
+                Refresh();
+            }
 
             Func<VisualElement> CreateCell(int i1)
             {

@@ -110,7 +110,14 @@ namespace ContentGeneration.Editor.MainWindow
                     return;
                 RefreshCredits();
             };
-            RefreshCredits();
+            if (string.IsNullOrEmpty(Settings.instance.apiKey))
+            {
+                Debug.LogWarning("Please enter your api key on the Configuration section");
+            }
+            else
+            {
+                RefreshCredits();
+            }
 
             rootVisualElement.Add(rootInstance);
         }
