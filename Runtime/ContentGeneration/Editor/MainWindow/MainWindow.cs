@@ -2,6 +2,7 @@ using System.Globalization;
 using System.Linq;
 using ContentGeneration.Editor.MainWindow.Components;
 using ContentGeneration.Editor.MainWindow.Components.BasicExamples;
+using ContentGeneration.Editor.MainWindow.Components.Comfy;
 using ContentGeneration.Editor.MainWindow.Components.DallE;
 using ContentGeneration.Editor.MainWindow.Components.Meshy;
 using ContentGeneration.Editor.MainWindow.Components.RequestsList;
@@ -30,6 +31,7 @@ namespace ContentGeneration.Editor.MainWindow
             var rootInstance = _root.Instantiate();
             rootInstance.style.height = new StyleLength(new Length(100, LengthUnit.Percent));
 
+            var comfy = rootInstance.Q<ComfyTab>();
             var dallE = rootInstance.Q<DallETab>();
             var stabilityAI = rootInstance.Q<Components.StabilityAI.StabilityTab>();
             var meshy = rootInstance.Q<MeshyTab>();
@@ -50,6 +52,10 @@ namespace ContentGeneration.Editor.MainWindow
             _allToggles = sideMenu.Children().
                 Where(c => c is SubWindowToggle).Cast<SubWindowToggle>().ToArray();
             
+            rootInstance.Q<SubWindowToggle>("subWindowToggleComfy").OnToggled += (sender, v) =>
+            {
+                ToggleSubWindow(sender, v, subWindowsContainer, comfy);
+            };
             rootInstance.Q<SubWindowToggle>("subWindowToggleDallE").OnToggled += (sender, v) =>
             {
                 ToggleSubWindow(sender, v, subWindowsContainer, dallE);

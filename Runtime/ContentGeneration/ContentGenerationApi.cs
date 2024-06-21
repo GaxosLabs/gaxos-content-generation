@@ -5,6 +5,7 @@ using System.Net;
 using System.Text;
 using System.Threading.Tasks;
 using ContentGeneration.Models;
+using ContentGeneration.Models.Comfy;
 using ContentGeneration.Models.DallE;
 using ContentGeneration.Models.Meshy;
 using ContentGeneration.Models.Stability;
@@ -229,7 +230,8 @@ namespace ContentGeneration
             )).Trim('"');
         }
 
-        public Task<string> RequestMeshyTextToMeshGeneration(MeshyTextToMeshParameters generatorParameters,
+        public Task<string> RequestMeshyTextToMeshGeneration(
+            MeshyTextToMeshParameters generatorParameters,
             GenerationOptions options = GenerationOptions.None,
             object data = null)
         {
@@ -251,6 +253,30 @@ namespace ContentGeneration
             return RequestGeneration(
                 Generator.MeshyTextToTexture,
                 generatorParameters, options, data);
+        }
+
+        public async Task<string> RequestComfyTextToImageGeneration(
+            ComfyTextToImageParameters generatorParameters,
+            GenerationOptions options = GenerationOptions.None,
+            object data = null)
+        {
+            // TODO:
+            // return RequestGeneration(
+            //     Generator.ComfyTextToImage,
+            //     generatorParameters, options, data);
+            return null;
+        }
+
+        public async Task<string> RequestComfyMaskingGeneration(
+            ComfyMaskingParameters generatorParameters,
+            GenerationOptions options = GenerationOptions.None,
+            object data = null)
+        {
+            // TODO:
+            // return RequestGeneration(
+            //     Generator.ComfyMasking,
+            //     generatorParameters, options, data);
+            return null;
         }
     }
 }
