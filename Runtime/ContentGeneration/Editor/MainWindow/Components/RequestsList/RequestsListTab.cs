@@ -86,10 +86,30 @@ namespace ContentGeneration.Editor.MainWindow.Components.RequestsList
                 (element as Label)!.text = MainWindowStore.Instance.Requests[index].ID.ToString();
             listView.columns["generator"].bindCell = (element, index) =>
                 (element as Label)!.text = MainWindowStore.Instance.Requests[index].Generator.ToString();
+            listView.columns["timeTaken"].bindCell = (element, index) =>
+            {
+                var completedAt = MainWindowStore.Instance.Requests[index].CompletedAt;
+                var createdAt = MainWindowStore.Instance.Requests[index].CreatedAt;
+                if(completedAt < createdAt)
+                {
+                    completedAt = DateTime.UtcNow;
+                }
+                (element as Label)!.text = $"{(completedAt - createdAt).TotalSeconds:0.} seconds";
+            };
             listView.columns["created"].bindCell = (element, index) =>
                 (element as Label)!.text = MainWindowStore.Instance.Requests[index].CreatedAt.ToString(CultureInfo.InvariantCulture);
             listView.columns["completed"].bindCell = (element, index) =>
-                (element as Label)!.text = MainWindowStore.Instance.Requests[index].CompletedAt.ToString(CultureInfo.InvariantCulture);
+            {
+                if(MainWindowStore.Instance.Requests[index].CompletedAt > DateTime.UnixEpoch)
+                {
+                    (element as Label)!.text = MainWindowStore.Instance.Requests[index].CompletedAt
+                        .ToString(CultureInfo.InvariantCulture);
+                }
+                else
+                {
+                    (element as Label)!.text = "---";
+                }
+            };
             listView.columns["status"].bindCell = (element, index) =>
             {
                 var label = (element as Label)!;
