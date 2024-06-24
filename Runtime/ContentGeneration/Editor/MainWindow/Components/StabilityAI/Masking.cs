@@ -127,6 +127,7 @@ namespace ContentGeneration.Editor.MainWindow.Components.StabilityAI
                         {
                             requestSent.style.display = DisplayStyle.Flex;
                         }
+                        MainWindowStore.Instance.RefreshRequestsAsync().CatchAndLog();
                     });
             });
 

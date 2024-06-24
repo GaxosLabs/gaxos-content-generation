@@ -86,29 +86,22 @@ namespace ContentGeneration.Editor.MainWindow
 
             var credits = rootInstance.Q<TextField>("credits");
             var refreshCredits = rootInstance.Q<Button>("refreshCredits");
-            void RefreshCredits()
+            
+            void RefreshCredits(float v)
             {
-                refreshCredits.SetEnabled(false);
-                credits.value = "";
-                ContentGenerationApi.Instance.GetCredits().ContinueInMainThreadWith(t =>
-                {
-                    if (t.IsFaulted)
-                    {
-                        Debug.LogException(t.Exception);
-                    }
-                    else
-                    {
-                        credits.value = t.Result.ToString("r", CultureInfo.InvariantCulture);
-                    }
-                    
-                    refreshCredits.SetEnabled(true);
-                });
+                credits.value = v.ToString("r", CultureInfo.InvariantCulture);
             }
+            MainWindowStore.Instance.OnCreditsChanged += RefreshCredits;
+            RefreshCredits(MainWindowStore.Instance.credits);
             refreshCredits.clicked += () =>
             {
                 if (!refreshCredits.enabledSelf)
                     return;
-                RefreshCredits();
+                refreshCredits.SetEnabled(false);
+                MainWindowStore.Instance.RefreshCreditsAsync().Finally(() =>
+                {
+                    refreshCredits.SetEnabled(true);
+                });
             };
             if (string.IsNullOrEmpty(Settings.instance.apiKey))
             {
@@ -116,7 +109,7 @@ namespace ContentGeneration.Editor.MainWindow
             }
             else
             {
-                RefreshCredits();
+                MainWindowStore.Instance.RefreshCreditsAsync().CatchAndLog();
             }
 
             rootVisualElement.Add(rootInstance);

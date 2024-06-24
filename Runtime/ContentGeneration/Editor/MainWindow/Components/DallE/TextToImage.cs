@@ -80,6 +80,7 @@ namespace ContentGeneration.Editor.MainWindow.Components.DallE
                         {
                             requestSent.style.display = DisplayStyle.Flex;
                         }
+                        MainWindowStore.Instance.RefreshRequestsAsync().CatchAndLog();
                     });
             });
 

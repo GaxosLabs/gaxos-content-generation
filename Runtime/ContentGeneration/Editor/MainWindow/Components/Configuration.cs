@@ -2,7 +2,6 @@ using System.Collections.Generic;
 using System.Globalization;
 using ContentGeneration.Helpers;
 using UnityEditor;
-using UnityEngine;
 using UnityEngine.UIElements;
 
 namespace ContentGeneration.Editor.MainWindow.Components
@@ -34,33 +33,25 @@ namespace ContentGeneration.Editor.MainWindow.Components
             
             var credits = this.Q<TextField>("credits");
             var refreshCredits = this.Q<Button>("refreshCredits");
-            void RefreshCredits()
+            void RefreshCredits(float v)
             {
-                refreshCredits.SetEnabled(false);
-                credits.value = "";
-                ContentGenerationApi.Instance.GetCredits().ContinueInMainThreadWith(t =>
-                {
-                    if (t.IsFaulted)
-                    {
-                        Debug.LogException(t.Exception);
-                    }
-                    else
-                    {
-                        credits.value = t.Result.ToString("r", CultureInfo.InvariantCulture);
-                    }
-                    
-                    refreshCredits.SetEnabled(true);
-                });
+                credits.value = v.ToString("r", CultureInfo.InvariantCulture);
             }
+            MainWindowStore.Instance.OnCreditsChanged += RefreshCredits;
+            RefreshCredits(MainWindowStore.Instance.credits);
             refreshCredits.clicked += () =>
             {
                 if (!refreshCredits.enabledSelf)
                     return;
-                RefreshCredits();
+                refreshCredits.SetEnabled(false);
+                MainWindowStore.Instance.RefreshCreditsAsync().Finally(() =>
+                {
+                    refreshCredits.SetEnabled(true);
+                });
             };
             if(!string.IsNullOrEmpty(Settings.instance.apiKey))
             {
-                RefreshCredits();
+                MainWindowStore.Instance.RefreshCreditsAsync().CatchAndLog();
             }
         }
     }
