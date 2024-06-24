@@ -85,7 +85,7 @@ namespace ContentGeneration.Editor.MainWindow.Components.BasicExamples
                             prompt.value = null;
                             requestSent.style.display = DisplayStyle.Flex;
                         }
-                        MainWindowStore.Instance.RefreshRequestsAsync().CatchAndLog();
+                        ContentGenerationStore.Instance.RefreshRequestsAsync().CatchAndLog();
                     });
             });
         }

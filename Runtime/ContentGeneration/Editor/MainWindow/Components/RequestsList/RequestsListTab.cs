@@ -39,16 +39,16 @@ namespace ContentGeneration.Editor.MainWindow.Components.RequestsList
         {
             refreshButton.RegisterCallback<ClickEvent>(_ => { Refresh(); });
 
-            MainWindowStore.Instance.OnRequestsChanged += _ =>
+            ContentGenerationStore.Instance.OnRequestsChanged += _ =>
             {
                 var previousSelectId = _selectedId;
                 listView.RefreshItems();
                 listView.selectedIndex = -1;
                 if(previousSelectId != null)
                 {
-                    for (var i = 0; i < MainWindowStore.Instance.Requests.Count; i++)
+                    for (var i = 0; i < ContentGenerationStore.Instance.Requests.Count; i++)
                     {
-                        if (MainWindowStore.Instance.Requests[i].ID == previousSelectId)
+                        if (ContentGenerationStore.Instance.Requests[i].ID == previousSelectId)
                         {
                             listView.selectedIndex = i;
                             break;
@@ -56,7 +56,7 @@ namespace ContentGeneration.Editor.MainWindow.Components.RequestsList
                     }
                 }
             };
-            listView.itemsSource = MainWindowStore.Instance.Requests;
+            listView.itemsSource = ContentGenerationStore.Instance.Requests;
             if(!string.IsNullOrEmpty(Settings.instance.apiKey))
             {
                 Refresh();
@@ -83,13 +83,13 @@ namespace ContentGeneration.Editor.MainWindow.Components.RequestsList
             }
 
             listView.columns["id"].bindCell = (element, index) =>
-                (element as Label)!.text = MainWindowStore.Instance.Requests[index].ID.ToString();
+                (element as Label)!.text = ContentGenerationStore.Instance.Requests[index].ID.ToString();
             listView.columns["generator"].bindCell = (element, index) =>
-                (element as Label)!.text = MainWindowStore.Instance.Requests[index].Generator.ToString();
+                (element as Label)!.text = ContentGenerationStore.Instance.Requests[index].Generator.ToString();
             listView.columns["timeTaken"].bindCell = (element, index) =>
             {
-                var completedAt = MainWindowStore.Instance.Requests[index].CompletedAt;
-                var createdAt = MainWindowStore.Instance.Requests[index].CreatedAt;
+                var completedAt = ContentGenerationStore.Instance.Requests[index].CompletedAt;
+                var createdAt = ContentGenerationStore.Instance.Requests[index].CreatedAt;
                 if(completedAt < createdAt)
                 {
                     completedAt = DateTime.UtcNow;
@@ -97,12 +97,12 @@ namespace ContentGeneration.Editor.MainWindow.Components.RequestsList
                 (element as Label)!.text = $"{(completedAt - createdAt).TotalSeconds:0.} seconds";
             };
             listView.columns["created"].bindCell = (element, index) =>
-                (element as Label)!.text = MainWindowStore.Instance.Requests[index].CreatedAt.ToString(CultureInfo.InvariantCulture);
+                (element as Label)!.text = ContentGenerationStore.Instance.Requests[index].CreatedAt.ToString(CultureInfo.InvariantCulture);
             listView.columns["completed"].bindCell = (element, index) =>
             {
-                if(MainWindowStore.Instance.Requests[index].CompletedAt > DateTime.UnixEpoch)
+                if(ContentGenerationStore.Instance.Requests[index].CompletedAt > DateTime.UnixEpoch)
                 {
-                    (element as Label)!.text = MainWindowStore.Instance.Requests[index].CompletedAt
+                    (element as Label)!.text = ContentGenerationStore.Instance.Requests[index].CompletedAt
                         .ToString(CultureInfo.InvariantCulture);
                 }
                 else
@@ -113,10 +113,10 @@ namespace ContentGeneration.Editor.MainWindow.Components.RequestsList
             listView.columns["status"].bindCell = (element, index) =>
             {
                 var label = (element as Label)!;
-                label.text = MainWindowStore.Instance.Requests[index].Status.ToString();
+                label.text = ContentGenerationStore.Instance.Requests[index].Status.ToString();
                 label.RemoveFromClassList("generated");
                 label.RemoveFromClassList("failed");
-                label.AddToClassList(MainWindowStore.Instance.Requests[index].Status.ToString().ToLower());
+                label.AddToClassList(ContentGenerationStore.Instance.Requests[index].Status.ToString().ToLower());
             };
 
             foreach (var requestedItem in allRequestedItems)
@@ -163,7 +163,7 @@ namespace ContentGeneration.Editor.MainWindow.Components.RequestsList
 
         void Refresh()
         {
-            MainWindowStore.Instance.RefreshRequestsAsync().CatchAndLog();
+            ContentGenerationStore.Instance.RefreshRequestsAsync().CatchAndLog();
         }
     }
 }

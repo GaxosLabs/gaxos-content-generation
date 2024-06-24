@@ -91,14 +91,14 @@ namespace ContentGeneration.Editor.MainWindow
             {
                 credits.value = v.ToString("r", CultureInfo.InvariantCulture);
             }
-            MainWindowStore.Instance.OnCreditsChanged += RefreshCredits;
-            RefreshCredits(MainWindowStore.Instance.credits);
+            ContentGenerationStore.Instance.OnCreditsChanged += RefreshCredits;
+            RefreshCredits(ContentGenerationStore.Instance.credits);
             refreshCredits.clicked += () =>
             {
                 if (!refreshCredits.enabledSelf)
                     return;
                 refreshCredits.SetEnabled(false);
-                MainWindowStore.Instance.RefreshCreditsAsync().Finally(() =>
+                ContentGenerationStore.Instance.RefreshCreditsAsync().Finally(() =>
                 {
                     refreshCredits.SetEnabled(true);
                 });
@@ -109,7 +109,7 @@ namespace ContentGeneration.Editor.MainWindow
             }
             else
             {
-                MainWindowStore.Instance.RefreshCreditsAsync().CatchAndLog();
+                ContentGenerationStore.Instance.RefreshCreditsAsync().CatchAndLog();
             }
 
             rootVisualElement.Add(rootInstance);

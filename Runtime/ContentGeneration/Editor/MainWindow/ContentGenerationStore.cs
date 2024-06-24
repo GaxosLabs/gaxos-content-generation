@@ -10,10 +10,10 @@ using Unity.EditorCoroutines.Editor;
 
 namespace ContentGeneration.Editor.MainWindow
 {
-    public class MainWindowStore
+    public class ContentGenerationStore
     {
-        public static MainWindowStore Instance = new();
-        MainWindowStore()
+        public static ContentGenerationStore Instance = new();
+        ContentGenerationStore()
         {
             
         }
