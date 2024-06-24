@@ -15,10 +15,40 @@ namespace ContentGeneration.Editor.MainWindow.Components
 
         public new class UxmlTraits : VisualElement.UxmlTraits
         {
+            readonly UxmlBoolAttributeDescription _allowMakeTransparent = new()
+            {
+                name = "AllowMakeTransparent",
+                defaultValue = true
+            };
+            readonly UxmlBoolAttributeDescription _allowImprovePrompt = new()
+            {
+                name = "AllowImprovePrompt",
+                defaultValue = true
+            };
             public override IEnumerable<UxmlChildElementDescription> uxmlChildElementsDescription
             {
                 get { yield break; }
             }
+
+            public override void Init(VisualElement ve, IUxmlAttributes bag, CreationContext cc)
+            {
+                base.Init(ve, bag, cc);
+                var element = (GenerationOptionsElement)ve;
+                element.allowMakeTransparent = _allowMakeTransparent.GetValueFromBag(bag, cc);
+                element.allowImprovePrompt = _allowImprovePrompt.GetValueFromBag(bag, cc);
+            }
+        }
+
+        bool allowMakeTransparent
+        {
+            get => makeTransparentColor.style.display == DisplayStyle.Flex;
+            set => makeTransparentColor.style.display = value ? DisplayStyle.Flex : DisplayStyle.None;
+        }
+
+        bool allowImprovePrompt
+        {
+            get => improvePrompt.style.display == DisplayStyle.Flex;
+            set => improvePrompt.style.display = value ? DisplayStyle.Flex : DisplayStyle.None;
         }
         
         Toggle makeTransparentColor => this.Q<Toggle>("makeTransparentColor");

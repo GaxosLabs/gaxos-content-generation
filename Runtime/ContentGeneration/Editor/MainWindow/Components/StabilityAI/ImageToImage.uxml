@@ -15,7 +15,9 @@
             <ui:Toggle label="Send step schedule end" name="sendStepScheduleEnd" />
             <ui:Slider show-input-field="true" picking-mode="Ignore" label="Step Schedule End" value="0.35" high-value="1" name="stepScheduleEnd" />
         </ui:VisualElement>
-        <ContentGeneration.Editor.MainWindow.Components.GenerationOptionsElement name="generationOptions" />
+        <ContentGeneration.Editor.MainWindow.Components.GenerationOptionsElement 
+                name="generationOptions" 
+        />
         <ui:Button name="generate" text="Generate" class="generateButton" />
         <ui:VisualElement>
             <ui:VisualElement name="sendingRequest">
