@@ -255,28 +255,24 @@ namespace ContentGeneration
                 generatorParameters, options, data);
         }
 
-        public async Task<string> RequestComfyTextToImageGeneration(
+        public Task<string> RequestComfyTextToImageGeneration(
             ComfyTextToImageParameters generatorParameters,
             GenerationOptions options = GenerationOptions.None,
             object data = null)
         {
-            // TODO:
-            // return RequestGeneration(
-            //     Generator.ComfyTextToImage,
-            //     generatorParameters, options, data);
-            return null;
+            return RequestGeneration(
+                Generator.ComfyTextToImage,
+                generatorParameters, options, data);
         }
 
-        public async Task<string> RequestComfyMaskingGeneration(
+        public Task<string> RequestComfyMaskingGeneration(
             ComfyMaskingParameters generatorParameters,
             GenerationOptions options = GenerationOptions.None,
             object data = null)
         {
-            // TODO:
-            // return RequestGeneration(
-            //     Generator.ComfyMasking,
-            //     generatorParameters, options, data);
-            return null;
+            return RequestGeneration(
+                Generator.ComfyMasking,
+                generatorParameters, options, data);
         }
     }
 }

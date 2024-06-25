@@ -8,6 +8,7 @@ namespace ContentGeneration.Models
         StabilityTextToImage, StabilityImageToImage, StabilityMasking,
         DallETextToImage, DallEInpainting,
         MeshyTextToMesh, MeshyTextToTexture,
+        ComfyTextToImage, ComfyMasking
     }
     
     internal class GeneratorTypeConverter : EnumJsonConverter<Generator>
@@ -23,6 +24,8 @@ namespace ContentGeneration.Models
                 Generator.DallEInpainting => "dall-e-inpainting",
                 Generator.MeshyTextToMesh => "meshy-text-to-mesh",
                 Generator.MeshyTextToTexture => "meshy-text-to-texture",
+                Generator.ComfyTextToImage => "comfy-text-to-image",
+                Generator.ComfyMasking => "comfy-masking",
                 _ => generator.ToString()
             };
         }

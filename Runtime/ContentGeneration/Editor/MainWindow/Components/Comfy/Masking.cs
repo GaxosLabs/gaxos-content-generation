@@ -19,7 +19,7 @@ namespace ContentGeneration.Editor.MainWindow.Components.Comfy
                 get { yield break; }
             }
         }
-        
+
         TextField code => this.Q<TextField>("code");
         ComfyParametersElement comfyParametersElement => this.Q<ComfyParametersElement>("comfyParametersElement");
         GenerationOptionsElement generationOptionsElement => this.Q<GenerationOptionsElement>("generationOptions");
@@ -34,9 +34,9 @@ namespace ContentGeneration.Editor.MainWindow.Components.Comfy
         {
             comfyParametersElement.OnCodeChanged += RefreshCode;
             generationOptionsElement.OnCodeChanged += RefreshCode;
-            
+
             maskRequired.style.visibility = Visibility.Hidden;
-           
+
             requestSent.style.display = DisplayStyle.None;
             requestFailed.style.display = DisplayStyle.None;
             sendingRequest.style.display = DisplayStyle.None;
@@ -73,17 +73,19 @@ namespace ContentGeneration.Editor.MainWindow.Components.Comfy
                     generationOptionsElement.GetGenerationOptions()).ContinueInMainThreadWith(
                     t =>
                     {
-                generateButton.SetEnabled(true);
-                sendingRequest.style.display = DisplayStyle.None;
-                    if (t.IsFaulted)
-                    {
-                        requestFailed.style.display = DisplayStyle.Flex;
-                        Debug.LogException(t.Exception);
-                    }
-                    else
-                    {
-                        requestSent.style.display = DisplayStyle.Flex;
-                    }
+                        generateButton.SetEnabled(true);
+                        sendingRequest.style.display = DisplayStyle.None;
+                        if (t.IsFaulted)
+                        {
+                            requestFailed.style.display = DisplayStyle.Flex;
+                            Debug.LogException(t.Exception);
+                        }
+                        else
+                        {
+                            requestSent.style.display = DisplayStyle.Flex;
+                        }
+
+                        ContentGenerationStore.Instance.RefreshRequestsAsync().CatchAndLog();
                     });
             });
 

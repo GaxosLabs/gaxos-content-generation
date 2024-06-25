@@ -5,7 +5,8 @@
         <ContentGeneration.Editor.MainWindow.Components.ImageSelection name="mask" Label="Mask" Button-Text="Select Mask" tooltip="Upload a mask if you want the resulting image to conform to the shape of the mask.  Usage: Useful for applying specific shapes or contours to the generated image" />
         <ui:Label name="maskRequiredLabel" text="Mask is required" class="error-label" />
         <ContentGeneration.Editor.MainWindow.Components.Comfy.ComfyParametersElement name="comfyParametersElement" />
-        <ContentGeneration.Editor.MainWindow.Components.GenerationOptionsElement name="generationOptions" />
+        <ContentGeneration.Editor.MainWindow.Components.GenerationOptionsElement name="generationOptions"
+            AllowMakeTransparent="false" />
         <ui:Button name="generateButton" text="Generate" class="generateButton" />
         <ui:VisualElement>
             <ui:VisualElement name="sendingRequest">
