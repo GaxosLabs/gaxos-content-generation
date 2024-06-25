@@ -142,6 +142,7 @@ namespace ContentGeneration.Editor.MainWindow.Components.StabilityAI
                         {
                             requestSent.style.display = DisplayStyle.Flex;
                         }
+                        ContentGenerationStore.Instance.RefreshRequestsAsync().CatchAndLog();
                     });
             });
 

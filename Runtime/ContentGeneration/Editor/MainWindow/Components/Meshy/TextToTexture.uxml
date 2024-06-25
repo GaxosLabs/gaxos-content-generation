@@ -17,7 +17,10 @@
         <ui:Toggle label="Enable PBR" name="enablePbr" value="true" tooltip="Request the AI to generate PBR maps (e.g., metallic, roughness, normals) in addition to the base color texture.  Purpose: Enhance the realism and compatibility of the textured model with physically based rendering (PBR) workflows" />
         <ui:EnumField label="Resolution" type="ContentGeneration.Models.Meshy.Resolution, ContentGeneration" name="resolution" tooltip="Choose the resolution at which the AI will deliver the texture (e.g., 1024, 2048, 4096).  Tip: Higher resolutions offer better detail but may require more processing time" />
         <ui:EnumField label="Art Style" type="ContentGeneration.Models.Meshy.TextToTextureArtStyle, ContentGeneration" name="artStyle" tooltip="Choose the type of art style you want for your 3D model&apos;s texture (e.g., Realistic, Japanese Anime, Cartoon Line Art).  Recommendation: Select a style that aligns with your project&apos;s visual theme" />
-        <ContentGeneration.Editor.MainWindow.Components.GenerationOptionsElement name="generationOptions" />
+        <ContentGeneration.Editor.MainWindow.Components.GenerationOptionsElement 
+                name="generationOptions" 
+                AllowMakeTransparent="false"
+        />
         <ui:Button name="generateButton" text="Generate" class="generateButton" />
         <ui:VisualElement>
             <ui:VisualElement name="sendingRequest">

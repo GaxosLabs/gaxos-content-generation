@@ -17,6 +17,19 @@ namespace ContentGeneration.Helpers
                 }
             });
         }
+        
+        public static void Finally(this Task t,
+            Action continuationAction, Object context = null)
+        {
+            t.ContinueWith(taskResult =>
+            {
+                if (taskResult.IsFaulted)
+                {
+                    Debug.LogException(taskResult.Exception!.InnerException, context);
+                }
+                Dispatcher.instance.ToMainThread(continuationAction);
+            });
+        }
 
         public static void ContinueInMainThreadWith(this Task t,
             Action<Task> continuationAction)

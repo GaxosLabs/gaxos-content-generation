@@ -2,8 +2,6 @@ using System;
 using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
-using System.Threading;
-using System.Threading.Tasks;
 using ContentGeneration.Editor.MainWindow.Components.Meshy;
 using ContentGeneration.Helpers;
 using ContentGeneration.Models;
@@ -36,13 +34,29 @@ namespace ContentGeneration.Editor.MainWindow.Components.RequestsList
             defaultRequestedItem, meshyTextToMeshRequestedItem, meshyTextToTextureRequestedItem
         };
 
-        readonly List<Request> _requests = new();
-
+        string _selectedId;
         public RequestsListTab()
         {
             refreshButton.RegisterCallback<ClickEvent>(_ => { Refresh(); });
 
-            listView.itemsSource = _requests;
+            ContentGenerationStore.Instance.OnRequestsChanged += _ =>
+            {
+                var previousSelectId = _selectedId;
+                listView.RefreshItems();
+                listView.selectedIndex = -1;
+                if(previousSelectId != null)
+                {
+                    for (var i = 0; i < ContentGenerationStore.Instance.Requests.Count; i++)
+                    {
+                        if (ContentGenerationStore.Instance.Requests[i].ID == previousSelectId)
+                        {
+                            listView.selectedIndex = i;
+                            break;
+                        }
+                    }
+                }
+            };
+            listView.itemsSource = ContentGenerationStore.Instance.Requests;
             if(!string.IsNullOrEmpty(Settings.instance.apiKey))
             {
                 Refresh();
@@ -69,20 +83,40 @@ namespace ContentGeneration.Editor.MainWindow.Components.RequestsList
             }
 
             listView.columns["id"].bindCell = (element, index) =>
-                (element as Label)!.text = _requests[index].ID.ToString();
+                (element as Label)!.text = ContentGenerationStore.Instance.Requests[index].ID.ToString();
             listView.columns["generator"].bindCell = (element, index) =>
-                (element as Label)!.text = _requests[index].Generator.ToString();
+                (element as Label)!.text = ContentGenerationStore.Instance.Requests[index].Generator.ToString();
+            listView.columns["timeTaken"].bindCell = (element, index) =>
+            {
+                var completedAt = ContentGenerationStore.Instance.Requests[index].CompletedAt;
+                var createdAt = ContentGenerationStore.Instance.Requests[index].CreatedAt;
+                if(completedAt < createdAt)
+                {
+                    completedAt = DateTime.UtcNow;
+                }
+                (element as Label)!.text = $"{(completedAt - createdAt).TotalSeconds:0.} seconds";
+            };
             listView.columns["created"].bindCell = (element, index) =>
-                (element as Label)!.text = _requests[index].CreatedAt.ToString(CultureInfo.InvariantCulture);
+                (element as Label)!.text = ContentGenerationStore.Instance.Requests[index].CreatedAt.ToString(CultureInfo.InvariantCulture);
             listView.columns["completed"].bindCell = (element, index) =>
-                (element as Label)!.text = _requests[index].CompletedAt.ToString(CultureInfo.InvariantCulture);
+            {
+                if(ContentGenerationStore.Instance.Requests[index].CompletedAt > DateTime.UnixEpoch)
+                {
+                    (element as Label)!.text = ContentGenerationStore.Instance.Requests[index].CompletedAt
+                        .ToString(CultureInfo.InvariantCulture);
+                }
+                else
+                {
+                    (element as Label)!.text = "---";
+                }
+            };
             listView.columns["status"].bindCell = (element, index) =>
             {
                 var label = (element as Label)!;
-                label.text = _requests[index].Status.ToString();
+                label.text = ContentGenerationStore.Instance.Requests[index].Status.ToString();
                 label.RemoveFromClassList("generated");
                 label.RemoveFromClassList("failed");
-                label.AddToClassList(_requests[index].Status.ToString().ToLower());
+                label.AddToClassList(ContentGenerationStore.Instance.Requests[index].Status.ToString().ToLower());
             };
 
             foreach (var requestedItem in allRequestedItems)
@@ -96,6 +130,7 @@ namespace ContentGeneration.Editor.MainWindow.Components.RequestsList
             }
             listView.selectionChanged += objects =>
             {
+                _selectedId = null;
                 var objectsArray = objects.ToArray();
                 foreach (var requestedItem in allRequestedItems)
                 {
@@ -104,11 +139,12 @@ namespace ContentGeneration.Editor.MainWindow.Components.RequestsList
                 if (objectsArray.Length > 0)
                 {
                     var request = (objectsArray[0] as Request)!;
-                    if (request?.Generator == Generator.MeshyTextToMesh)
+                    _selectedId = request.ID;
+                    if (request.Generator == Generator.MeshyTextToMesh)
                     {
                         meshyTextToMeshRequestedItem.value = request;
                     }
-                    else if (request?.Generator == Generator.MeshyTextToTexture)
+                    else if (request.Generator == Generator.MeshyTextToTexture)
                     {
                         meshyTextToTextureRequestedItem.value = request;
                     }
@@ -125,28 +161,9 @@ namespace ContentGeneration.Editor.MainWindow.Components.RequestsList
             };
         }
 
-        CancellationTokenSource _lastRequest;
-
         void Refresh()
         {
-            _lastRequest?.Cancel();
-
-            var thisRequest = _lastRequest = new CancellationTokenSource();
-            RefreshAsync(thisRequest).CatchAndLog();
-        }
-
-        async Task RefreshAsync(CancellationTokenSource thisRequest)
-        {
-            _requests.Clear();
-            var requests = await ContentGenerationApi.Instance.GetRequests();
-            if (thisRequest.IsCancellationRequested)
-            {
-                return;
-            }
-
-            _requests.AddRange(requests);
-            listView.selectedIndex = -1;
-            listView.RefreshItems();
+            ContentGenerationStore.Instance.RefreshRequestsAsync().CatchAndLog();
         }
     }
 }
