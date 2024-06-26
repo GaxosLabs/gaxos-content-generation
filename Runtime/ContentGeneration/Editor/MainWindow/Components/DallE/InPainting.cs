@@ -89,7 +89,7 @@ namespace ContentGeneration.Editor.MainWindow.Components.DallE
                         {
                             requestSent.style.display = DisplayStyle.Flex;
                         }
-                        ContentGenerationStore.Instance.RefreshRequestsAsync().CatchAndLog();
+                        ContentGenerationStore.Instance.RefreshRequestsAsync().Finally(() => ContentGenerationStore.Instance.RefreshCreditsAsync().CatchAndLog());
                     });
             });
 

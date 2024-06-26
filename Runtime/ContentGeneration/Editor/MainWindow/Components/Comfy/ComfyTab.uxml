@@ -6,7 +6,7 @@
             <ContentGeneration.Editor.MainWindow.Components.Tab Tab-Name="Text To Image" name="textToImage">
                 <ContentGeneration.Editor.MainWindow.Components.Comfy.TextToImage style="flex-direction: column-reverse;" />
             </ContentGeneration.Editor.MainWindow.Components.Tab>
-            <ContentGeneration.Editor.MainWindow.Components.Tab name="inPainting" Tab-Name="In Painting">
+            <ContentGeneration.Editor.MainWindow.Components.Tab name="masking" Tab-Name="Masking">
                 <ContentGeneration.Editor.MainWindow.Components.Comfy.Masking />
             </ContentGeneration.Editor.MainWindow.Components.Tab>
         </ContentGeneration.Editor.MainWindow.Components.TabsContainer>

@@ -23,6 +23,5 @@
             <ui:Label tabindex="-1" text="Code" parse-escape-sequences="true" display-tooltip-when-elided="true" />
             <ui:TextField picking-mode="Ignore" readonly="true" multiline="true" name="code" class="code" />
         </ui:VisualElement>
-        <ContentGeneration.Editor.MainWindow.Components.WeblinkButton URl="https://platform.openai.com/docs/api-reference/images/createVariation" Icon="Comfy" Title="Comfy\nDocumentation" class="documentationLink" />
     </ui:VisualElement>
 </ui:UXML>
