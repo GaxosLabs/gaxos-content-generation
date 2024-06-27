@@ -2,7 +2,7 @@
     <Style src="../Common.uss" />
     <Style src="./TextToImage.uss" />
     <ui:VisualElement class="container-spaced">
-        <ContentGeneration.Editor.MainWindow.Components.Comfy.ComfyParametersElement name="comfyParametersElement" />
+        <ContentGeneration.Editor.MainWindow.Components.Gaxos.GaxosParametersElement name="gaxosParametersElement" />
         <ui:SliderInt show-input-field="true" picking-mode="Ignore" label="Width" value="512" low-value="16" high-value="4096" name="width" tooltip="Choose the resolution at which the AI will deliver the texture (e.g., 1024, 2048, 4096).  Tip: Higher resolutions offer better detail but may require more processing time" />
         <ui:SliderInt show-input-field="true" picking-mode="Ignore" label="Height" value="512" low-value="16" high-value="4096" name="height" tooltip="Choose the resolution at which the AI will deliver the texture (e.g., 1024, 2048, 4096).  Tip: Higher resolutions offer better detail but may require more processing time" />
         <ContentGeneration.Editor.MainWindow.Components.GenerationOptionsElement name="generationOptions" 

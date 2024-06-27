@@ -37,7 +37,7 @@
     height: 44px;
     left: 7.75px;
     top: 10px;
-    background-image: url('./gaxos.png');
+    background-image: url('./Gaxos-Header-Icon.png');
     -unity-background-scale-mode: scale-to-fit;
 }
 

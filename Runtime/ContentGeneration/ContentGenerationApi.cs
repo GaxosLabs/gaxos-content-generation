@@ -5,8 +5,8 @@ using System.Net;
 using System.Text;
 using System.Threading.Tasks;
 using ContentGeneration.Models;
-using ContentGeneration.Models.Comfy;
 using ContentGeneration.Models.DallE;
+using ContentGeneration.Models.Gaxos;
 using ContentGeneration.Models.Meshy;
 using ContentGeneration.Models.Stability;
 using Newtonsoft.Json;
@@ -255,23 +255,23 @@ namespace ContentGeneration
                 generatorParameters, options, data);
         }
 
-        public Task<string> RequestComfyTextToImageGeneration(
-            ComfyTextToImageParameters generatorParameters,
+        public Task<string> RequestGaxosTextToImageGeneration(
+            GaxosTextToImageParameters generatorParameters,
             GenerationOptions options = GenerationOptions.None,
             object data = null)
         {
             return RequestGeneration(
-                Generator.ComfyTextToImage,
+                Generator.GaxosTextToImage,
                 generatorParameters, options, data);
         }
 
-        public Task<string> RequestComfyMaskingGeneration(
-            ComfyMaskingParameters generatorParameters,
+        public Task<string> RequestGaxosMaskingGeneration(
+            GaxosMaskingParameters generatorParameters,
             GenerationOptions options = GenerationOptions.None,
             object data = null)
         {
             return RequestGeneration(
-                Generator.ComfyMasking,
+                Generator.GaxosMasking,
                 generatorParameters, options, data);
         }
     }

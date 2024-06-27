@@ -1,11 +1,11 @@
 using System.Collections.Generic;
 using UnityEngine.UIElements;
 
-namespace ContentGeneration.Editor.MainWindow.Components.Comfy
+namespace ContentGeneration.Editor.MainWindow.Components.Gaxos
 {
-    public class ComfyTab: VisualElementComponent
+    public class GaxosTab: VisualElementComponent
     {
-        public new class UxmlFactory : UxmlFactory<ComfyTab, UxmlTraits>
+        public new class UxmlFactory : UxmlFactory<GaxosTab, UxmlTraits>
         {
         }
 

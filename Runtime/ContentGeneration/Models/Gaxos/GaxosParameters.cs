@@ -1,8 +1,8 @@
 using Newtonsoft.Json;
 
-namespace ContentGeneration.Models.Comfy
+namespace ContentGeneration.Models.Gaxos
 {
-    public abstract record ComfyParameters
+    public abstract record GaxosParameters
     {
         [JsonProperty("prompt")] public string Prompt;
         [JsonProperty("negative_prompt")] public string NegativePrompt;

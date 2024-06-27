@@ -18,7 +18,7 @@
                             <ui:Button name="refreshCredits" text="Refresh" />
                             <ui:Label tabindex="-1" text="Generate Content" parse-escape-sequences="true" display-tooltip-when-elided="true" class="sideMenuItemHeader" />
                             <ui:VisualElement class="sideMenuItemSeparator" />
-                            <ContentGeneration.Editor.MainWindow.Components.SubWindowToggle Sub-Window-Name="Comfy" name="subWindowToggleComfy" />
+                            <ContentGeneration.Editor.MainWindow.Components.SubWindowToggle Sub-Window-Name="Gaxos Labs AI" name="subWindowToggleGaxos" />
                             <ContentGeneration.Editor.MainWindow.Components.SubWindowToggle Sub-Window-Name="Dall-E" name="subWindowToggleDallE" />
                             <ContentGeneration.Editor.MainWindow.Components.SubWindowToggle Sub-Window-Name="Stability AI" name="subWindowToggleStabilityAI" />
                             <ContentGeneration.Editor.MainWindow.Components.SubWindowToggle Sub-Window-Name="Meshy" name="subWindowToggleMeshy" />
@@ -38,7 +38,7 @@
                 </ui:VisualElement>
             </ui:VisualElement>
             <ui:VisualElement name="subWindowsContainer" style="flex-direction: row; flex-grow: 1;">
-                <ContentGeneration.Editor.MainWindow.Components.Comfy.ComfyTab />
+                <ContentGeneration.Editor.MainWindow.Components.Gaxos.GaxosTab />
                 <ContentGeneration.Editor.MainWindow.Components.DallE.DallETab />
                 <ContentGeneration.Editor.MainWindow.Components.StabilityAI.StabilityTab />
                 <ContentGeneration.Editor.MainWindow.Components.Meshy.MeshyTab />

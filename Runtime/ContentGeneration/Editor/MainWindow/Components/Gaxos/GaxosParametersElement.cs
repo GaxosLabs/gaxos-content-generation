@@ -2,15 +2,15 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using ContentGeneration.Helpers;
-using ContentGeneration.Models.Comfy;
+using ContentGeneration.Models.Gaxos;
 using UnityEngine;
 using UnityEngine.UIElements;
 
-namespace ContentGeneration.Editor.MainWindow.Components.Comfy
+namespace ContentGeneration.Editor.MainWindow.Components.Gaxos
 {
-    public class ComfyParametersElement : VisualElementComponent
+    public class GaxosParametersElement : VisualElementComponent
     {
-        public new class UxmlFactory : UxmlFactory<ComfyParametersElement, UxmlTraits>
+        public new class UxmlFactory : UxmlFactory<GaxosParametersElement, UxmlTraits>
         {
         }
 
@@ -38,7 +38,7 @@ namespace ContentGeneration.Editor.MainWindow.Components.Comfy
         
         TextField loras => this.Q<TextField>("loras");
         
-        public ComfyParametersElement()
+        public GaxosParametersElement()
         {
             prompt.OnChanged += _=> RefreshCode();
             var improvePromptButton = this.Q<Button>("improvePromptButton");
@@ -121,19 +121,19 @@ namespace ContentGeneration.Editor.MainWindow.Components.Comfy
             return code;
         }
 
-        public void ApplyParameters(ComfyParameters comfyParameters)
+        public void ApplyParameters(GaxosParameters gaxosParameters)
         {
-            comfyParameters.Prompt = prompt.value;
-            comfyParameters.NegativePrompt = string.IsNullOrWhiteSpace(negativePrompt.value) ? null : negativePrompt.value;
-            comfyParameters.Checkpoint = string.IsNullOrWhiteSpace(checkpoint.value) ? null : checkpoint.value;
-            comfyParameters.NSamples = (uint)nSamples.value;
-            comfyParameters.Seed = !sendSeed.value ? null : seed.value;
-            comfyParameters.Steps = (uint)steps.value;
-            comfyParameters.Cfg = cfg.value;
-            comfyParameters.SamplerName = string.IsNullOrWhiteSpace(sampler.value) ? null : sampler.value;
-            comfyParameters.Scheduler = string.IsNullOrWhiteSpace(scheduler.value) ? null : scheduler.value;
-            comfyParameters.Denoise = denoise.value;
-            comfyParameters.Loras = string.IsNullOrWhiteSpace(loras.value) ? null : 
+            gaxosParameters.Prompt = prompt.value;
+            gaxosParameters.NegativePrompt = string.IsNullOrWhiteSpace(negativePrompt.value) ? null : negativePrompt.value;
+            gaxosParameters.Checkpoint = string.IsNullOrWhiteSpace(checkpoint.value) ? null : checkpoint.value;
+            gaxosParameters.NSamples = (uint)nSamples.value;
+            gaxosParameters.Seed = !sendSeed.value ? null : seed.value;
+            gaxosParameters.Steps = (uint)steps.value;
+            gaxosParameters.Cfg = cfg.value;
+            gaxosParameters.SamplerName = string.IsNullOrWhiteSpace(sampler.value) ? null : sampler.value;
+            gaxosParameters.Scheduler = string.IsNullOrWhiteSpace(scheduler.value) ? null : scheduler.value;
+            gaxosParameters.Denoise = denoise.value;
+            gaxosParameters.Loras = string.IsNullOrWhiteSpace(loras.value) ? null : 
                 loras.value.Split(',', StringSplitOptions.RemoveEmptyEntries).Select(i => i.Trim()).ToArray();
         }
     }

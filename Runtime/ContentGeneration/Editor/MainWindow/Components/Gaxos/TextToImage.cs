@@ -1,14 +1,14 @@
 using System.Collections.Generic;
 using ContentGeneration.Helpers;
-using ContentGeneration.Models.Comfy;
+using ContentGeneration.Models.Gaxos;
 using UnityEngine;
 using UnityEngine.UIElements;
 
-namespace ContentGeneration.Editor.MainWindow.Components.Comfy
+namespace ContentGeneration.Editor.MainWindow.Components.Gaxos
 {
-    public class Masking : VisualElementComponent
+    public class TextToImage : VisualElementComponent
     {
-        public new class UxmlFactory : UxmlFactory<Masking, UxmlTraits>
+        public new class UxmlFactory : UxmlFactory<TextToImage, UxmlTraits>
         {
         }
 
@@ -20,22 +20,23 @@ namespace ContentGeneration.Editor.MainWindow.Components.Comfy
             }
         }
 
+        SliderInt width => this.Q<SliderInt>("width");
+        SliderInt height => this.Q<SliderInt>("height");
+
         TextField code => this.Q<TextField>("code");
-        ComfyParametersElement comfyParametersElement => this.Q<ComfyParametersElement>("comfyParametersElement");
+        GaxosParametersElement gaxosParametersElement => this.Q<GaxosParametersElement>("gaxosParametersElement");
         GenerationOptionsElement generationOptionsElement => this.Q<GenerationOptionsElement>("generationOptions");
-        ImageSelection mask => this.Q<ImageSelection>("mask");
-        Label maskRequired => this.Q<Label>("maskRequiredLabel");
         VisualElement requestSent => this.Q<VisualElement>("requestSent");
         VisualElement requestFailed => this.Q<VisualElement>("requestFailed");
         VisualElement sendingRequest => this.Q<VisualElement>("sendingRequest");
         Button generateButton => this.Q<Button>("generateButton");
 
-        public Masking()
+        public TextToImage()
         {
-            comfyParametersElement.OnCodeChanged += RefreshCode;
+            gaxosParametersElement.OnCodeChanged += RefreshCode;
+            width.RegisterValueChangedCallback(_ => RefreshCode());
+            height.RegisterValueChangedCallback(_ => RefreshCode());
             generationOptionsElement.OnCodeChanged += RefreshCode;
-
-            maskRequired.style.visibility = Visibility.Hidden;
 
             requestSent.style.display = DisplayStyle.None;
             requestFailed.style.display = DisplayStyle.None;
@@ -47,28 +48,23 @@ namespace ContentGeneration.Editor.MainWindow.Components.Comfy
 
                 requestSent.style.display = DisplayStyle.None;
                 requestFailed.style.display = DisplayStyle.None;
-                maskRequired.style.visibility = Visibility.Hidden;
 
-                if (!comfyParametersElement.Valid())
+                if (!gaxosParametersElement.Valid())
                 {
-                    return;
-                }
-
-                if (mask.image == null)
-                {
-                    maskRequired.style.visibility = Visibility.Visible;
                     return;
                 }
 
                 generateButton.SetEnabled(false);
                 sendingRequest.style.display = DisplayStyle.Flex;
 
-                var parameters = new ComfyMaskingParameters
+
+                var parameters = new GaxosTextToImageParameters
                 {
-                    Mask = (Texture2D)mask.image,
+                    Width = (uint)width.value,
+                    Height = (uint)height.value
                 };
-                comfyParametersElement.ApplyParameters(parameters);
-                ContentGenerationApi.Instance.RequestComfyMaskingGeneration(
+                gaxosParametersElement.ApplyParameters(parameters);
+                ContentGenerationApi.Instance.RequestGaxosTextToImageGeneration(
                     parameters,
                     generationOptionsElement.GetGenerationOptions()).ContinueInMainThreadWith(
                     t =>
@@ -84,7 +80,6 @@ namespace ContentGeneration.Editor.MainWindow.Components.Comfy
                         {
                             requestSent.style.display = DisplayStyle.Flex;
                         }
-
                         ContentGenerationStore.Instance.RefreshRequestsAsync().Finally(() => ContentGenerationStore.Instance.RefreshCreditsAsync().CatchAndLog());
                     });
             });
@@ -95,11 +90,10 @@ namespace ContentGeneration.Editor.MainWindow.Components.Comfy
         void RefreshCode()
         {
             code.value =
-                "var requestId = await ContentGenerationApi.Instance.RequestComfyMaskingGeneration\n" +
-                "\t(new ComfyMaskingParameters\n" +
+                "var requestId = await ContentGenerationApi.Instance.RequestGaxosTextToImageGeneration\n" +
+                "\t(new GaxosTextToImageParameters\n" +
                 "\t{\n" +
-                "\t\tMask = <Texture2D object>,\n" +
-                comfyParametersElement?.GetCode() +
+                gaxosParametersElement?.GetCode() +
                 "\t},\n" +
                 $"{generationOptionsElement?.GetCode()}" +
                 ")";

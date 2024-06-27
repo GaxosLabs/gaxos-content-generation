@@ -2,9 +2,9 @@ using System;
 using Newtonsoft.Json;
 using UnityEngine;
 
-namespace ContentGeneration.Models.Comfy
+namespace ContentGeneration.Models.Gaxos
 {
-    public record ComfyMaskingParameters : ComfyParameters
+    public record GaxosMaskingParameters : GaxosParameters
     {
         [JsonProperty("mask")] string _maskBase64;
         [JsonIgnore] Texture2D _mask;
