@@ -161,3 +161,9 @@ ScrollerSlider .unity-base-slider__dragger {
 }
 .documentationLink > #weblinkButton > #icon {
 }
+
+#improvePromptButton {
+    background-image: url('./PromptPerfect.png');
+    -unity-background-scale-mode: scale-to-fit;
+    background-position-x: right 5px;
+}

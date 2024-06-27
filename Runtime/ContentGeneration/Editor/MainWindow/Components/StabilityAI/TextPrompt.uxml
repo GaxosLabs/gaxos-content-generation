@@ -6,7 +6,7 @@
             <ui:Label tabindex="-1" text="Text Prompt" parse-escape-sequences="true" display-tooltip-when-elided="true" />
             <ui:VisualElement style="flex-grow: 1; flex-direction: row-reverse;">
                 <ui:Button text="Remove Prompt" parse-escape-sequences="true" display-tooltip-when-elided="true" name="removePrompt" />
-                <ui:Button text="Improve Prompt" parse-escape-sequences="true" display-tooltip-when-elided="true" name="improvePrompt" />
+                <ui:Button text="Improve Prompt" parse-escape-sequences="true" display-tooltip-when-elided="true" name="improvePromptButton" />
                 <ui:FloatField value="1" name="weight" label="Text Weight" />
             </ui:VisualElement>
         </ui:VisualElement>

@@ -48,7 +48,7 @@ namespace ContentGeneration.Editor.MainWindow.Components.Meshy
         byte[] _modelBytes;
         string _modelExtension;
         
-        Button improvePrompt => this.Q<Button>("improvePrompt");
+        Button improvePrompt => this.Q<Button>("improvePromptButton");
 
         public TextToTexture()
         {

@@ -24,7 +24,7 @@ namespace ContentGeneration.Editor.MainWindow.Components.StabilityAI
         PromptInput promptInput => this.Q<PromptInput>("promptInput");
         FloatField weight => this.Q<FloatField>("weight");
         Button removePrompt => this.Q<Button>("removePrompt");
-        Button improvePrompt => this.Q<Button>("improvePrompt");
+        Button improvePrompt => this.Q<Button>("improvePromptButton");
 
         public Prompt prompt =>
             new()

@@ -1,6 +1,6 @@
 <ui:UXML xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" editor-extension-mode="False">
-    <Style src="project://database/Packages/gaxos.content-generation/Runtime/ContentGeneration/Editor/MainWindow/Components/Common.uss?fileID=7433441132597879392&amp;guid=4c0a09080b844861802367d6e07fa07b&amp;type=3#Common" />
-    <Style src="project://database/Packages/gaxos.content-generation/Runtime/ContentGeneration/Editor/MainWindow/Components/PromptInput.uss?fileID=7433441132597879392&amp;guid=b2749177399874dd3b1e7e5f830c6cd2&amp;type=3#PromptInput" />
+    <Style src="./Common.uss" />
+    <Style src="./PromptInput.uss" />
     <ui:VisualElement name="promptInput" tooltip="" class="promptInput" style="flex-grow: 1;">
         <ui:VisualElement />
         <ui:TextField picking-mode="Ignore" label="Write here your prompt" name="text" multiline="true" auto-correction="true" keyboard-type="ASCIICapable" class="promptInput" style="flex-direction: column; flex-grow: 1; margin-bottom: 5px; white-space: normal; text-overflow: ellipsis; font-size: 15px;" />

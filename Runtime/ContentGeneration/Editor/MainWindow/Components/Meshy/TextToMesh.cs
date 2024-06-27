@@ -32,7 +32,7 @@ namespace ContentGeneration.Editor.MainWindow.Components.Meshy
         PromptInput negativePrompt => this.Q<PromptInput>("negativePrompt");
         EnumField artStyle => this.Q<EnumField>("artStyle");
 
-        Button improvePrompt => this.Q<Button>("improvePrompt");
+        Button improvePrompt => this.Q<Button>("improvePromptButton");
         
         public TextToMesh()
         {

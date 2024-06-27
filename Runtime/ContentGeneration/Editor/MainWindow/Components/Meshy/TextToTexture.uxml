@@ -10,7 +10,7 @@
         <ui:Label tabindex="-1" text="Style prompt:" parse-escape-sequences="true" display-tooltip-when-elided="true" />
         <ContentGeneration.Editor.MainWindow.Components.PromptInput name="stylePrompt" tooltip="Describe in detail what you want the AI to generate as a texture for the 3D model, including colors, textures, and shapes.  Tip: Be specific to guide the AI accurately in creating the desired texture" style="height: 140px;" />
         <ui:Label name="stylePromptRequired" text="Style prompt is required" class="error-label" style="visibility: hidden;" />
-        <ui:Button name="improvePrompt" text="Improve prompt" tooltip="Allow the AI to enhance your style prompt for better texturing results.  Benefit: Improves AI understanding and interpretation of your input for more accurate textures" />
+        <ui:Button name="improvePromptButton" text="Improve prompt" tooltip="Allow the AI to enhance your style prompt for better texturing results.  Benefit: Improves AI understanding and interpretation of your input for more accurate textures" />
         <ui:Label tabindex="-1" text="Negative prompt:" parse-escape-sequences="true" display-tooltip-when-elided="true" />
         <ContentGeneration.Editor.MainWindow.Components.PromptInput name="negativePrompt" tooltip="Specify details that you do not want to be included in the 3D model&apos;s texture.  Purpose: Assist the AI in avoiding certain elements or styles during the texturing process" style="height: 140px;" />
         <ui:Toggle label="Enable Original UV" name="enableOriginalUv" value="true" tooltip="Use the model&apos;s original UV mapping instead of generating new UVs.  Note: Quality of results may vary depending on the availability and quality of original UVs" />
