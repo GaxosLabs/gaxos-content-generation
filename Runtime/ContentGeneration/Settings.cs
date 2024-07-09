@@ -1,7 +1,9 @@
 using System.Linq;
-using UnityEditor;
 using UnityEngine;
 #if UNITY_EDITOR
+using UnityEditor;
+using UnityEditor.Build;
+using UnityEditor.Build.Reporting;
 #endif
 
 namespace ContentGeneration
@@ -10,6 +12,15 @@ namespace ContentGeneration
     public class Settings : ScriptableObject
     {
 #if UNITY_EDITOR
+        class EnsurePreloadedProcessor : IPreprocessBuildWithReport
+        {
+            public int callbackOrder => 0;
+            public void OnPreprocessBuild(BuildReport report)
+            {
+                CheckCreated();
+            }
+        }
+        
         const string Path = "Assets/" + nameof(ContentGeneration) + "." + nameof(Settings) + ".asset";
         [InitializeOnLoadMethod]
         static void CheckCreated()
