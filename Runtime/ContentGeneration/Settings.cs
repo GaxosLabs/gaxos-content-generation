@@ -31,7 +31,7 @@ namespace ContentGeneration
 #endif
         
         public static Settings instance { get; private set; }
-        void Awake()
+        void OnEnable()
         {
             instance = this;
         }
