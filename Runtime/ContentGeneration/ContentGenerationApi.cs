@@ -29,7 +29,11 @@ namespace ContentGeneration
 
         // const string BaseUrl = "https://content-generation-21ab4.web.app/";
         // const string BaseUrl = "http://localhost:5002/";
+#if USE_GAXOS_DEV_BACKEND
         const string BaseUrl = "https://dev.gaxoslabs.ai/api/connect/v1/";
+#else
+        const string BaseUrl = "https://gaxoslabs.ai/api/connect/v1/";
+#endif
 
         async Task<T> SendRequest<T>(ApiMethod method, string endpoint,
             Dictionary<string, string> headers = null,
