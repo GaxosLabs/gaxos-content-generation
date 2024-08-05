@@ -95,6 +95,11 @@ namespace ContentGeneration.Editor.MainWindow
             
             void RefreshStats(Stats v)
             {
+                if (v == null)
+                {
+                    credits.value = "";
+                    return;
+                }
                 credits.value =  $"{v.Credits.Total - v.Credits.Used} / {v.Credits.Total}";
             }
             ContentGenerationStore.Instance.OnStatsChanged += RefreshStats;
