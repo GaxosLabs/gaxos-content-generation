@@ -97,7 +97,7 @@ namespace ContentGeneration.Editor.MainWindow.Components.BasicExamples
                         {
                             Debug.LogException(ex);
                         }
-                        ContentGenerationStore.Instance.RefreshRequestsAsync().Finally(() => ContentGenerationStore.Instance.RefreshCreditsAsync().CatchAndLog());
+                        ContentGenerationStore.Instance.RefreshRequestsAsync().Finally(() => ContentGenerationStore.Instance.RefreshStatsAsync().CatchAndLog());
                     });
             });
         }

@@ -60,21 +60,21 @@ namespace ContentGeneration.Editor.MainWindow
             OnRequestsChanged?.Invoke(Requests);
         }
 
-        public float credits { get; private set; }
-        public event Action<float> OnCreditsChanged;
-        CancellationTokenSource _lastRefreshCreditsRequest;
-        public async Task RefreshCreditsAsync()
+        public Stats stats { get; private set; }
+        public event Action<Stats> OnStatsChanged;
+        CancellationTokenSource _lastRefreshStatsRequest;
+        public async Task RefreshStatsAsync()
         {
-            _lastRefreshCreditsRequest?.Cancel();
+            _lastRefreshStatsRequest?.Cancel();
             var cts = _lastRefreshRequestsListRequest = new CancellationTokenSource();
-            var currentCredits = await ContentGenerationApi.Instance.GetCredits();
+            var currentStats = await ContentGenerationApi.Instance.GetStats();
             if (cts.IsCancellationRequested)
             {
                 return;
             }
 
-            credits = currentCredits;
-            OnCreditsChanged?.Invoke(currentCredits);
+            stats = currentStats;
+            OnStatsChanged?.Invoke(currentStats);
         }
     }
 }

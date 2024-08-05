@@ -1,6 +1,6 @@
 using System.Collections.Generic;
-using System.Globalization;
 using ContentGeneration.Helpers;
+using ContentGeneration.Models;
 using UnityEditor;
 using UnityEngine.UIElements;
 
@@ -32,26 +32,35 @@ namespace ContentGeneration.Editor.MainWindow.Components
             });
             
             var credits = this.Q<TextField>("credits");
-            var refreshCredits = this.Q<Button>("refreshCredits");
-            void RefreshCredits(float v)
+            var storage = this.Q<TextField>("storage");
+            var requests = this.Q<TextField>("requests");
+            var refresh = this.Q<Button>("refresh");
+            void Refresh(Stats v)
             {
-                credits.value = v.ToString("r", CultureInfo.InvariantCulture);
-            }
-            ContentGenerationStore.Instance.OnCreditsChanged += RefreshCredits;
-            RefreshCredits(ContentGenerationStore.Instance.credits);
-            refreshCredits.clicked += () =>
-            {
-                if (!refreshCredits.enabledSelf)
-                    return;
-                refreshCredits.SetEnabled(false);
-                ContentGenerationStore.Instance.RefreshCreditsAsync().Finally(() =>
+                if (v == null)
                 {
-                    refreshCredits.SetEnabled(true);
+                    credits.value = storage.value = requests.value = "";
+                    return;
+                }
+                credits.value =  v.Credits.ToString();
+                storage.value =  $"{v.Storage} Bytes";
+                requests.value =  v.Requests.ToString();
+            }
+            ContentGenerationStore.Instance.OnStatsChanged += Refresh;
+            Refresh(ContentGenerationStore.Instance.stats);
+            refresh.clicked += () =>
+            {
+                if (!refresh.enabledSelf)
+                    return;
+                refresh.SetEnabled(false);
+                ContentGenerationStore.Instance.RefreshStatsAsync().Finally(() =>
+                {
+                    refresh.SetEnabled(true);
                 });
             };
             if(!string.IsNullOrEmpty(Settings.instance.apiKey))
             {
-                ContentGenerationStore.Instance.RefreshCreditsAsync().CatchAndLog();
+                ContentGenerationStore.Instance.RefreshStatsAsync().CatchAndLog();
             }
         }
     }

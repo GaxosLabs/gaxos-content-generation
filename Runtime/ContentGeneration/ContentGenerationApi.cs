@@ -120,9 +120,9 @@ namespace ContentGeneration
             ret.SetResult(www.downloadHandler.text);
         }
 
-        public async Task<float> GetCredits()
+        public async Task<Stats> GetStats()
         {
-            return float.Parse(await SendRequest(ApiMethod.Get, "credits"));
+            return await SendRequest<Stats>(ApiMethod.Get, "stats");
         }
 
         public async Task<Request[]> GetRequests()

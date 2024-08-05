@@ -1,4 +1,3 @@
-using System.Globalization;
 using System.Linq;
 using ContentGeneration.Editor.MainWindow.Components;
 using ContentGeneration.Editor.MainWindow.Components.BasicExamples;
@@ -7,6 +6,7 @@ using ContentGeneration.Editor.MainWindow.Components.Gaxos;
 using ContentGeneration.Editor.MainWindow.Components.Meshy;
 using ContentGeneration.Editor.MainWindow.Components.RequestsList;
 using ContentGeneration.Helpers;
+using ContentGeneration.Models;
 using UnityEditor;
 using UnityEngine;
 using UnityEngine.UIElements;
@@ -93,18 +93,18 @@ namespace ContentGeneration.Editor.MainWindow
             var credits = rootInstance.Q<TextField>("credits");
             var refreshCredits = rootInstance.Q<Button>("refreshCredits");
             
-            void RefreshCredits(float v)
+            void RefreshStats(Stats v)
             {
-                credits.value = v.ToString("r", CultureInfo.InvariantCulture);
+                credits.value =  $"{v.Credits.Total - v.Credits.Used} / {v.Credits.Total}";
             }
-            ContentGenerationStore.Instance.OnCreditsChanged += RefreshCredits;
-            RefreshCredits(ContentGenerationStore.Instance.credits);
+            ContentGenerationStore.Instance.OnStatsChanged += RefreshStats;
+            RefreshStats(ContentGenerationStore.Instance.stats);
             refreshCredits.clicked += () =>
             {
                 if (!refreshCredits.enabledSelf)
                     return;
                 refreshCredits.SetEnabled(false);
-                ContentGenerationStore.Instance.RefreshCreditsAsync().Finally(() =>
+                ContentGenerationStore.Instance.RefreshStatsAsync().Finally(() =>
                 {
                     refreshCredits.SetEnabled(true);
                 });
@@ -115,7 +115,7 @@ namespace ContentGeneration.Editor.MainWindow
             }
             else
             {
-                ContentGenerationStore.Instance.RefreshCreditsAsync().CatchAndLog();
+                ContentGenerationStore.Instance.RefreshStatsAsync().CatchAndLog();
             }
 
             rootVisualElement.Add(rootInstance);

@@ -1,5 +1,5 @@
-using System.Globalization;
 using System.Threading.Tasks;
+using ContentGeneration.Editor.MainWindow;
 using ContentGeneration.Helpers;
 using UnityEditor;
 using UnityEngine;
@@ -13,6 +13,8 @@ namespace ContentGeneration.Editor
         [SerializeField] VisualTreeAsset _rootAsset;
         Button _refreshButton;
         TextField _credits;
+        TextField _storage;
+        TextField _requests;
 
         public override VisualElement CreateInspectorGUI()
         {
@@ -20,6 +22,10 @@ namespace ContentGeneration.Editor
 
             _credits = rootVisualElement.Q<TextField>("credits");
             _credits.value = "";
+            _storage = rootVisualElement.Q<TextField>("storage");
+            _storage.value = "";
+            _requests = rootVisualElement.Q<TextField>("requests");
+            _requests.value = "";
             _refreshButton = rootVisualElement.Q<Button>("refresh");
             _refreshButton.RegisterCallback<ClickEvent>(_ =>
             {
@@ -51,8 +57,12 @@ namespace ContentGeneration.Editor
         async Task RefreshAsync()
         {
             _credits.value = "";
-            var credits = await ContentGenerationApi.Instance.GetCredits();
-            _credits.value = credits.ToString("r", CultureInfo.InvariantCulture);
+            _storage.value = "";
+            _requests.value = "";
+            await ContentGenerationStore.Instance.RefreshStatsAsync();
+            _credits.value =  ContentGenerationStore.Instance.stats.Credits.ToString();
+            _storage.value =  $"{ContentGenerationStore.Instance.stats.Storage} Bytes";
+            _requests.value = ContentGenerationStore.Instance.stats.Requests.ToString();
         }
     }
 }

@@ -3,8 +3,10 @@
     <Style src="./Configuration.uss" />
     <ContentGeneration.Editor.MainWindow.Components.SubWindow Sub-Window-Name="Configuration" class="container-spaced" style="flex-grow: 1;">
         <ui:TextField picking-mode="Ignore" name="apiKey" label="API key" style="margin-bottom: 8px;" />
-        <ui:Button name="refreshCredits" text="Refresh" />
+        <ui:Button name="refresh" text="Refresh" />
         <ui:TextField picking-mode="Ignore" readonly="true" name="credits" label="Credits" />
+        <ui:TextField picking-mode="Ignore" readonly="true" name="storage" label="Storage" />
+        <ui:TextField picking-mode="Ignore" readonly="true" name="requests" label="Requests" />
         <ui:VisualElement class="documentationButtonsRow">
             <ContentGeneration.Editor.MainWindow.Components.WeblinkButton Title="Dall-E\nDocumentation" Icon="Dall-E" URl="https://platform.openai.com/docs/api-reference/introduction" />
             <ContentGeneration.Editor.MainWindow.Components.WeblinkButton Title="Stability AI\nDocumentation" Icon="Stability AI" URl="https://platform.stability.ai/docs/getting-started" />
