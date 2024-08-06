@@ -61,7 +61,7 @@ namespace ContentGeneration.Editor
             _requests.value = "";
             await ContentGenerationStore.Instance.RefreshStatsAsync();
             _credits.value =  ContentGenerationStore.Instance.stats.Credits.ToString();
-            _storage.value =  $"{ContentGenerationStore.Instance.stats.Storage} Bytes";
+            _storage.value =  ContentGenerationStore.Instance.stats.Storage.ToString();
             _requests.value = ContentGenerationStore.Instance.stats.Requests.ToString();
         }
     }

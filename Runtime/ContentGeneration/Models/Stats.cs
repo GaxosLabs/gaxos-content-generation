@@ -4,33 +4,37 @@ namespace ContentGeneration.Models
 {
     public record Stats
     {
-        public record StatsFloat
+        public record StatsItem<T>
         {
             [JsonProperty("used")]
-            public float Used;
+            public T Used;
             [JsonProperty("total")]
-            public float Total;
-
+            public T Total;
+        }
+        public record StatsCredits : StatsItem<float>
+        {
             public override string ToString()
             {
                 return $"{Total - Used:0.##} / {Total:0.##}";
             }
         }
-        public record StatsULong
+        public record StatsStorage : StatsItem<ulong>
         {
-            [JsonProperty("used")]
-            public ulong Used;
-            [JsonProperty("total")]
-            public ulong Total;
-
+            public override string ToString()
+            {
+                return $"{(Total - Used) / (1024 * 1024)} / {Total / (1024 * 1024)} MB";
+            }
+        }
+        public record StatsRequests : StatsItem<ulong>
+        {
             public override string ToString()
             {
                 return $"{Total - Used} / {Total}";
             }
         }
 
-        [JsonProperty("credits")] public StatsFloat Credits;
-        [JsonProperty("storage")] public StatsULong Storage;
-        [JsonProperty("requests")] public StatsULong Requests;
+        [JsonProperty("credits")] public StatsCredits Credits;
+        [JsonProperty("storage")] public StatsStorage Storage;
+        [JsonProperty("requests")] public StatsRequests Requests;
     }
 }

@@ -43,7 +43,7 @@ namespace ContentGeneration.Editor.MainWindow.Components
                     return;
                 }
                 credits.value =  v.Credits.ToString();
-                storage.value =  $"{v.Storage} Bytes";
+                storage.value =  v.Storage.ToString();
                 requests.value =  v.Requests.ToString();
             }
             ContentGenerationStore.Instance.OnStatsChanged += Refresh;
