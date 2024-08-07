@@ -13,7 +13,7 @@
         </ui:VisualElement>
         <ui:VisualElement class="documentationButtonsRow">
             <ContentGeneration.Editor.MainWindow.Components.WeblinkButton Title="Meshy\nDocumentation" Icon="Meshy" URl="https://docs.meshy.ai/api-introduction" />
-            <ContentGeneration.Editor.MainWindow.Components.WeblinkButton Title="Content Generator\nDocumentation" Icon="Requests List" />
+            <ContentGeneration.Editor.MainWindow.Components.WeblinkButton Title="Content Generator\nDocumentation" Icon="Requests List" URl="https://gaxoslabs.ai/documentation/getting-started" />
         </ui:VisualElement>
     </ContentGeneration.Editor.MainWindow.Components.SubWindow>
 </ui:UXML>
