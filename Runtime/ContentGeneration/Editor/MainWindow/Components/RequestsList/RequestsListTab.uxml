@@ -3,7 +3,11 @@
     <Style src="./RequestsListTab.uss" />
     <ContentGeneration.Editor.MainWindow.Components.SubWindow name="requestsListTab" Sub-Window-Name="Requests List" style="flex-grow: 1;">
         <ui:Button text="Refresh" parse-escape-sequences="true" display-tooltip-when-elided="true" name="refreshButton" style="margin-bottom: 13px;" />
-        <ui:MultiColumnListView fixed-item-height="34" selection-type="Single" style="margin-right: 20px; margin-left: 20px; margin-bottom: 15px; flex-grow: 1; min-height: 120px; max-height: 400px;">
+        <ui:MultiColumnListView 
+                fixed-item-height="34" 
+                selection-type="Single"
+                sorting-enabled="true"                
+                style="margin-right: 20px; margin-left: 20px; margin-bottom: 15px; flex-grow: 1; min-height: 120px; max-height: 400px;">
             <ui:Columns>
                 <ui:Column name="id" title="Id" width="126" />
                 <ui:Column name="generator" title="Generator" width="129" />

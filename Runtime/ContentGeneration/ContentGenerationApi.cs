@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using System.Net;
 using System.Text;
 using System.Threading.Tasks;
@@ -12,6 +13,7 @@ using ContentGeneration.Models.Stability;
 using Newtonsoft.Json;
 using UnityEngine;
 using UnityEngine.Networking;
+using QueryParameters = ContentGeneration.Models.QueryParameters;
 
 namespace ContentGeneration
 {
@@ -125,9 +127,49 @@ namespace ContentGeneration
             return await SendRequest<Stats>(ApiMethod.Get, "stats");
         }
 
-        public async Task<Request[]> GetRequests()
+        public async Task<Request[]> GetRequests(QueryParameters queryParameters = null)
         {
-            return await SendRequest<Request[]>(ApiMethod.Get, "request");
+            var queryParametersStr = GetQueryParametersStr(queryParameters);
+            return await SendRequest<Request[]>(ApiMethod.Get, "request" + queryParametersStr);
+        }
+
+        static string GetQueryParametersStr(QueryParameters queryParameters)
+        {
+            string queryParametersStr = null;
+            if (queryParameters != null)
+            {
+                queryParametersStr = $"?limit={queryParameters.Limit}&offset={queryParameters.Offset}";
+                if (queryParameters.Sort is { Length: > 0 })
+                {
+                    queryParametersStr += "&sortBy=" + string.Join("&sortBy=", queryParameters.Sort.Select(i =>
+                    {
+                        var targetStr = i.Target switch
+                        {
+                            QueryParameters.SortTarget.Id => "id",
+                            QueryParameters.SortTarget.CreatedAt => "created_at",
+                            _ => i.Target.ToString().ToLowerInvariant()
+                        };
+                        var directionStr = i.Direction switch
+                        {
+                            QueryParameters.SortDirection.Ascending => "asc",
+                            QueryParameters.SortDirection.Descending => "desc",
+                            _ => i.Direction.ToString().ToLowerInvariant()
+                        };
+                        return $"{targetStr}.{directionStr}";
+                    }));
+                }
+
+                if (!string.IsNullOrEmpty(queryParameters.FilterByPlayerId))
+                {
+                    queryParametersStr += $"&filter=player_id.{queryParameters.FilterByPlayerId}";
+                }
+                if (!string.IsNullOrEmpty(queryParameters.FilterByAssetType))
+                {
+                    queryParametersStr += $"&filter=asset_type.{queryParameters.FilterByAssetType}";
+                }
+            }
+
+            return queryParametersStr;
         }
 
         public async Task<Request> GetRequest(string id)
@@ -215,9 +257,10 @@ namespace ContentGeneration
                 $"request/{requestId}/{(makeItPublic ? "publish" : "unpublish")}/{assetId}");
         }
 
-        public async Task<PublishedAsset[]> GetPublishedAssets()
+        public async Task<PublishedAsset[]> GetPublishedAssets(QueryParameters queryParameters = null)
         {
-            return await SendRequest<PublishedAsset[]>(ApiMethod.Get, "asset");
+            var queryParametersStr = GetQueryParametersStr(queryParameters);
+            return await SendRequest<PublishedAsset[]>(ApiMethod.Get, "asset" + queryParametersStr);
         }
 
         public async Task<PublishedAsset> GetPublishedAsset(string publishedImageId)

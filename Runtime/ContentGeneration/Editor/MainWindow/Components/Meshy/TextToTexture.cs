@@ -152,7 +152,10 @@ namespace ContentGeneration.Editor.MainWindow.Components.Meshy
                 };
                 ContentGenerationApi.Instance.RequestMeshyTextToTextureGeneration(
                     parameters,
-                    generationOptionsElement.GetGenerationOptions()).ContinueInMainThreadWith(
+                    generationOptionsElement.GetGenerationOptions(), data: new
+                    {
+                        player_id = ContentGenerationStore.editorPlayerId
+                    }).ContinueInMainThreadWith(
                     t =>
                     {
                         generateButton.SetEnabled(true);

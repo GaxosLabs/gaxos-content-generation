@@ -209,7 +209,10 @@ namespace ContentGeneration.Editor.MainWindow.Components.StabilityAI
                 stabilityParameters.ApplyParameters(parameters);
                 ContentGenerationApi.Instance.RequestStabilityTextToImageGeneration(
                     parameters,
-                    generationOptions.GetGenerationOptions()).ContinueInMainThreadWith(
+                    generationOptions.GetGenerationOptions(), data: new
+                    {
+                        player_id = ContentGenerationStore.editorPlayerId
+                    }).ContinueInMainThreadWith(
                     t =>
                     {
                         generateButton.SetEnabled(true);

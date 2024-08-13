@@ -80,7 +80,7 @@ namespace ContentGeneration.Editor.MainWindow.Components.Meshy
                             var importer = (TextureImporter)AssetImporter.GetAtPath(assetPath);
                             if (importer.textureType != TextureImporterType.NormalMap)
                             {
-                                importer.SetTextureSettings(new TextureImporterSettings()
+                                importer.SetTextureSettings(new TextureImporterSettings
                                 {
                                     textureType = TextureImporterType.NormalMap
                                 });

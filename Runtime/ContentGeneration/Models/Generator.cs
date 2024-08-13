@@ -36,6 +36,15 @@ namespace ContentGeneration.Models
 
         protected override string AdaptString(string str)
         {
+            if (str == "comfy-text-to-image")
+            {
+                str = "gaxos-text-to-image";
+            }
+
+            if (str == "comfy-masking")
+            {
+                str = "gaxos-masking";
+            }
             return base.AdaptString(str).Replace("-", "");
         }
     }

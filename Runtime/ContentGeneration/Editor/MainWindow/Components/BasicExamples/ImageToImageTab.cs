@@ -74,6 +74,9 @@ namespace ContentGeneration.Editor.MainWindow.Components.BasicExamples
                         }
                     },
                     InitImage = (Texture2D)image.image
+                }, data: new
+                {
+                    player_id = ContentGenerationStore.editorPlayerId
                 }).ContinueInMainThreadWith(
                     t =>
                     {

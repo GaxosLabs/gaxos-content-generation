@@ -66,7 +66,10 @@ namespace ContentGeneration.Editor.MainWindow.Components.Gaxos
                 gaxosParametersElement.ApplyParameters(parameters);
                 ContentGenerationApi.Instance.RequestGaxosTextToImageGeneration(
                     parameters,
-                    generationOptionsElement.GetGenerationOptions()).ContinueInMainThreadWith(
+                    generationOptionsElement.GetGenerationOptions(), data: new
+                    {
+                        player_id = ContentGenerationStore.editorPlayerId
+                    }).ContinueInMainThreadWith(
                     t =>
                     {
                         generateButton.SetEnabled(true);

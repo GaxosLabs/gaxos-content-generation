@@ -70,6 +70,9 @@ namespace ContentGeneration.Editor.MainWindow.Components.BasicExamples
                             Weight = 1,
                         }
                     },
+                }, data: new
+                {
+                    player_id = ContentGenerationStore.editorPlayerId
                 }).ContinueInMainThreadWith(
                     t =>
                     {

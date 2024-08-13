@@ -13,29 +13,60 @@ namespace ContentGeneration.Editor.MainWindow
     public class ContentGenerationStore
     {
         public static ContentGenerationStore Instance = new();
+
         ContentGenerationStore()
         {
-            
         }
-        
+
+        const uint limit = 1000;
+        public QueryParameters.SortBy sortBy = null;
+        public const string editorPlayerId = "editor";
+        const string filterByAssetType = null;
+
         public readonly List<Request> Requests = new();
         public event Action<List<Request>> OnRequestsChanged;
         CancellationTokenSource _lastRefreshRequestsListRequest;
         EditorCoroutine _refreshRequestsCoroutine;
+
         public async Task RefreshRequestsAsync()
         {
             _lastRefreshRequestsListRequest?.Cancel();
             var cts = _lastRefreshRequestsListRequest = new CancellationTokenSource();
-            var requests = await ContentGenerationApi.Instance.GetRequests();
-            if (cts.IsCancellationRequested)
+            uint currentOffset = 0;
+            var requests = new List<Request>();
+            OnRequestsChanged?.Invoke(requests);
+            while (true)
             {
-                return;
-            }
+                var currentRequests = await ContentGenerationApi.Instance.GetRequests(new QueryParameters
+                {
+                    Limit = limit,
+                    Offset = currentOffset,
+                    Sort = sortBy == null ? null : new[]
+                    {
+                        sortBy
+                    },
+                    FilterByPlayerId = editorPlayerId,
+                    FilterByAssetType = filterByAssetType
+                });
+                if (cts.IsCancellationRequested)
+                {
+                    return;
+                }
 
+                requests.AddRange(currentRequests);
+                OnRequestsChanged?.Invoke(requests);
+                if (currentRequests.Length < limit)
+                {
+                    break;
+                }
+
+                currentOffset += limit;
+            }
             Requests.Clear();
             Requests.AddRange(requests);
+            OnRequestsChanged?.Invoke(Requests);
 
-            if (requests.Any(i => i.Status == RequestStatus.Pending))
+            if (Requests.Any(i => i.Status == RequestStatus.Pending))
             {
                 if (_refreshRequestsCoroutine == null)
                 {
@@ -45,24 +76,24 @@ namespace ContentGeneration.Editor.MainWindow
                         RefreshRequestsAsync().CatchAndLog();
                         _refreshRequestsCoroutine = null;
                     }
+
                     _refreshRequestsCoroutine = EditorCoroutineUtility.StartCoroutineOwnerless(RefreshRequestListCo());
                 }
             }
             else
             {
-                if(_refreshRequestsCoroutine!= null)
+                if (_refreshRequestsCoroutine != null)
                 {
                     EditorCoroutineUtility.StopCoroutine(_refreshRequestsCoroutine);
                     _refreshRequestsCoroutine = null;
                 }
             }
-            
-            OnRequestsChanged?.Invoke(Requests);
         }
 
         public Stats stats { get; private set; }
         public event Action<Stats> OnStatsChanged;
         CancellationTokenSource _lastRefreshStatsRequest;
+
         public async Task RefreshStatsAsync()
         {
             _lastRefreshStatsRequest?.Cancel();

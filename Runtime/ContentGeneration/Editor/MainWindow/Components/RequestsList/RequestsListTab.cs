@@ -5,7 +5,9 @@ using System.Linq;
 using ContentGeneration.Editor.MainWindow.Components.Meshy;
 using ContentGeneration.Helpers;
 using ContentGeneration.Models;
+using UnityEngine;
 using UnityEngine.UIElements;
+using QueryParameters = ContentGeneration.Models.QueryParameters;
 
 namespace ContentGeneration.Editor.MainWindow.Components.RequestsList
 {
@@ -82,6 +84,7 @@ namespace ContentGeneration.Editor.MainWindow.Components.RequestsList
                 listViewColumn.makeCell = CreateCell(i);
             }
 
+            listView.columnSortingChanged += Refresh;
             listView.columns["id"].bindCell = (element, index) =>
                 (element as Label)!.text = ContentGenerationStore.Instance.Requests[index].ID.ToString();
             listView.columns["generator"].bindCell = (element, index) =>
@@ -163,6 +166,36 @@ namespace ContentGeneration.Editor.MainWindow.Components.RequestsList
 
         void Refresh()
         {
+            ContentGenerationStore.Instance.sortBy = null;
+            
+            if (listView.sortColumnDescriptions.Count > 0)
+            {
+                var sortColumnDescription = listView.sortColumnDescriptions[0];
+                if (sortColumnDescription.columnName == "id")
+                {
+                    ContentGenerationStore.Instance.sortBy = new QueryParameters.SortBy()
+                    {
+                        Target = QueryParameters.SortTarget.Id,
+                        Direction = sortColumnDescription.direction == SortDirection.Ascending
+                            ? QueryParameters.SortDirection.Ascending
+                            : QueryParameters.SortDirection.Descending
+                    };
+                }
+                else if (sortColumnDescription.columnName == "created")
+                {
+                    ContentGenerationStore.Instance.sortBy = new QueryParameters.SortBy()
+                    {
+                        Target = QueryParameters.SortTarget.CreatedAt,
+                        Direction = sortColumnDescription.direction == SortDirection.Ascending
+                            ? QueryParameters.SortDirection.Ascending
+                            : QueryParameters.SortDirection.Descending
+                    };
+                }
+                else
+                {
+                    listView.sortColumnDescriptions.Clear();
+                }
+            }
             ContentGenerationStore.Instance.RefreshRequestsAsync().CatchAndLog();
         }
     }

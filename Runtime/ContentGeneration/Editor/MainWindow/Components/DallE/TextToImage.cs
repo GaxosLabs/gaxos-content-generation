@@ -66,7 +66,10 @@ namespace ContentGeneration.Editor.MainWindow.Components.DallE
                 dallEParametersElement.ApplyParameters(parameters);
                 ContentGenerationApi.Instance.RequestDallETextToImageGeneration(
                     parameters,
-                    generationOptionsElement.GetGenerationOptions()).ContinueInMainThreadWith(
+                    generationOptionsElement.GetGenerationOptions(), data: new
+                    {
+                        player_id = ContentGenerationStore.editorPlayerId
+                    }).ContinueInMainThreadWith(
                     t =>
                     {
                         generateButton.SetEnabled(true);
