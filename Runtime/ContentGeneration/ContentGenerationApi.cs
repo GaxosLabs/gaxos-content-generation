@@ -263,9 +263,9 @@ namespace ContentGeneration
             return await SendRequest<PublishedAsset[]>(ApiMethod.Get, "asset" + queryParametersStr);
         }
 
-        public async Task<PublishedAsset> GetPublishedAsset(string publishedImageId)
+        public async Task<PublishedAsset> GetPublishedAsset(string publishedAssetId)
         {
-            return await SendRequest<PublishedAsset>(ApiMethod.Get, $"asset/{publishedImageId}");
+            return await SendRequest<PublishedAsset>(ApiMethod.Get, $"asset/{publishedAssetId}");
         }
 
         public async Task<string> ImprovePrompt(string prompt, string generator)
