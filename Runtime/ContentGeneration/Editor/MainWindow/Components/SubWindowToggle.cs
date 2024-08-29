@@ -46,9 +46,9 @@ namespace ContentGeneration.Editor.MainWindow.Components
 
         Label label => this.Q<Label>("label");
         Toggle toggle => this.Q<Toggle>("subWindowToggle");
-        VisualElement icon => this.Q<VisualElement>("icon");
+        protected VisualElement icon => this.Q<VisualElement>("icon");
 
-        public string subWindowName
+        public virtual string subWindowName
         {
             get => label.text;
             set

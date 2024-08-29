@@ -52,19 +52,19 @@ namespace ContentGeneration.Editor.MainWindow
             _allToggles = sideMenu.Children().
                 Where(c => c is SubWindowToggle).Cast<SubWindowToggle>().ToArray();
             
-            rootInstance.Q<SubWindowToggle>("subWindowToggleGaxos").OnToggled += (sender, v) =>
+            rootInstance.Q<SubWindowToggleIcon>("subWindowToggleGaxos").OnToggled += (sender, v) =>
             {
                 ToggleSubWindow(sender, v, subWindowsContainer, gaxos);
             };
-            rootInstance.Q<SubWindowToggle>("subWindowToggleDallE").OnToggled += (sender, v) =>
+            rootInstance.Q<SubWindowToggleIcon>("subWindowToggleDallE").OnToggled += (sender, v) =>
             {
                 ToggleSubWindow(sender, v, subWindowsContainer, dallE);
             };
-            rootInstance.Q<SubWindowToggle>("subWindowToggleStabilityAI").OnToggled += (sender, v) =>
+            rootInstance.Q<SubWindowToggleIcon>("subWindowToggleStabilityAI").OnToggled += (sender, v) =>
             {
                 ToggleSubWindow(sender, v, subWindowsContainer, stabilityAI);
             };
-            rootInstance.Q<SubWindowToggle>("subWindowToggleMeshy").OnToggled += (sender, v) =>
+            rootInstance.Q<SubWindowToggleIcon>("subWindowToggleMeshy").OnToggled += (sender, v) =>
             {
                 ToggleSubWindow(sender, v, subWindowsContainer, meshy);
             };

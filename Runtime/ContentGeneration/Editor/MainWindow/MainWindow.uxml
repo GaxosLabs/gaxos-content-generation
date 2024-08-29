@@ -15,13 +15,15 @@
                             <ui:Label tabindex="-1" text="Credits" parse-escape-sequences="true" display-tooltip-when-elided="true" class="sideMenuItemHeader" />
                             <ui:VisualElement class="sideMenuItemSeparator" />
                             <ui:TextField picking-mode="Ignore" readonly="true" name="credits" style="margin-bottom: 8px;" />
-                            <ui:Button name="refreshCredits" text="Refresh" />
+                            <ui:Button name="refreshCredits" text="Refresh" style="height: 30px;" />
                             <ui:Label tabindex="-1" text="Generate Content" parse-escape-sequences="true" display-tooltip-when-elided="true" class="sideMenuItemHeader" />
                             <ui:VisualElement class="sideMenuItemSeparator" />
-                            <ContentGeneration.Editor.MainWindow.Components.SubWindowToggle Sub-Window-Name="Gaxos Labs AI" name="subWindowToggleGaxos" />
-                            <ContentGeneration.Editor.MainWindow.Components.SubWindowToggle Sub-Window-Name="Dall-E" name="subWindowToggleDallE" />
-                            <ContentGeneration.Editor.MainWindow.Components.SubWindowToggle Sub-Window-Name="Stability AI" name="subWindowToggleStabilityAI" />
-                            <ContentGeneration.Editor.MainWindow.Components.SubWindowToggle Sub-Window-Name="Meshy" name="subWindowToggleMeshy" />
+                            <ui:VisualElement style="flex-direction: row;">
+                                <ContentGeneration.Editor.MainWindow.Components.SubWindowToggleIcon Sub-Window-Name="Gaxos Labs AI" name="subWindowToggleGaxos" />
+                                <ContentGeneration.Editor.MainWindow.Components.SubWindowToggleIcon Sub-Window-Name="Dall-E" name="subWindowToggleDallE" />
+                                <ContentGeneration.Editor.MainWindow.Components.SubWindowToggleIcon Sub-Window-Name="Stability AI" name="subWindowToggleStabilityAI" />
+                                <ContentGeneration.Editor.MainWindow.Components.SubWindowToggleIcon Sub-Window-Name="Meshy" name="subWindowToggleMeshy" />
+                            </ui:VisualElement>
                             <ui:Label tabindex="-1" text="Requests List" parse-escape-sequences="true" display-tooltip-when-elided="true" class="sideMenuItemHeader" />
                             <ui:VisualElement class="sideMenuItemSeparator" />
                             <ContentGeneration.Editor.MainWindow.Components.SubWindowToggle Sub-Window-Name="Requests List" name="subWindowToggleRequestsList" />
