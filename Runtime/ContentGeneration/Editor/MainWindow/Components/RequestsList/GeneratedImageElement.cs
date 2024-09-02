@@ -32,10 +32,43 @@ namespace ContentGeneration.Editor.MainWindow.Components.RequestsList
         {
         }
 
+        public static void SaveImageToProject(params Texture2D[] images)
+        {
+            var path = EditorUtility.SaveFilePanel(
+                "Save texture as PNG",
+                "Assets/",
+                "",
+                "png");
+
+            if (path.Length == 0) return;
+                
+            if(images.Length == 1)
+            {
+                var pngData = images[0].EncodeToPNG();
+                if (pngData != null)
+                {
+                    File.WriteAllBytes(path, pngData);
+                }
+            }
+            else
+            {
+                var filename = Path.GetFileNameWithoutExtension(path);
+                var extension = Path.GetExtension(path);
+                path = Path.GetDirectoryName(path);
+
+                for (var i = 0; i < images.Length; i++)
+                {
+                    var pngData = images[i].EncodeToPNG();
+                    File.WriteAllBytes(Path.Combine(path, $"{filename}.{i+1}{extension}"), pngData);
+                }
+            }
+            AssetDatabase.Refresh();
+        }
+
         public GeneratedImageElement(GeneratedAsset generatedAsset)
         {
-            this.image.image = null;
-            this.image.AddManipulator(new Clickable(evt =>
+            image.image = null;
+            image.AddManipulator(new Clickable(evt =>
             {
                 Application.OpenURL(generatedAsset.URL);
             }));
@@ -45,22 +78,9 @@ namespace ContentGeneration.Editor.MainWindow.Components.RequestsList
             
             saveToProject.RegisterCallback<ClickEvent>(_ =>
             {
-                if (!saveToProject.enabledSelf || this.image.image == null) return;
+                if (!saveToProject.enabledSelf || image.image == null) return;
                 
-                var path = EditorUtility.SaveFilePanel(
-                    "Save texture as PNG",
-                    "Assets/",
-                    "",
-                    "png");
-
-                if (path.Length == 0) return;
-                
-                var pngData = ((Texture2D)this.image.image).EncodeToPNG();
-                if (pngData != null)
-                {
-                    File.WriteAllBytes(path, pngData);
-                    AssetDatabase.Refresh();
-                }
+                SaveImageToProject((Texture2D)image.image);
             });
         }
 

@@ -48,8 +48,9 @@ namespace ContentGeneration.Editor.MainWindow
                 subWindowsContainer.Remove(visualElement);
             }
 
-            var sideMenu = rootInstance.Q<VisualElement>("sideMenuItemsContainer");
-            _allToggles = sideMenu.Children().
+            var sideMenuItemsContainer = rootInstance.Q<VisualElement>("sideMenuItemsContainer");
+            var sideMenuGeneratorsContainer = rootInstance.Q<VisualElement>("sideMenuGeneratorsContainer");
+            _allToggles = sideMenuItemsContainer.Children().Concat(sideMenuGeneratorsContainer.Children()).
                 Where(c => c is SubWindowToggle).Cast<SubWindowToggle>().ToArray();
             
             rootInstance.Q<SubWindowToggleIcon>("subWindowToggleGaxos").OnToggled += (sender, v) =>

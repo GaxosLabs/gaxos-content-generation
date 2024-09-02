@@ -18,7 +18,7 @@
                             <ui:Button name="refreshCredits" text="Refresh" style="height: 30px;" />
                             <ui:Label tabindex="-1" text="Generate Content" parse-escape-sequences="true" display-tooltip-when-elided="true" class="sideMenuItemHeader" />
                             <ui:VisualElement class="sideMenuItemSeparator" />
-                            <ui:VisualElement style="flex-direction: row;">
+                            <ui:VisualElement style="flex-direction: row;" name="sideMenuGeneratorsContainer">
                                 <ContentGeneration.Editor.MainWindow.Components.SubWindowToggleIcon Sub-Window-Name="Gaxos Labs AI" name="subWindowToggleGaxos" />
                                 <ContentGeneration.Editor.MainWindow.Components.SubWindowToggleIcon Sub-Window-Name="Dall-E" name="subWindowToggleDallE" />
                                 <ContentGeneration.Editor.MainWindow.Components.SubWindowToggleIcon Sub-Window-Name="Stability AI" name="subWindowToggleStabilityAI" />

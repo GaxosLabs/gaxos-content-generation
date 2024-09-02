@@ -93,7 +93,7 @@ namespace ContentGeneration.Editor.MainWindow.Components.StabilityAI
                     return;
                 }
 
-                var maskSourceValue = (MaskSource)this.maskSource.value;
+                var maskSourceValue = (MaskSource)maskSource.value;
                 if (mask.image == null && maskSourceValue != MaskSource.InitImageAlpha)
                 {
                     maskRequired.style.visibility = Visibility.Visible;
@@ -142,7 +142,7 @@ namespace ContentGeneration.Editor.MainWindow.Components.StabilityAI
 
         void RefreshCode()
         {
-            var maskSourceValue = (MaskSource)this.maskSource.value;
+            var maskSourceValue = (MaskSource)maskSource.value;
             code.value =
                 "var requestId = await ContentGenerationApi.Instance.RequestMaskedImageGeneration\n" +
                 "\t(new StabilityMaskedImageParameters\n" +

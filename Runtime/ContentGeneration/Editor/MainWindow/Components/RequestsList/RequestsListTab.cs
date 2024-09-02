@@ -1,11 +1,15 @@
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
+using System.Threading.Tasks;
 using ContentGeneration.Editor.MainWindow.Components.Meshy;
 using ContentGeneration.Helpers;
 using ContentGeneration.Models;
+using Unity.EditorCoroutines.Editor;
 using UnityEngine;
+using UnityEngine.Networking;
 using UnityEngine.UIElements;
 using QueryParameters = ContentGeneration.Models.QueryParameters;
 
@@ -28,8 +32,12 @@ namespace ContentGeneration.Editor.MainWindow.Components.RequestsList
         Button refreshButton => this.Q<Button>("refreshButton");
         MultiColumnListView listView => this.Q<MultiColumnListView>();
         IRequestedItem defaultRequestedItem => this.Q<RequestedItem>("defaultRequestedItem");
-        IRequestedItem meshyTextToMeshRequestedItem => this.Q<MeshyTextToMeshRequestedItem>("meshyTextToMeshRequestedItem");
-        IRequestedItem meshyTextToTextureRequestedItem => this.Q<MeshyTextToTextureRequestedItem>("meshyTextToTextureRequestedItem");
+
+        IRequestedItem meshyTextToMeshRequestedItem =>
+            this.Q<MeshyTextToMeshRequestedItem>("meshyTextToMeshRequestedItem");
+
+        IRequestedItem meshyTextToTextureRequestedItem =>
+            this.Q<MeshyTextToTextureRequestedItem>("meshyTextToTextureRequestedItem");
 
         IRequestedItem[] allRequestedItems => new[]
         {
@@ -37,6 +45,7 @@ namespace ContentGeneration.Editor.MainWindow.Components.RequestsList
         };
 
         string _selectedId;
+
         public RequestsListTab()
         {
             refreshButton.RegisterCallback<ClickEvent>(_ => { Refresh(); });
@@ -46,7 +55,7 @@ namespace ContentGeneration.Editor.MainWindow.Components.RequestsList
                 var previousSelectId = _selectedId;
                 listView.RefreshItems();
                 listView.selectedIndex = -1;
-                if(previousSelectId != null)
+                if (previousSelectId != null)
                 {
                     for (var i = 0; i < ContentGenerationStore.Instance.Requests.Count; i++)
                     {
@@ -59,7 +68,7 @@ namespace ContentGeneration.Editor.MainWindow.Components.RequestsList
                 }
             };
             listView.itemsSource = ContentGenerationStore.Instance.Requests;
-            if(!string.IsNullOrEmpty(Settings.instance.apiKey))
+            if (!string.IsNullOrEmpty(Settings.instance.apiKey))
             {
                 Refresh();
             }
@@ -93,17 +102,19 @@ namespace ContentGeneration.Editor.MainWindow.Components.RequestsList
             {
                 var completedAt = ContentGenerationStore.Instance.Requests[index].CompletedAt;
                 var createdAt = ContentGenerationStore.Instance.Requests[index].CreatedAt;
-                if(completedAt < createdAt)
+                if (completedAt < createdAt)
                 {
                     completedAt = DateTime.UtcNow;
                 }
+
                 (element as Label)!.text = $"{(completedAt - createdAt).TotalSeconds:0.} seconds";
             };
             listView.columns["created"].bindCell = (element, index) =>
-                (element as Label)!.text = ContentGenerationStore.Instance.Requests[index].CreatedAt.ToString(CultureInfo.InvariantCulture);
+                (element as Label)!.text = ContentGenerationStore.Instance.Requests[index].CreatedAt
+                    .ToString(CultureInfo.InvariantCulture);
             listView.columns["completed"].bindCell = (element, index) =>
             {
-                if(ContentGenerationStore.Instance.Requests[index].CompletedAt > DateTime.UnixEpoch)
+                if (ContentGenerationStore.Instance.Requests[index].CompletedAt > DateTime.UnixEpoch)
                 {
                     (element as Label)!.text = ContentGenerationStore.Instance.Requests[index].CompletedAt
                         .ToString(CultureInfo.InvariantCulture);
@@ -121,6 +132,74 @@ namespace ContentGeneration.Editor.MainWindow.Components.RequestsList
                 label.RemoveFromClassList("failed");
                 label.AddToClassList(ContentGenerationStore.Instance.Requests[index].Status.ToString().ToLower());
             };
+            listView.columns["download"].bindCell = (element, index) =>
+            {
+                element.RemoveFromClassList("downloadElement");
+                element.AddToClassList("downloadElement");
+
+                var button = element.Children().FirstOrDefault(c => c is Button) as Button;
+                if (button == null)
+                {
+                    button = new Button();
+                    element.Add(button);
+                }
+
+                button.RemoveFromClassList("generated");
+                button.RemoveFromClassList("failed");
+                button.RemoveFromClassList("meshy");
+                var request = ContentGenerationStore.Instance.Requests[index];
+                if (request.Generator == Generator.MeshyTextToMesh && request.Status == RequestStatus.Generated)
+                {
+                    button.AddToClassList("meshy");
+                }
+
+                button.AddToClassList(request.Status.ToString().ToLower());
+
+                void DownloadButtonClicked()
+                {
+                    if (!button.enabledSelf)
+                        return;
+
+                    button.SetEnabled(false);
+                    if (request.Generator == Generator.MeshyTextToMesh)
+                    {
+                        MeshyModelHelper.Save(
+                            request.GeneratorResult["refine_result"] ?? request.GeneratorResult
+                        ).ContinueInMainThreadWith(t =>
+                        {
+                            if (t.IsFaulted)
+                            {
+                                Debug.LogException(t.Exception!.InnerException);
+                            }
+
+                            button.SetEnabled(true);
+                        });
+                    }
+                    else
+                    {
+                        SaveImagesAsync(request.Assets.Select(i => i.URL).ToArray())
+                            .ContinueInMainThreadWith(t =>
+                            {
+                                if (t.IsFaulted)
+                                {
+                                    Debug.LogException(t.Exception!.InnerException);
+                                }
+                                else
+                                {
+                                    GeneratedImageElement.SaveImageToProject(t.Result);
+                                }
+
+                                button.SetEnabled(true);
+                            });
+                    }
+                }
+
+                button.clicked -= DownloadButtonClicked;
+                if (request.Status == RequestStatus.Generated)
+                {
+                    button.clicked += DownloadButtonClicked;
+                }
+            };
 
             foreach (var requestedItem in allRequestedItems)
             {
@@ -131,6 +210,7 @@ namespace ContentGeneration.Editor.MainWindow.Components.RequestsList
                 };
                 requestedItem.style.display = DisplayStyle.None;
             }
+
             listView.selectionChanged += objects =>
             {
                 _selectedId = null;
@@ -139,6 +219,7 @@ namespace ContentGeneration.Editor.MainWindow.Components.RequestsList
                 {
                     requestedItem.value = null;
                 }
+
                 if (objectsArray.Length > 0)
                 {
                     var request = (objectsArray[0] as Request)!;
@@ -156,6 +237,7 @@ namespace ContentGeneration.Editor.MainWindow.Components.RequestsList
                         defaultRequestedItem.value = request;
                     }
                 }
+
                 foreach (var requestedItem in allRequestedItems)
                 {
                     requestedItem.style.display =
@@ -164,10 +246,44 @@ namespace ContentGeneration.Editor.MainWindow.Components.RequestsList
             };
         }
 
+        Task<Texture2D[]> SaveImagesAsync(string[] urls)
+        {
+            var ret = new TaskCompletionSource<Texture2D[]>();
+            EditorCoroutineUtility.StartCoroutine(SaveImagesCo(urls, ret), this);
+            return ret.Task;
+        }
+
+        IEnumerator SaveImagesCo(string[] urls, TaskCompletionSource<Texture2D[]> tcs)
+        {
+            var textures = new Texture2D[urls.Length];
+            for (var i = 0; i < urls.Length; i++)
+            {
+                var www = UnityWebRequestTexture.GetTexture(urls[i]);
+                www.SetRequestHeader("Authorization", $"Bearer {Settings.instance.apiKey}");
+                yield return www.SendWebRequest();
+
+                if (www.result != UnityWebRequest.Result.Success)
+                {
+                    tcs.SetException(new Exception($"{www.error}: {www.downloadHandler?.text}"));
+                    yield break;
+                }
+
+                try
+                {
+                    textures[i] = ((DownloadHandlerTexture)www.downloadHandler).texture;
+                }
+                catch (Exception e)
+                {
+                    tcs.SetException(e);
+                }
+            }
+            tcs.SetResult(textures);
+        }
+
         void Refresh()
         {
             ContentGenerationStore.Instance.sortBy = null;
-            
+
             if (listView.sortColumnDescriptions.Count > 0)
             {
                 var sortColumnDescription = listView.sortColumnDescriptions[0];
@@ -196,6 +312,7 @@ namespace ContentGeneration.Editor.MainWindow.Components.RequestsList
                     listView.sortColumnDescriptions.Clear();
                 }
             }
+
             ContentGenerationStore.Instance.RefreshRequestsAsync().CatchAndLog();
         }
     }
