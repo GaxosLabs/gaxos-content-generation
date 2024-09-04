@@ -14,6 +14,7 @@ namespace ContentGeneration.Editor.MainWindow.Components
         public new class UxmlTraits : VisualElement.UxmlTraits
         {
             readonly UxmlStringAttributeDescription _subWindowName = new() { name = "Sub-Window-Name" };
+            readonly UxmlStringAttributeDescription _subWindowIcon = new() { name = "Sub-Window-Icon" };
 
             public override IEnumerable<UxmlChildElementDescription> uxmlChildElementsDescription
             {
@@ -28,6 +29,7 @@ namespace ContentGeneration.Editor.MainWindow.Components
                 base.Init(ve, bag, cc);
                 var element = (SubWindow)ve;
                 element.subWindowName = _subWindowName.GetValueFromBag(bag, cc);
+                element.subWindowIcon = _subWindowIcon.GetValueFromBag(bag, cc);
             }
         }
         
@@ -41,27 +43,28 @@ namespace ContentGeneration.Editor.MainWindow.Components
             set
             {
                 label.text = value;
-                icon.style.backgroundImage = new StyleBackground(
-                    AssetDatabase.LoadAssetAtPath<Sprite>(
-                        System.IO.Path.Combine(componentsBasePath, $"MainWindow/{value}.png")));
-            }
-        }
-
-        public void SetSubWindowNameAndIcon(string subWindowName, string iconName)
-        {
-            label.text = subWindowName;
-            if (string.IsNullOrEmpty(iconName))
-            {
-                icon.style.backgroundImage = null;
-            }
-            else
-            {
-                icon.style.backgroundImage = new StyleBackground(
-                    AssetDatabase.LoadAssetAtPath<Sprite>(
-                        System.IO.Path.Combine(componentsBasePath, $"MainWindow/{iconName}.png")));
+                SetIcon();
             }
         }
         
+        string _subWindowIcon;
+        public string subWindowIcon
+        {
+            get => _subWindowIcon;
+            set
+            {
+                _subWindowIcon = value;
+                SetIcon();
+            }
+        }
+        
+        void SetIcon()
+        {
+            icon.style.backgroundImage = new StyleBackground(
+                AssetDatabase.LoadAssetAtPath<Sprite>(
+                    System.IO.Path.Combine(componentsBasePath, $"MainWindow/{(string.IsNullOrEmpty(subWindowIcon) ? subWindowName : subWindowIcon)}.png")));
+        }
+
         public override VisualElement contentContainer => contents;
     }
 }

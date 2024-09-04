@@ -100,23 +100,29 @@ namespace ContentGeneration.Editor.MainWindow.Components.RequestsList
                 switch (value.Generator)
                 {
                     case Generator.StabilityTextToImage:
-                        requestedItem.SetSubWindowNameAndIcon("Stability AI Text To Image", "Stability AI");
+                        requestedItem.subWindowName = "Stability AI Text To Image";
+                        requestedItem.subWindowIcon = "Stability AI";
                         break;
                     case Generator.StabilityImageToImage:
-                        requestedItem.SetSubWindowNameAndIcon("Stability AI Image To Image", "Stability AI");
+                        requestedItem.subWindowName = "Stability AI Image To Image";
+                        requestedItem.subWindowIcon = "Stability AI";
                         break;
                     case Generator.StabilityMasking:
-                        requestedItem.SetSubWindowNameAndIcon("Stability AI Masking", "Stability AI");
+                        requestedItem.subWindowName = "Stability AI Masking";
+                        requestedItem.subWindowIcon = "Stability AI";
                         break;
                     case Generator.DallETextToImage:
-                        requestedItem.SetSubWindowNameAndIcon("Dall-E Text To Image", "Dall-E");
+                        requestedItem.subWindowName = "Dall-E Text To Image";
+                        requestedItem.subWindowIcon = "Dall-E";
                         break;
                     case Generator.DallEInpainting:
-                        requestedItem.SetSubWindowNameAndIcon("Dall-E Inpainting", "Dall-E");
+                        requestedItem.subWindowName = "Dall-E Inpainting";
+                        requestedItem.subWindowIcon = "Dall-E";
                         break;
                     case Generator.MeshyTextToMesh:
                     default:
-                        requestedItem.SetSubWindowNameAndIcon(value.Generator.ToString(), null);
+                        requestedItem.subWindowName = value.Generator.ToString();
+                        requestedItem.subWindowIcon = null;
                         break;
                 }
 

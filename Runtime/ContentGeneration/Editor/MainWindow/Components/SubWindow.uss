@@ -30,12 +30,9 @@
 
 #subWindow #icon {
     flex-grow: 1;
-    position: absolute;
-    left: 18px;
-    top: 0;
-    bottom: 0;
-    width: 36.25px;
     -unity-background-scale-mode: scale-to-fit;
+    background-position: left;
+    background-position-x: 19px;
 }
 
 #subWindow #headerBar {

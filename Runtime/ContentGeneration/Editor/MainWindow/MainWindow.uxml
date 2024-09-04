@@ -24,6 +24,12 @@
                                 <ContentGeneration.Editor.MainWindow.Components.SubWindowToggleIcon Sub-Window-Name="Stability AI" name="subWindowToggleStabilityAI" />
                                 <ContentGeneration.Editor.MainWindow.Components.SubWindowToggleIcon Sub-Window-Name="Meshy" name="subWindowToggleMeshy" />
                             </ui:VisualElement>
+                            <ui:Label tabindex="-1" text="Generate Multiple Content" parse-escape-sequences="true" display-tooltip-when-elided="true" class="sideMenuItemHeader" />
+                            <ui:VisualElement class="sideMenuItemSeparator" />
+                            <ui:VisualElement style="flex-direction: row;" name="sideMenuMultiGeneratorsContainer">
+                                <ContentGeneration.Editor.MainWindow.Components.SubWindowToggleIcon Sub-Window-Name="Multiple Text To Image" name="subWindowToggleMultiTextToImage" />
+                                <ContentGeneration.Editor.MainWindow.Components.SubWindowToggleIcon Sub-Window-Name="Multiple Masking" name="subWindowToggleMultiMasking" />
+                            </ui:VisualElement>
                             <ui:Label tabindex="-1" text="Requests List" parse-escape-sequences="true" display-tooltip-when-elided="true" class="sideMenuItemHeader" />
                             <ui:VisualElement class="sideMenuItemSeparator" />
                             <ContentGeneration.Editor.MainWindow.Components.SubWindowToggle Sub-Window-Name="Requests List" name="subWindowToggleRequestsList" />
@@ -44,6 +50,8 @@
                 <ContentGeneration.Editor.MainWindow.Components.DallE.DallETab />
                 <ContentGeneration.Editor.MainWindow.Components.StabilityAI.StabilityTab />
                 <ContentGeneration.Editor.MainWindow.Components.Meshy.MeshyTab />
+                <ContentGeneration.Editor.MainWindow.Components.Multi.MultiTextToImage />
+                <ContentGeneration.Editor.MainWindow.Components.Multi.MultiMasking />
                 <ContentGeneration.Editor.MainWindow.Components.RequestsList.RequestsListTab />
                 <ContentGeneration.Editor.MainWindow.Components.BasicExamples.BasicGenerationTab />
                 <ContentGeneration.Editor.MainWindow.Components.BasicExamples.ImageToImageTab />

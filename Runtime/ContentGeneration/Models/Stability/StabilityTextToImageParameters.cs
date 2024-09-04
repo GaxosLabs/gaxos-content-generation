@@ -4,7 +4,7 @@ namespace ContentGeneration.Models.Stability
 {
     public record StabilityTextToImageParameters : StabilityParameters
     {
-        [JsonProperty("engineId")] public string EngineId = "stable-diffusion-v1-6";
+        [JsonProperty("engine_id")] public string EngineId = "stable-diffusion-v1-6";
 
         [JsonProperty("width")] public uint Width = 512;
         [JsonProperty("height")] public uint Height = 512;

@@ -6,7 +6,7 @@ namespace ContentGeneration.Models.Stability
 {
     public record StabilityMaskedImageParameters : StabilityParameters
     {
-        [JsonProperty("engineId")] public string EngineId = "stable-diffusion-xl-1024-v1-0";
+        [JsonProperty("engine_id")] public string EngineId = "stable-diffusion-xl-1024-v1-0";
 
         [JsonProperty("init_image")] string _initImageBase64;
         [JsonIgnore] Texture2D _initImage;

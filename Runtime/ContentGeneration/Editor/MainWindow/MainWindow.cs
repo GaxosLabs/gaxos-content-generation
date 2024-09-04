@@ -4,6 +4,7 @@ using ContentGeneration.Editor.MainWindow.Components.BasicExamples;
 using ContentGeneration.Editor.MainWindow.Components.DallE;
 using ContentGeneration.Editor.MainWindow.Components.Gaxos;
 using ContentGeneration.Editor.MainWindow.Components.Meshy;
+using ContentGeneration.Editor.MainWindow.Components.Multi;
 using ContentGeneration.Editor.MainWindow.Components.RequestsList;
 using ContentGeneration.Helpers;
 using ContentGeneration.Models;
@@ -35,6 +36,8 @@ namespace ContentGeneration.Editor.MainWindow
             var dallE = rootInstance.Q<DallETab>();
             var stabilityAI = rootInstance.Q<Components.StabilityAI.StabilityTab>();
             var meshy = rootInstance.Q<MeshyTab>();
+            var multiTextToImage = rootInstance.Q<MultiTextToImage>();
+            var multiMasking = rootInstance.Q<MultiMasking>();
             var requestsList = rootInstance.Q<RequestsListTab>();
             var basicGeneration = rootInstance.Q<BasicGenerationTab>();
             var imageToImage = rootInstance.Q<ImageToImageTab>();
@@ -50,7 +53,10 @@ namespace ContentGeneration.Editor.MainWindow
 
             var sideMenuItemsContainer = rootInstance.Q<VisualElement>("sideMenuItemsContainer");
             var sideMenuGeneratorsContainer = rootInstance.Q<VisualElement>("sideMenuGeneratorsContainer");
-            _allToggles = sideMenuItemsContainer.Children().Concat(sideMenuGeneratorsContainer.Children()).
+            var sideMenuMultiGeneratorsContainer = rootInstance.Q<VisualElement>("sideMenuMultiGeneratorsContainer");
+            _allToggles = sideMenuItemsContainer.Children().
+                Concat(sideMenuGeneratorsContainer.Children()).
+                Concat(sideMenuMultiGeneratorsContainer.Children()).
                 Where(c => c is SubWindowToggle).Cast<SubWindowToggle>().ToArray();
             
             rootInstance.Q<SubWindowToggleIcon>("subWindowToggleGaxos").OnToggled += (sender, v) =>
@@ -68,6 +74,14 @@ namespace ContentGeneration.Editor.MainWindow
             rootInstance.Q<SubWindowToggleIcon>("subWindowToggleMeshy").OnToggled += (sender, v) =>
             {
                 ToggleSubWindow(sender, v, subWindowsContainer, meshy);
+            };
+            rootInstance.Q<SubWindowToggleIcon>("subWindowToggleMultiTextToImage").OnToggled += (sender, v) =>
+            {
+                ToggleSubWindow(sender, v, subWindowsContainer, multiTextToImage);
+            };
+            rootInstance.Q<SubWindowToggleIcon>("subWindowToggleMultiMasking").OnToggled += (sender, v) =>
+            {
+                ToggleSubWindow(sender, v, subWindowsContainer, multiMasking);
             };
             rootInstance.Q<SubWindowToggle>("subWindowToggleRequestsList").OnToggled += (sender, v) =>
             {
