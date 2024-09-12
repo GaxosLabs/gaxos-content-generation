@@ -34,8 +34,7 @@
 #weblinkButton #icon {
     flex-grow: 1;
     position: absolute;
-    left: 5px;
-    width: 38px;
+    width: 48px;
     height: 35px;
     background-image: url('../Dall-E.png');
     top: 5px;
