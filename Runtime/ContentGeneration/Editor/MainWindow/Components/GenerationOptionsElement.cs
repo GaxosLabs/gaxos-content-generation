@@ -55,8 +55,8 @@ namespace ContentGeneration.Editor.MainWindow.Components
         ColorField transparentColor => this.Q<ColorField>("transparentColor");
         Slider transparentColorReplaceDelta => this.Q<Slider>("transparentColorReplaceDelta");
         Toggle improvePrompt => this.Q<Toggle>("improvePrompt");
-        
-        public event Action OnCodeChanged;
+
+        public Action OnCodeHasChanged;
 
         public GenerationOptionsElement()
         {
@@ -69,13 +69,13 @@ namespace ContentGeneration.Editor.MainWindow.Components
                 transparentColor.style.display =
                     transparentColorReplaceDelta.style.display =
                         evt.newValue ? DisplayStyle.Flex : DisplayStyle.None;
-                OnCodeChanged?.Invoke();
+                OnCodeHasChanged?.Invoke();
             });
 
-            makeTransparentColor.RegisterValueChangedCallback(_ => OnCodeChanged?.Invoke());
-            transparentColorReplaceDelta.RegisterValueChangedCallback(_ => OnCodeChanged?.Invoke());
-            transparentColor.RegisterValueChangedCallback(_ => OnCodeChanged?.Invoke());
-            improvePrompt.RegisterValueChangedCallback(_ => OnCodeChanged?.Invoke());
+            makeTransparentColor.RegisterValueChangedCallback(_ => OnCodeHasChanged?.Invoke());
+            transparentColorReplaceDelta.RegisterValueChangedCallback(_ => OnCodeHasChanged?.Invoke());
+            transparentColor.RegisterValueChangedCallback(_ => OnCodeHasChanged?.Invoke());
+            improvePrompt.RegisterValueChangedCallback(_ => OnCodeHasChanged?.Invoke());
         }
 
         public string GetCode()

@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Threading;
+using System.Threading.Tasks;
 using ContentGeneration.Editor.MainWindow.Components.RequestsList;
 using ContentGeneration.Helpers;
 using ContentGeneration.Models;
@@ -75,9 +76,7 @@ namespace ContentGeneration.Editor.MainWindow.Components.Meshy
                     return;
 
                 saveButton.SetEnabled(false);
-                MeshyModelHelper.Save(
-                    value.GeneratorResult["refine_result"] ?? value.GeneratorResult
-                    ).ContinueInMainThreadWith(t =>
+                Save(value).ContinueInMainThreadWith(t =>
                 {
                     if (t.IsFaulted)
                     {
@@ -135,6 +134,12 @@ namespace ContentGeneration.Editor.MainWindow.Components.Meshy
 
                 _cancellationTokenSource = new CancellationTokenSource();
             }
+        }
+
+        public Task Save(Request request)
+        {
+            return MeshyModelHelper.Save(
+                request.GeneratorResult["refine_result"] ?? request.GeneratorResult);
         }
     }
 }

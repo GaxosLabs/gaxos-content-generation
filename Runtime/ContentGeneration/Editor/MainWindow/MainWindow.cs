@@ -39,9 +39,7 @@ namespace ContentGeneration.Editor.MainWindow
             var multiTextToImage = rootInstance.Q<MultiTextToImage>();
             var multiMasking = rootInstance.Q<MultiMasking>();
             var requestsList = rootInstance.Q<RequestsListTab>();
-            var basicGeneration = rootInstance.Q<BasicGenerationTab>();
-            var imageToImage = rootInstance.Q<ImageToImageTab>();
-            var maskGeneration = rootInstance.Q<MaskGenerationTab>();
+            var basicGeneration = rootInstance.Q<BasicExamplesTab>();
             var configuration = rootInstance.Q<Configuration>();
 
             var subWindowsContainer = rootInstance.Q<VisualElement>("subWindowsContainer");
@@ -87,17 +85,9 @@ namespace ContentGeneration.Editor.MainWindow
             {
                 ToggleSubWindow(sender, v, subWindowsContainer, requestsList);
             };
-            rootInstance.Q<SubWindowToggle>("subWindowToggleBasicGeneration").OnToggled += (sender, v) =>
+            rootInstance.Q<SubWindowToggle>("subWindowToggleBasicExamples").OnToggled += (sender, v) =>
             {
                 ToggleSubWindow(sender, v, subWindowsContainer, basicGeneration);
-            };
-            rootInstance.Q<SubWindowToggle>("subWindowToggleImageToImage").OnToggled += (sender, v) =>
-            {
-                ToggleSubWindow(sender, v, subWindowsContainer, imageToImage);
-            };
-            rootInstance.Q<SubWindowToggle>("subWindowToggleMaskGeneration").OnToggled += (sender, v) =>
-            {
-                ToggleSubWindow(sender, v, subWindowsContainer, maskGeneration);
             };
             rootInstance.Q<SubWindowToggle>("subWindowToggleSettings").OnToggled += (sender, v) =>
             {

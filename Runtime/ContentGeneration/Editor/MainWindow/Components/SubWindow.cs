@@ -15,6 +15,7 @@ namespace ContentGeneration.Editor.MainWindow.Components
         {
             readonly UxmlStringAttributeDescription _subWindowName = new() { name = "Sub-Window-Name" };
             readonly UxmlStringAttributeDescription _subWindowIcon = new() { name = "Sub-Window-Icon" };
+            readonly UxmlBoolAttributeDescription _foldable = new() { name = "Foldable" };
 
             public override IEnumerable<UxmlChildElementDescription> uxmlChildElementsDescription
             {
@@ -30,12 +31,14 @@ namespace ContentGeneration.Editor.MainWindow.Components
                 var element = (SubWindow)ve;
                 element.subWindowName = _subWindowName.GetValueFromBag(bag, cc);
                 element.subWindowIcon = _subWindowIcon.GetValueFromBag(bag, cc);
+                element.foldable = _foldable.GetValueFromBag(bag, cc);
             }
         }
         
         Label label => this.Q<Label>("label");
         VisualElement icon => this.Q<VisualElement>("icon");
         VisualElement contents => this.Q<VisualElement>("contents");
+        Button foldButton => this.Q<Button>("foldButton");
 
         public string subWindowName
         {
@@ -64,7 +67,52 @@ namespace ContentGeneration.Editor.MainWindow.Components
                 AssetDatabase.LoadAssetAtPath<Sprite>(
                     System.IO.Path.Combine(componentsBasePath, $"MainWindow/{(string.IsNullOrEmpty(subWindowIcon) ? subWindowName : subWindowIcon)}.png")));
         }
+        
+        bool _foldable;
+        public bool foldable
+        {
+            get => _foldable;
+            set
+            {
+                _foldable = value;
+                foldButton.style.display = value ? DisplayStyle.Flex : DisplayStyle.None;
+                if (!foldable)
+                {
+                    folded = false;
+                }
+                else
+                {
+                    folded = true;
+                }
+            }
+        }
+        
+        bool _folded;
+        public bool folded
+        {
+            get => _folded;
+            set
+            {
+                _folded = value;
+                
+                contents.style.display = value ? DisplayStyle.None : DisplayStyle.Flex;
+
+                foldButton.RemoveFromClassList("folded");
+                if (value)
+                {
+                    foldButton.AddToClassList("folded");
+                }
+            }
+        }
 
         public override VisualElement contentContainer => contents;
+
+        public SubWindow()
+        {
+            foldButton.clicked += () =>
+            {
+                folded = !folded;
+            };
+        }
     }
 }

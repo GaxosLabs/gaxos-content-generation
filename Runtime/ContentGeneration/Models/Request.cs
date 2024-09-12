@@ -30,5 +30,8 @@ namespace ContentGeneration.Models
 
         [JsonProperty("generator_result")] 
         public JObject GeneratorResult;
+
+        [JsonProperty("deducted_credits")] 
+        public float DeductedCredits;
     }
 }

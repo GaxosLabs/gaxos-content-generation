@@ -9,13 +9,41 @@
     <Style src="./MultiTextToImage.uss" />
     <ContentGeneration.Editor.MainWindow.Components.SubWindow
         Sub-Window-Name="Multiple Text To Image"
-        Sub-Window-Icon="Multiple Text To Image Icons"
         style="flex-grow: 1;">
-        <ContentGeneration.Editor.MainWindow.Components.PromptInput name="prompt" tooltip="Provide a clear and detailed description of what you want the AI to generate as an image. Example: &quot;Describe objects, scenes, or concepts to guide the AI in generating the image.&quot;" style="height: 140px;" />
-
+        <ContentGeneration.Editor.MainWindow.Components.PromptInput name="prompt"
+                                                                    tooltip="Provide a clear and detailed description of what you want the AI to generate as an image. Example: &quot;Describe objects, scenes, or concepts to guide the AI in generating the image.&quot;"
+                                                                    style="height: 140px;" />
         <ui:Label name="promptRequired" text="Prompt is required" class="error-label" style="visibility: hidden;" />
-        <ui:Button name="improvePromptButton" text="Improve prompt" tooltip="Enhance your initial description using AI to achieve more precise and detailed results.  Usage: Useful if you want to refine your original request for better images" />
+        <ui:Button name="improvePromptButton" text="Improve prompt"
+                   tooltip="Enhance your initial description using AI to achieve more precise and detailed results.  Usage: Useful if you want to refine your original request for better images" />
 
+        <ui:ScrollView class="advancedScrollView">
+            <ContentGeneration.Editor.MainWindow.Components.SubWindow
+                Sub-Window-Name="Gaxos Labs AI"
+                Foldable="true"
+                class="subSubWindow">
+                <ContentGeneration.Editor.MainWindow.Components.Gaxos.TextToImageParameters
+                    HidePrompt="true"
+                    name="gaxosParameters" />
+            </ContentGeneration.Editor.MainWindow.Components.SubWindow>
+            <ContentGeneration.Editor.MainWindow.Components.SubWindow
+                Sub-Window-Name="Dall-E"
+                Foldable="true"
+                class="subSubWindow">
+                <ContentGeneration.Editor.MainWindow.Components.DallE.TextToImageParameters
+                    HidePrompt="true"
+                    name="dallEParameters" />
+            </ContentGeneration.Editor.MainWindow.Components.SubWindow>
+            <ContentGeneration.Editor.MainWindow.Components.SubWindow
+                Sub-Window-Name="Stability AI"
+                Foldable="true"
+                class="subSubWindow">
+                <ContentGeneration.Editor.MainWindow.Components.StabilityAI.TextToImageParameters
+                    HidePrompt="true"
+                    name="stabilityAiParameters" />
+            </ContentGeneration.Editor.MainWindow.Components.SubWindow>
+        </ui:ScrollView>
+        
         <ui:Button name="generateButton" text="Generate" class="generateButton" />
         <ui:VisualElement>
             <ui:VisualElement name="sendingRequest">

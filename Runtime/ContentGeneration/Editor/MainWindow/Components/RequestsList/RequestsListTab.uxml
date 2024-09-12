@@ -10,6 +10,7 @@
                 <ui:Column name="created" title="Created" width="186" />
                 <ui:Column name="completed" title="Completed" width="176" />
                 <ui:Column name="timeTaken" title="Time taken" width="129" />
+                <ui:Column name="creditsCost" title="Cost" width="86" />
                 <ui:Column name="status" title="Status" width="86" />
                 <ui:Column name="download" width="46" />
             </ui:Columns>
@@ -17,5 +18,6 @@
         <ContentGeneration.Editor.MainWindow.Components.RequestsList.RequestedItem name="defaultRequestedItem" style="flex-grow: 0.5; min-height: 120px;" />
         <ContentGeneration.Editor.MainWindow.Components.Meshy.MeshyTextToMeshRequestedItem name="meshyTextToMeshRequestedItem" style="display: none; flex-grow: 0.5; min-height: 120px;" />
         <ContentGeneration.Editor.MainWindow.Components.Meshy.MeshyTextToTextureRequestedItem name="meshyTextToTextureRequestedItem" style="display: none; flex-grow: 0.5; min-height: 120px;" />
+        <ContentGeneration.Editor.MainWindow.Components.StabilityAI.StabilityFast3dRequestedItem name="stabilityFast3dRequestedItem" style="display: none; flex-grow: 0.5; min-height: 120px;" />
     </ContentGeneration.Editor.MainWindow.Components.SubWindow>
 </ui:UXML>

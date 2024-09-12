@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Threading;
+using System.Threading.Tasks;
 using ContentGeneration.Editor.MainWindow.Components.RequestsList;
 using ContentGeneration.Helpers;
 using ContentGeneration.Models;
@@ -72,6 +73,11 @@ namespace ContentGeneration.Editor.MainWindow.Components.Meshy
                 saveButton.SetEnabled(value.Status == RequestStatus.Generated);
                 _cancellationTokenSource = new CancellationTokenSource();
             }
+        }
+    
+        public Task Save(Request request)
+        {
+            throw new NotImplementedException();
         }
     }
 }

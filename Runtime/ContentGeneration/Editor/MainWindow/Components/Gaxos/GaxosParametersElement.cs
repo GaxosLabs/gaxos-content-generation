@@ -23,6 +23,7 @@ namespace ContentGeneration.Editor.MainWindow.Components.Gaxos
         }
 
         PromptInput prompt => this.Q<PromptInput>("prompt");
+        Button improvePromptButton => this.Q<Button>("improvePromptButton");
         VisualElement promptRequired => this.Q<VisualElement>("promptRequired");
         PromptInput negativePrompt => this.Q<PromptInput>("negativePrompt");
 
@@ -38,10 +39,26 @@ namespace ContentGeneration.Editor.MainWindow.Components.Gaxos
         
         TextField loras => this.Q<TextField>("loras");
         
+        bool _hidePrompt;
+        public bool hidePrompt
+        {
+            get => _hidePrompt;
+            set
+            {
+                _hidePrompt = value;
+                prompt.style.display =
+                    improvePromptButton.style.display =
+                        value ? DisplayStyle.None : DisplayStyle.Flex;
+                if (value)
+                {
+                    promptRequired.style.display = DisplayStyle.None;
+                }
+            }
+        }
+
         public GaxosParametersElement()
         {
-            prompt.OnChanged += _=> RefreshCode();
-            var improvePromptButton = this.Q<Button>("improvePromptButton");
+            prompt.OnChanged += _=> CodeHasChanged();
             improvePromptButton.clicked += () =>
             {
                 if (string.IsNullOrEmpty(prompt.value))
@@ -68,33 +85,36 @@ namespace ContentGeneration.Editor.MainWindow.Components.Gaxos
                     });
             };
             
-            negativePrompt.OnChanged += _  => RefreshCode();
-            checkpoint.RegisterValueChangedCallback(_=> RefreshCode());
-            nSamples.RegisterValueChangedCallback(_=> RefreshCode());
+            negativePrompt.OnChanged += _  => CodeHasChanged();
+            checkpoint.RegisterValueChangedCallback(_=> CodeHasChanged());
+            nSamples.RegisterValueChangedCallback(_=> CodeHasChanged());
             sendSeed.RegisterValueChangedCallback(evt =>
             {
                 seed.SetEnabled(evt.newValue);
-                RefreshCode();
+                CodeHasChanged();
             });
             seed.SetEnabled(sendSeed.value);
-            seed.RegisterValueChangedCallback(_=> RefreshCode());
-            steps.RegisterValueChangedCallback(_=> RefreshCode());
-            cfg.RegisterValueChangedCallback(_=> RefreshCode());
-            sampler.RegisterValueChangedCallback(_=> RefreshCode());
-            scheduler.RegisterValueChangedCallback(_=> RefreshCode());
-            denoise.RegisterValueChangedCallback(_=> RefreshCode());
-            loras.RegisterValueChangedCallback(_=> RefreshCode());
+            seed.RegisterValueChangedCallback(_=> CodeHasChanged());
+            steps.RegisterValueChangedCallback(_=> CodeHasChanged());
+            cfg.RegisterValueChangedCallback(_=> CodeHasChanged());
+            sampler.RegisterValueChangedCallback(_=> CodeHasChanged());
+            scheduler.RegisterValueChangedCallback(_=> CodeHasChanged());
+            denoise.RegisterValueChangedCallback(_=> CodeHasChanged());
+            loras.RegisterValueChangedCallback(_=> CodeHasChanged());
         }
 
-        public event Action OnCodeChanged;
+        public Action OnCodeHasChanged;
 
-        void RefreshCode()
+        void CodeHasChanged()
         {
-            OnCodeChanged?.Invoke();
+            OnCodeHasChanged?.Invoke();
         }
 
         public bool Valid()
         {
+            if (hidePrompt)
+                return true;
+            
             var thereArePrompts = !string.IsNullOrEmpty(prompt.value);
 
             promptRequired.style.visibility = thereArePrompts ? Visibility.Hidden : Visibility.Visible;
@@ -104,7 +124,7 @@ namespace ContentGeneration.Editor.MainWindow.Components.Gaxos
 
         public string GetCode()
         {
-            var code =
+            return 
                 $"\t\tPrompt = \"{prompt.value}\",\n" +
                 (!string.IsNullOrWhiteSpace(negativePrompt.value) ? $"\t\tNegativePrompt = \"{negativePrompt.value}\",\n" : null) +
                 (!string.IsNullOrWhiteSpace(checkpoint.value) ? $"\t\tCheckpoint = \"{checkpoint.value}\",\n" : null) +
@@ -114,11 +134,10 @@ namespace ContentGeneration.Editor.MainWindow.Components.Gaxos
                 $"\t\tCfg = {cfg.value},\n" +
                 (!string.IsNullOrWhiteSpace(sampler.value) ? $"\t\tSamplerName = \"{sampler.value}\",\n" : null) +
                 (!string.IsNullOrWhiteSpace(scheduler.value) ? $"\t\tScheduler = \"{scheduler.value}\",\n" : null) +
-                $"\t\tDenoise = {denoise.value}" +
+                $"\t\tDenoise = {denoise.value},\n" +
                 (!string.IsNullOrWhiteSpace(loras.value) ? 
-                    $"\t\tLoras = [{string.Join(", ", loras.value.Split(',', StringSplitOptions.RemoveEmptyEntries).Select(i => $"\"{i.Trim()}\""))}]" : null) +
-                "";
-            return code;
+                    $"\t\tLoras = [{string.Join(", ", loras.value.Split(',', StringSplitOptions.RemoveEmptyEntries).Select(i => $"\"{i.Trim()}\""))}]\n" : null)
+                ;
         }
 
         public void ApplyParameters(GaxosParameters gaxosParameters)

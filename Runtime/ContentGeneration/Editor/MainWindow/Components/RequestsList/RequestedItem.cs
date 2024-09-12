@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 using ContentGeneration.Models;
 using UnityEngine.UIElements;
 
@@ -35,6 +36,11 @@ namespace ContentGeneration.Editor.MainWindow.Components.RequestsList
             {
                 OnDeleted?.Invoke();
             };
+        }
+    
+        public Task Save(Request request)
+        {
+            throw new NotImplementedException();
         }
     }
 }

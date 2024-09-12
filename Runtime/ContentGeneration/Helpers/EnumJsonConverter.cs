@@ -29,5 +29,51 @@ namespace ContentGeneration.Helpers
         {
             return str.ToLowerInvariant();
         }
+
+        protected static string CamelCaseToDashes(string str)
+        {
+            var lowerStr = str.ToLowerInvariant();
+            var ret = lowerStr[0].ToString();
+
+            for (var i = 1; i < str.Length; i++)
+            {
+                if (char.IsUpper(str[i]))
+                {
+                    ret += '-';
+                }
+
+                ret += lowerStr[i];
+            }
+
+            return ret;
+        }
+
+        protected static string DashesToCamelCase(string str)
+        {
+            var ret = "";
+
+            var nextIsUpperCase = true;
+            for (var i = 0; i < str.Length; i++)
+            {
+                if (str[i] == '-')
+                {
+                    nextIsUpperCase = true;
+                }
+                else
+                {
+                    var nextChar = str[i];
+                    if (nextIsUpperCase)
+                    {
+                        nextChar = char.ToUpperInvariant(nextChar);
+                    }
+
+                    ret += nextChar;
+                    
+                    nextIsUpperCase = false;
+                }
+            }
+
+            return ret;
+        }
     }
 }

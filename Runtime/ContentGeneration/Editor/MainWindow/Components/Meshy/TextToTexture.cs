@@ -52,7 +52,7 @@ namespace ContentGeneration.Editor.MainWindow.Components.Meshy
 
         public TextToTexture()
         {
-            generationOptionsElement.OnCodeChanged += RefreshCode;
+            generationOptionsElement.OnCodeHasChanged = RefreshCode;
 
             model.RegisterValueChangedCallback(v =>
             {

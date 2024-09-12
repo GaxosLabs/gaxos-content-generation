@@ -114,3 +114,11 @@
     flex-grow: 1; 
     display: none;
 }
+
+.version {
+    position: absolute;
+    left: 230px;
+    top: 55px;
+    -unity-text-align: lower-right;
+    color: rgba(65, 132, 237, 0.8);
+}

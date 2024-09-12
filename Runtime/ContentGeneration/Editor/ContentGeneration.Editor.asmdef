@@ -1,6 +1,6 @@
 {
     "name": "ContentGeneration.Editor",
-    "rootNamespace": "",
+    "rootNamespace": "ContentGeneration.Editor",
     "references": [
         "GUID:62f735f60a2f4c6ca7d7fcdcb043e97c",
         "GUID:478a2357cc57436488a56e564b08d223"

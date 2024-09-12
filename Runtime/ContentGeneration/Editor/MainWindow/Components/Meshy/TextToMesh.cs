@@ -36,7 +36,7 @@ namespace ContentGeneration.Editor.MainWindow.Components.Meshy
         
         public TextToMesh()
         {
-            generationOptionsElement.OnCodeChanged += RefreshCode;
+            generationOptionsElement.OnCodeHasChanged = RefreshCode;
             prompt.OnChanged += _ => RefreshCode();
             negativePrompt.OnChanged += _ => RefreshCode();
             artStyle.RegisterValueChangedCallback(_ => RefreshCode());

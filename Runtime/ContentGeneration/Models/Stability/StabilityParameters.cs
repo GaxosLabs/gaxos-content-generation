@@ -14,7 +14,7 @@ namespace ContentGeneration.Models.Stability
         public Sampler? Sampler;
 
         [JsonProperty("samples")] public uint Samples = 1;
-        [JsonProperty("seed")] public uint Seed;
+        [JsonProperty("seed")] public ulong Seed;
         [JsonProperty("steps")] public uint Steps = 30;
 
         [JsonProperty("style_preset")]

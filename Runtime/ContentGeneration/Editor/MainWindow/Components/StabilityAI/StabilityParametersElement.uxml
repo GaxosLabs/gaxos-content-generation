@@ -1,6 +1,5 @@
 <ui:UXML xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" xsi="http://www.w3.org/2001/XMLSchema-instance" engine="UnityEngine.UIElements" editor="UnityEditor.UIElements" noNamespaceSchemaLocation="../../../UIElementsSchema/UIElements.xsd" editor-extension-mode="False">
     <Style src="../Common.uss" />
-    <Style src="./StabilityParametersElement.uss" />
     <ui:VisualElement name="stabilityParametersElement" class="container-spaced">
         <ui:VisualElement name="promptsContainer" style="min-height: 20px;" />
         <ui:Button text="Add another prompt" parse-escape-sequences="true" display-tooltip-when-elided="true" name="addPrompt" tooltip="Provide a detailed description of what you want the AI to generate as an image.  Tip: Be specific and include all relevant details to guide the AI accurately" />

@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 using ContentGeneration.Helpers;
 using ContentGeneration.Models.Gaxos;
@@ -115,33 +116,38 @@ namespace ContentGeneration.Editor.MainWindow.Components.Multi
             });
         }
 
+        Gaxos.MaskingParameters gaxosParameters => this.Q<Gaxos.MaskingParameters>("gaxosParameters");
+        StabilityAI.MaskingParameters stabilityParameters =>
+            this.Q<StabilityAI.MaskingParameters>("stabilityAiParameters");
+        
         async Task SendRequests()
         {
+            var gaxosApiParameters = new GaxosMaskingParameters();
+            gaxosParameters.ApplyParameters(gaxosApiParameters);
+            gaxosApiParameters.Prompt = prompt.value;
+            gaxosApiParameters.Mask = (Texture2D)mask.image;
+
+            var stabilityApiParameters = new StabilityMaskedImageParameters();
+            stabilityParameters.ApplyParameters(stabilityApiParameters);
+            stabilityApiParameters.TextPrompts =
+                stabilityApiParameters.TextPrompts.Append(
+                    new Prompt
+                    {
+                        Text = prompt.value,
+                        Weight = 1
+                    }).ToArray();
+            stabilityApiParameters.InitImage = (Texture2D)mask.image;
+            stabilityApiParameters.MaskSource = MaskSource.InitImageAlpha;
+            
             await Task.WhenAll(
                 ContentGenerationApi.Instance.RequestGaxosMaskingGeneration(
-                    new GaxosMaskingParameters
-                    {
-                        Mask = (Texture2D)mask.image,
-                        Prompt = prompt.value
-                    },
+                    gaxosApiParameters,
                     data: new
                     {
                         player_id = ContentGenerationStore.editorPlayerId
                     }),
                 ContentGenerationApi.Instance.RequestStabilityMaskedImageGeneration(
-                    new StabilityMaskedImageParameters
-                    {
-                        InitImage = (Texture2D)mask.image,
-                        MaskSource = MaskSource.InitImageAlpha,
-                        TextPrompts = new []
-                        {
-                            new Prompt
-                            {
-                                Text = prompt.value,
-                                Weight = 1
-                            }
-                        }
-                    },
+                    stabilityApiParameters,
                     data: new
                     {
                         player_id = ContentGenerationStore.editorPlayerId

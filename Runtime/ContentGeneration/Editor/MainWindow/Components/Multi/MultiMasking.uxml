@@ -9,7 +9,6 @@
     <Style src="./MultiMasking.uss" />
     <ContentGeneration.Editor.MainWindow.Components.SubWindow
         Sub-Window-Name="Multiple Masking"
-        Sub-Window-Icon="Multiple Masking Icons"
         style="flex-grow: 1;">
         <ContentGeneration.Editor.MainWindow.Components.ImageSelection name="mask" Label="Mask" Button-Text="Select Mask" tooltip="Upload a mask if you want the resulting image to conform to the shape of the mask.  Usage: Useful for applying specific shapes or contours to the generated image" />
         <ui:Label name="maskRequiredLabel" text="Mask is required" class="error-label" />
@@ -19,6 +18,25 @@
         <ui:Label name="promptRequired" text="Prompt is required" class="error-label" style="visibility: hidden;" />
         <ui:Button name="improvePromptButton" text="Improve prompt" tooltip="Enhance your initial description using AI to achieve more precise and detailed results.  Usage: Useful if you want to refine your original request for better images" />
 
+        <ui:ScrollView class="advancedScrollView">
+            <ContentGeneration.Editor.MainWindow.Components.SubWindow
+                Sub-Window-Name="Gaxos Labs AI"
+                Foldable="true"
+                class="subSubWindow">
+                <ContentGeneration.Editor.MainWindow.Components.Gaxos.MaskingParameters
+                    HidePrompt="true"
+                    name="gaxosParameters" />
+            </ContentGeneration.Editor.MainWindow.Components.SubWindow>
+            <ContentGeneration.Editor.MainWindow.Components.SubWindow
+                Sub-Window-Name="Stability AI"
+                Foldable="true"
+                class="subSubWindow">
+                <ContentGeneration.Editor.MainWindow.Components.StabilityAI.MaskingParameters
+                    HidePrompt="true"
+                    name="stabilityAiParameters" />
+            </ContentGeneration.Editor.MainWindow.Components.SubWindow>
+        </ui:ScrollView>
+        
         <ui:Button name="generateButton" text="Generate" class="generateButton" />
         <ui:VisualElement>
             <ui:VisualElement name="sendingRequest">

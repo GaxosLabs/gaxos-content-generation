@@ -35,9 +35,7 @@
                             <ContentGeneration.Editor.MainWindow.Components.SubWindowToggle Sub-Window-Name="Requests List" name="subWindowToggleRequestsList" />
                             <ui:Label tabindex="-1" text="Basic Examples" parse-escape-sequences="true" display-tooltip-when-elided="true" class="sideMenuItemHeader" />
                             <ui:VisualElement class="sideMenuItemSeparator" />
-                            <ContentGeneration.Editor.MainWindow.Components.SubWindowToggle Sub-Window-Name="Basic Generation" name="subWindowToggleBasicGeneration" />
-                            <ContentGeneration.Editor.MainWindow.Components.SubWindowToggle Sub-Window-Name="Image To Image" name="subWindowToggleImageToImage" />
-                            <ContentGeneration.Editor.MainWindow.Components.SubWindowToggle Sub-Window-Name="Mask Generation" name="subWindowToggleMaskGeneration" />
+                            <ContentGeneration.Editor.MainWindow.Components.SubWindowToggle Sub-Window-Name="Basic Examples" name="subWindowToggleBasicExamples" />
                             <ui:Label tabindex="-1" text="Settings" parse-escape-sequences="true" display-tooltip-when-elided="true" class="sideMenuItemHeader" />
                             <ui:VisualElement class="sideMenuItemSeparator" />
                             <ContentGeneration.Editor.MainWindow.Components.SubWindowToggle Sub-Window-Name="Configuration" name="subWindowToggleSettings" />
@@ -53,11 +51,10 @@
                 <ContentGeneration.Editor.MainWindow.Components.Multi.MultiTextToImage />
                 <ContentGeneration.Editor.MainWindow.Components.Multi.MultiMasking />
                 <ContentGeneration.Editor.MainWindow.Components.RequestsList.RequestsListTab />
-                <ContentGeneration.Editor.MainWindow.Components.BasicExamples.BasicGenerationTab />
-                <ContentGeneration.Editor.MainWindow.Components.BasicExamples.ImageToImageTab />
-                <ContentGeneration.Editor.MainWindow.Components.BasicExamples.MaskGenerationTab />
+                <ContentGeneration.Editor.MainWindow.Components.BasicExamples.BasicExamplesTab />
                 <ContentGeneration.Editor.MainWindow.Components.Configuration />
             </ui:VisualElement>
         </ui:VisualElement>
+        <ui:Label class="version" text="v1.1" />
     </ui:VisualElement>
 </ui:UXML>

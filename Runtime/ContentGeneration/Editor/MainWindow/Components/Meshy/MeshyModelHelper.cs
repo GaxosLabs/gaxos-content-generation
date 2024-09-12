@@ -120,7 +120,7 @@ namespace ContentGeneration.Editor.MainWindow.Components.Meshy
             }
         }
 
-        static Task<byte[]> DownloadFileAsync(string url)
+        public static Task<byte[]> DownloadFileAsync(string url)
         {
             var ret = new TaskCompletionSource<byte[]>();
             EditorCoroutineUtility.StartCoroutine(

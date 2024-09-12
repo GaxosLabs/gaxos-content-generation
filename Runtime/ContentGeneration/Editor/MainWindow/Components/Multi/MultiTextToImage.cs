@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 using ContentGeneration.Helpers;
 using ContentGeneration.Models.DallE;
@@ -78,6 +79,7 @@ namespace ContentGeneration.Editor.MainWindow.Components.Multi
                     promptRequired.style.visibility = Visibility.Visible;
                     return;
                 }
+
                 promptRequired.style.visibility = Visibility.Hidden;
 
                 requestSent.style.display = DisplayStyle.None;
@@ -107,39 +109,46 @@ namespace ContentGeneration.Editor.MainWindow.Components.Multi
             });
         }
 
+        Gaxos.TextToImageParameters gaxosParameters => this.Q<Gaxos.TextToImageParameters>("gaxosParameters");
+        DallE.TextToImageParameters dallEParameters => this.Q<DallE.TextToImageParameters>("dallEParameters");
+        StabilityAI.TextToImageParameters stabilityParameters =>
+            this.Q<StabilityAI.TextToImageParameters>("stabilityAiParameters");
+
         async Task SendRequests()
         {
+            var gaxosApiParameters = new GaxosTextToImageParameters();
+            gaxosParameters.ApplyParameters(gaxosApiParameters);
+            gaxosApiParameters.Prompt = prompt.value;
+
+            var dallEApiParameters = new DallETextToImageParameters();
+            dallEParameters.ApplyParameters(dallEApiParameters);
+            dallEApiParameters.Prompt = prompt.value;
+
+            var stabilityApiParameters = new StabilityTextToImageParameters();
+            stabilityParameters.ApplyParameters(stabilityApiParameters);
+            stabilityApiParameters.TextPrompts =
+                stabilityApiParameters.TextPrompts.Append(
+                    new Prompt
+                    {
+                        Text = prompt.value,
+                        Weight = 1
+                    }).ToArray();
+
             await Task.WhenAll(
                 ContentGenerationApi.Instance.RequestGaxosTextToImageGeneration(
-                    new GaxosTextToImageParameters
-                    {
-                        Prompt = prompt.value
-                    },
+                    gaxosApiParameters,
                     data: new
                     {
                         player_id = ContentGenerationStore.editorPlayerId
                     }),
                 ContentGenerationApi.Instance.RequestDallETextToImageGeneration(
-                    new DallETextToImageParameters
-                    {
-                        Prompt = prompt.value
-                    },
+                    dallEApiParameters,
                     data: new
                     {
                         player_id = ContentGenerationStore.editorPlayerId
                     }),
                 ContentGenerationApi.Instance.RequestStabilityTextToImageGeneration(
-                    new StabilityTextToImageParameters
-                    {
-                        TextPrompts = new []
-                        {
-                            new Prompt
-                            {
-                                Text = prompt.value,
-                                Weight = 1
-                            }
-                        }
-                    },
+                    stabilityApiParameters,
                     data: new
                     {
                         player_id = ContentGenerationStore.editorPlayerId

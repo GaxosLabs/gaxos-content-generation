@@ -34,7 +34,7 @@ namespace ContentGeneration.Editor.MainWindow.Components.DallE
         public InPainting()
         {
             dallEParametersElement.OnCodeChanged += RefreshCode;
-            generationOptionsElement.OnCodeChanged += RefreshCode;
+            generationOptionsElement.OnCodeHasChanged = RefreshCode;
             
             dallEParametersElement.model.value = Model.DallE2;
             dallEParametersElement.model.SetEnabled(false);

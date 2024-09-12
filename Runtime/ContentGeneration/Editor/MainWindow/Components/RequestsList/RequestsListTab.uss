@@ -100,10 +100,15 @@
 
 .unity-multi-column-view__cell .p5 {
     border-radius: 10px;
-    -unity-text-align: middle-left;
+    -unity-text-align: middle-center;
 }
 
 .unity-multi-column-view__cell .p6 {
+    border-radius: 10px;
+    -unity-text-align: middle-center;
+}
+
+.unity-multi-column-view__cell .p7 {
     border-radius: 10px;
 }
 
@@ -131,7 +136,7 @@
     background-image: url('./generated.png');
 }
 
-.downloadElement .meshy {
+.downloadElement .mdel3d {
     -unity-background-image-tint-color: #ffffff;
     background-image: url('./generated.png');
 }
@@ -139,4 +144,8 @@
 .downloadElement .failed {
     -unity-background-image-tint-color: #f34802;
     background-image: url('./failed.png');
+}
+
+.downloadElement .disabled {
+    -unity-background-image-tint-color: #414141;
 }

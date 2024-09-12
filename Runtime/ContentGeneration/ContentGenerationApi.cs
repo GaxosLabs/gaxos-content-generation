@@ -210,6 +210,46 @@ namespace ContentGeneration
                 generatorParameters, options, data);
         }
 
+        public Task<string> RequestStabilityCoreTextToImageGeneration(
+            StabilityCoreTextToImageParameters generatorParameters,
+            GenerationOptions options = GenerationOptions.None,
+            object data = null)
+        {
+            return RequestGeneration(
+                Generator.StabilityTextToImageCore,
+                generatorParameters, options, data);
+        }
+
+        public Task<string> RequestStabilityUltraTextToImageGeneration(
+            StabilityUltraTextToImageParameters generatorParameters,
+            GenerationOptions options = GenerationOptions.None,
+            object data = null)
+        {
+            return RequestGeneration(
+                Generator.StabilityTextToImageUltra,
+                generatorParameters, options, data);
+        }
+
+        public Task<string> RequestStabilityStableDiffusion3Generation(
+            StabilityStableDiffusion3Parameters generatorParameters,
+            GenerationOptions options = GenerationOptions.None,
+            object data = null)
+        {
+            return RequestGeneration(
+                Generator.StabilityDiffusion3,
+                generatorParameters, options, data);
+        }
+
+        public Task<string> RequestStabilityStableFast3dGeneration(
+            StabilityStableFast3d generatorParameters,
+            GenerationOptions options = GenerationOptions.None,
+            object data = null)
+        {
+            return RequestGeneration(
+                Generator.StabilityStableFast3d,
+                generatorParameters, options, data);
+        }
+
         public Task<string> RequestStabilityImageToImageGeneration(
             StabilityImageToImageParameters generatorParameters,
             GenerationOptions options = GenerationOptions.None,
