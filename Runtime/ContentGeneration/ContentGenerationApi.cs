@@ -342,6 +342,26 @@ namespace ContentGeneration
                 generatorParameters, options, data);
         }
 
+        public Task<string> RequestMeshyTextToVoxelGeneration(
+            MeshyTextToVoxelParameters generatorParameters,
+            GenerationOptions options = GenerationOptions.None,
+            object data = null)
+        {
+            return RequestGeneration(
+                Generator.MeshyTextToVoxel,
+                generatorParameters, options, data);
+        }
+
+        public Task<string> RequestMeshyImageToMeshGeneration(
+            MeshyImageToMeshParameters generatorParameters,
+            GenerationOptions options = GenerationOptions.None,
+            object data = null)
+        {
+            return RequestGeneration(
+                Generator.MeshyImageTo3d,
+                generatorParameters, options, data);
+        }
+
         public Task<string> RequestGaxosTextToImageGeneration(
             GaxosTextToImageParameters generatorParameters,
             GenerationOptions options = GenerationOptions.None,

@@ -6,14 +6,19 @@
     xsi:noNamespaceSchemaLocation="../../../../../../UIElementsSchema/UIElements.xsd"
 >
     <Style src="../Common.uss" />
-    <Style src="./MeshyTab.uss" />
     <ContentGeneration.Editor.MainWindow.Components.SubWindow Sub-Window-Name="Meshy" style="flex-grow: 1;">
         <ContentGeneration.Editor.MainWindow.Components.TabsContainer>
-            <ContentGeneration.Editor.MainWindow.Components.Tab Tab-Name="Text To Mesh" name="textToMesh">
+            <ContentGeneration.Editor.MainWindow.Components.Tab Tab-Name="Text To Mesh">
                 <ContentGeneration.Editor.MainWindow.Components.Meshy.TextToMesh style="flex-direction: column-reverse;" />
             </ContentGeneration.Editor.MainWindow.Components.Tab>
-            <ContentGeneration.Editor.MainWindow.Components.Tab Tab-Name="Text To Texture" name="textToTexture">
+            <ContentGeneration.Editor.MainWindow.Components.Tab Tab-Name="Text To Texture">
                 <ContentGeneration.Editor.MainWindow.Components.Meshy.TextToTexture style="flex-direction: column-reverse;" />
+            </ContentGeneration.Editor.MainWindow.Components.Tab>
+            <ContentGeneration.Editor.MainWindow.Components.Tab Tab-Name="Text To Voxel">
+                <ContentGeneration.Editor.MainWindow.Components.Meshy.TextToVoxel style="flex-direction: column-reverse;" />
+            </ContentGeneration.Editor.MainWindow.Components.Tab>
+            <ContentGeneration.Editor.MainWindow.Components.Tab Tab-Name="Image To Mesh">
+                <ContentGeneration.Editor.MainWindow.Components.Meshy.ImageToMesh style="flex-direction: column-reverse;" />
             </ContentGeneration.Editor.MainWindow.Components.Tab>
         </ContentGeneration.Editor.MainWindow.Components.TabsContainer>
     </ContentGeneration.Editor.MainWindow.Components.SubWindow>

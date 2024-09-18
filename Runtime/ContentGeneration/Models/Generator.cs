@@ -9,7 +9,7 @@ namespace ContentGeneration.Models
         StabilityStableFast3d,
         StabilityImageToImage, StabilityMasking,
         DallETextToImage, DallEInpainting,
-        MeshyTextToMesh, MeshyTextToTexture,
+        MeshyTextToMesh, MeshyTextToTexture, MeshyTextToVoxel, MeshyImageTo3d,
         GaxosTextToImage, GaxosMasking
     }
     
@@ -30,6 +30,8 @@ namespace ContentGeneration.Models
                 Generator.DallEInpainting => "dall-e-inpainting",
                 Generator.MeshyTextToMesh => "meshy-text-to-mesh",
                 Generator.MeshyTextToTexture => "meshy-text-to-texture",
+                Generator.MeshyTextToVoxel => "meshy-text-to-voxel",
+                Generator.MeshyImageTo3d => "meshy-image-to-3d",
                 Generator.GaxosTextToImage => "gaxos-text-to-image",
                 Generator.GaxosMasking => "gaxos-masking",
                 _ => generator.ToString()

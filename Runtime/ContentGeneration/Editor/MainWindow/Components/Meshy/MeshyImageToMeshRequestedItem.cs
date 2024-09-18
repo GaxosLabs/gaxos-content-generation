@@ -2,7 +2,6 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Threading.Tasks;
-using ContentGeneration.Editor.MainWindow.Components.Meshy;
 using ContentGeneration.Editor.MainWindow.Components.RequestsList;
 using ContentGeneration.Helpers;
 using ContentGeneration.Models;
@@ -10,11 +9,11 @@ using UnityEditor;
 using UnityEngine;
 using UnityEngine.UIElements;
 
-namespace ContentGeneration.Editor.MainWindow.Components.StabilityAI
+namespace ContentGeneration.Editor.MainWindow.Components.Meshy
 {
-    public class StabilityFast3dRequestedItem : VisualElementComponent, IRequestedItem
+    public class MeshyImageToMeshRequestedItem : VisualElementComponent, IRequestedItem
     {
-        public new class UxmlFactory : UxmlFactory<StabilityFast3dRequestedItem, UxmlTraits>
+        public new class UxmlFactory : UxmlFactory<MeshyImageToMeshRequestedItem, UxmlTraits>
         {
         }
 
@@ -30,7 +29,7 @@ namespace ContentGeneration.Editor.MainWindow.Components.StabilityAI
 
         RequestedItemCommon requestedItemCommon => this.Q<RequestedItemCommon>();
 
-        public StabilityFast3dRequestedItem()
+        public MeshyImageToMeshRequestedItem()
         {
             requestedItemCommon.OnDeleted += () => { OnDeleted?.Invoke(); };
             requestedItemCommon.OnRefreshed += v => value = v;
@@ -75,11 +74,12 @@ namespace ContentGeneration.Editor.MainWindow.Components.StabilityAI
             var path = EditorUtility.SaveFilePanel(
                 "Save model location",
                 "Assets/",
-                "", "gltf");
+                "", "glb");
 
             if (path.Length == 0) return;
 
-            var model = await MeshyModelHelper.DownloadFileAsync(request.GeneratorResult["asset"]!.ToObject<string>());
+            var model = await MeshyModelHelper.DownloadFileAsync(
+                request.GeneratorResult["model_urls"]!["glb"]!.ToObject<string>());
             await File.WriteAllBytesAsync(path, model);
 
             if (path.StartsWith(Application.dataPath))

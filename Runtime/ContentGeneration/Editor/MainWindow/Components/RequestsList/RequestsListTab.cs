@@ -40,12 +40,20 @@ namespace ContentGeneration.Editor.MainWindow.Components.RequestsList
         IRequestedItem meshyTextToTextureRequestedItem =>
             this.Q<MeshyTextToTextureRequestedItem>("meshyTextToTextureRequestedItem");
 
+        IRequestedItem meshyTextToVoxelRequestedItem =>
+            this.Q<MeshyTextToVoxelRequestedItem>("meshyTextToVoxelRequestedItem");
+
+        IRequestedItem meshyImageToMeshRequestedItem =>
+            this.Q<MeshyImageToMeshRequestedItem>("meshyImageToMeshRequestedItem");
+
         IRequestedItem stabilityFast3dRequestedItem =>
             this.Q<StabilityFast3dRequestedItem>("stabilityFast3dRequestedItem");
 
         IRequestedItem[] allRequestedItems => new[]
         {
-            defaultRequestedItem, meshyTextToMeshRequestedItem, meshyTextToTextureRequestedItem,
+            defaultRequestedItem, 
+            meshyTextToMeshRequestedItem, meshyTextToTextureRequestedItem,
+            meshyTextToVoxelRequestedItem, meshyImageToMeshRequestedItem, 
             stabilityFast3dRequestedItem
         };
 
@@ -249,6 +257,14 @@ namespace ContentGeneration.Editor.MainWindow.Components.RequestsList
                     else if (request.Generator == Generator.MeshyTextToTexture)
                     {
                         meshyTextToTextureRequestedItem.value = request;
+                    }
+                    else if (request.Generator == Generator.MeshyTextToVoxel)
+                    {
+                        meshyTextToVoxelRequestedItem.value = request;
+                    }
+                    else if (request.Generator == Generator.MeshyImageTo3d)
+                    {
+                        meshyImageToMeshRequestedItem.value = request;
                     }
                     else if (request.Generator == Generator.StabilityStableFast3d)
                     {
