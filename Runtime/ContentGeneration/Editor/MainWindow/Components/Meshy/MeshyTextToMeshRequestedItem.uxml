@@ -3,7 +3,6 @@
          noNamespaceSchemaLocation="../../../../../../UIElementsSchema/UIElements.xsd" editor-extension-mode="True">
     <Style src="../Common.uss" />
     <Style src="../RequestsList/RequestedItemCommon.uss" />
-    <Style src="./MeshyTextToMeshRequestedItem.uss" />
     <ContentGeneration.Editor.MainWindow.Components.RequestsList.RequestedItemCommon class="container-spaced">
         <ui:VisualElement class="row" style="flex-direction: row;">
             <ui:Label tabindex="-1" text="Refine Status:" parse-escape-sequences="true"

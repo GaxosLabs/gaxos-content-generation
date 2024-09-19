@@ -13,20 +13,8 @@
     color: #f34802;
 }
 
-#requestedItem #generatorParameters TextElement {
-    -unity-text-align: upper-left;
-}
-
 GeneratedImageElement {
     margin: 1px 10px;
     max-width: 200px;
     max-height: 240px;
-}
-
-#generatorParameters {
-    max-height: 200px;
-}
-
-#generatorParameters .unity-text-element {
-    color: #02e7f4;
 }

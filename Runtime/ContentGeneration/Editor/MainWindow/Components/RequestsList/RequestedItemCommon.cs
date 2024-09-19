@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using ContentGeneration.Helpers;
 using ContentGeneration.Models;
 using UnityEngine;
@@ -138,15 +139,37 @@ namespace ContentGeneration.Editor.MainWindow.Components.RequestsList
 
                 generatorParameters.value = value.GeneratorParameters?.ToString();
 
-                imagesContainer.Clear();
                 imagesContainer.style.display = DisplayStyle.None;
                 if (value is { Status: RequestStatus.Generated, Assets: not null })
                 {
+                    var imagesToRemove = 
+                        imagesContainer.Children()
+                        .OfType<GeneratedImageElement>().ToList();
+
                     foreach (var image in value.Assets)
                     {
                         imagesContainer.style.display = DisplayStyle.Flex;
-                        imagesContainer.Add(new GeneratedImageElement(image));
+                        var existing = imagesToRemove.
+                            FirstOrDefault(i => i.generatedAsset.ID == image.ID);
+                        if(existing == null)
+                        {
+                            imagesContainer.Add(new GeneratedImageElement(image));
+                        }
+                        else
+                        {
+                            imagesToRemove.Remove(existing);
+                            existing.Refresh();
+                        }
                     }
+
+                    foreach (var imageElement in imagesToRemove)
+                    {
+                        imagesContainer.Remove(imageElement);
+                    }
+                }
+                else
+                {
+                    imagesContainer.Clear();
                 }
             }
         }

@@ -26,6 +26,14 @@ namespace ContentGeneration
         {
             var message = $"{www.method} {www.uri}";
 
+            message += $"\n=> {www.error}";
+            if (!string.IsNullOrEmpty(www.downloadHandler?.text))
+            {
+                message += $"\n{www.downloadHandler.text}";
+            }
+
+            message += $"\n\n";
+
             if (headers is { Count: > 0 })
             {
                 var headersArray = headers.Select(h => $"[{h.Key}={h.Value}]");
@@ -34,12 +42,6 @@ namespace ContentGeneration
             if (data != null)
             {
                 message += $"\ndata: {JsonConvert.SerializeObject(data)}";
-            }
-
-            message += $"\n=> {www.error}";
-            if (!string.IsNullOrEmpty(www.downloadHandler?.text))
-            {
-                message += $"\n{www.downloadHandler.text}";
             }
             
             return message;

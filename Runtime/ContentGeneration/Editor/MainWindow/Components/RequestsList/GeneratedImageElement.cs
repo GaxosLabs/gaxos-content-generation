@@ -65,8 +65,10 @@ namespace ContentGeneration.Editor.MainWindow.Components.RequestsList
             AssetDatabase.Refresh();
         }
 
-        public GeneratedImageElement(GeneratedAsset generatedAsset)
+        public readonly GeneratedAsset generatedAsset;
+        public GeneratedImageElement(GeneratedAsset v)
         {
+            generatedAsset = v;
             image.image = null;
             image.AddManipulator(new Clickable(evt =>
             {
@@ -98,6 +100,12 @@ namespace ContentGeneration.Editor.MainWindow.Components.RequestsList
             var texture = ((DownloadHandlerTexture)www.downloadHandler).texture;
             image.image = texture;
             saveToProject.SetEnabled(true);
+        }
+
+        public void Refresh()
+        {
+            EditorCoroutineUtility.StartCoroutine(
+                LoadImage(generatedAsset.URL), this);
         }
     }
 }

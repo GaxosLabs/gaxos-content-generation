@@ -1,0 +1,33 @@
+#imagesContainer {
+    height: 205px;
+}
+
+#generatorParameters {
+    flex-grow: 0;
+    flex-shrink: 1;
+    min-height: 100px;
+    max-height: 200px;
+}
+
+#generatorParameters TextElement {
+    -unity-text-align: upper-left;
+}
+
+#generatorParameters .unity-text-element {
+    color: #02e7f4;
+}
+
+.row {
+    margin-bottom: 10px;
+}
+
+.generated {
+    color: #07f302;
+}
+.failed {
+    color: #f34802;
+}
+
+#imagesContainer {
+    margin-bottom: 10px;
+}
