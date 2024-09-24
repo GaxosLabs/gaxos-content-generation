@@ -5,7 +5,7 @@ namespace ContentGeneration.Models.Meshy
 {
     public enum TextToMeshArtStyle
     {
-        Realistic, Cartoon, LowPoly
+        Realistic, Cartoon, LowPoly, Sculpture, Pbr
     }
 
     internal class TextToMeshArtStyleConverter : EnumJsonConverter<TextToMeshArtStyle>

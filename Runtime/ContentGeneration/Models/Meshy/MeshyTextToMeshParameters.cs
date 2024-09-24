@@ -13,5 +13,7 @@ namespace ContentGeneration.Models.Meshy
 
         [JsonProperty("art_style"), JsonConverter(typeof(TextToMeshArtStyleConverter))] 
         public TextToMeshArtStyle ArtStyle = TextToMeshArtStyle.Realistic;
+
+        [JsonProperty("ai_model")] string aiModel => "meshy-3";
     }
 }
