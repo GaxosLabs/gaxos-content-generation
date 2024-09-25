@@ -47,7 +47,9 @@ namespace ContentGeneration.Editor.MainWindow.Components.Meshy
 
             if (path.StartsWith(Application.dataPath))
             {
-                var localPath = Path.Combine("Assets", path[(Application.dataPath.Length + 1)..]);
+                var localPath =
+                    Application.dataPath == path ? "Assets" :
+                    Path.Combine("Assets", path[(Application.dataPath.Length + 1)..]);
 
                 AssetDatabase.Refresh();
 
