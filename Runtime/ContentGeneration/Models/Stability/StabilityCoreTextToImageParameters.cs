@@ -9,7 +9,7 @@ namespace ContentGeneration.Models.Stability
         public AspectRatio AspectRatio = AspectRatio._1_1;
         [JsonProperty("negative_prompt")] public string NegativePrompt;
         [JsonProperty("seed")] public ulong Seed;
-        [JsonProperty("style_preset"), JsonConverter(typeof(StylePresetConverter))] public StylePreset? StylePreset;
+        [JsonProperty("style_preset", NullValueHandling = NullValueHandling.Ignore), JsonConverter(typeof(StylePresetConverter))] public StylePreset? StylePreset;
         [JsonProperty("output_format"), JsonConverter(typeof(OutputFormatConverter))] public OutputFormat OutputFormat = OutputFormat.Png;
     }
 }

@@ -155,5 +155,20 @@ namespace ContentGeneration.Editor.MainWindow.Components.Gaxos
             gaxosParameters.Loras = string.IsNullOrWhiteSpace(loras.value) ? null : 
                 loras.value.Split(',', StringSplitOptions.RemoveEmptyEntries).Select(i => i.Trim()).ToArray();
         }
+
+        public void Show(GaxosParameters gaxosParameters)
+        {
+            prompt.value = gaxosParameters.Prompt;
+            negativePrompt.value = gaxosParameters.NegativePrompt;
+            checkpoint.value = gaxosParameters.Checkpoint;
+            nSamples.value = (int)gaxosParameters.NSamples;
+            sendSeed.value = gaxosParameters.Seed != null;
+            steps.value = (int)gaxosParameters.Steps;
+            cfg.value = gaxosParameters.Cfg;
+            sampler.value = gaxosParameters.SamplerName;
+            scheduler.value = gaxosParameters.Scheduler;
+            denoise.value = gaxosParameters.Denoise ?? 1;
+            loras.value = gaxosParameters.Loras == null ? null :  string.Join(',', gaxosParameters.Loras);
+        }
     }
 }

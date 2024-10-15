@@ -43,6 +43,11 @@ namespace ContentGeneration.Editor.MainWindow.Components
             toggle.value = false;
         }
 
+        public void ToggleOn()
+        {
+            toggle.value = true;
+        }
+
 
         Label label => this.Q<Label>("label");
         Toggle toggle => this.Q<Toggle>("subWindowToggle");

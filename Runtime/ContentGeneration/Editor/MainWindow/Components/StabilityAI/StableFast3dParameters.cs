@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using ContentGeneration.Models;
 using ContentGeneration.Models.Stability;
 using UnityEngine;
 using UnityEngine.UIElements;
@@ -89,6 +90,16 @@ namespace ContentGeneration.Editor.MainWindow.Components.StabilityAI
                 $"\t\tTextureResolution = TextureResolution.{(TextureResolution)textureResolution.value},\n" +
                 $"\t\tForegroundRatio = {foregroundRatio.value}f," +
                 $"\t\tRemesh = Remesh.{(Remesh)remesh.value},\n";
+        }
+
+        public void Show(Favorite favorite)
+        {
+            var stabilityParameters = favorite.GeneratorParameters.ToObject<StabilityStableFast3d>();
+            
+            textureResolution.value = stabilityParameters.TextureResolution;
+            foregroundRatio.value = stabilityParameters.ForegroundRatio;
+            remesh.value = stabilityParameters.Remesh;
+            CodeHasChanged();
         }
     }
 }

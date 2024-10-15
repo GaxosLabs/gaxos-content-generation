@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using ContentGeneration.Helpers;
+using ContentGeneration.Models;
 using ContentGeneration.Models.Stability;
 using UnityEngine;
 using UnityEngine.UIElements;
@@ -179,6 +180,30 @@ namespace ContentGeneration.Editor.MainWindow.Components.StabilityAI
                     : $"\t\tNegativePrompt = \"{negativePrompt.value}\",\n") +
                 $"\t\tSeed = {seed.value},\n" +
                 $"\t\tOutputFormat = OutputFormat.{(OutputFormat)outputFormat.value},\n";
+        }
+
+        public void Show(Favorite favorite)
+        {
+            var stabilityParameters = favorite.GeneratorParameters.ToObject<StabilityStableDiffusion3Parameters>();
+            generationOptions.Show(favorite.GenerationOptions);
+
+            prompt.value = stabilityParameters.Prompt;
+            mode.value = stabilityParameters.Mode;
+            if (stabilityParameters.Mode == Mode.ImageToImage)
+            {
+                strength.value = stabilityParameters.Strength;
+            }
+            else
+            {
+                aspectRatio.value = stabilityParameters.AspectRatio;
+            }
+
+            model.value = stabilityParameters.Model;
+            negativePrompt.value = stabilityParameters.NegativePrompt;
+            seed.value = (int)stabilityParameters.Seed;
+            outputFormat.value = stabilityParameters.OutputFormat;
+            
+            CodeHasChanged();
         }
     }
 }

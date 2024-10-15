@@ -29,5 +29,7 @@ namespace ContentGeneration.Editor.MainWindow.Components.Gaxos
                 parameters,
                 generationOptions, data: data);
         }
+
+        public override Generator generator => Generator.GaxosTextToImage;
     }
 }

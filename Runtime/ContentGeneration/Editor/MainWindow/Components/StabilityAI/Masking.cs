@@ -27,5 +27,7 @@ namespace ContentGeneration.Editor.MainWindow.Components.StabilityAI
                     parameters,
                     generationOptions, data: data);
         }
+
+        public override Generator generator => Generator.StabilityMasking;
     }
 }

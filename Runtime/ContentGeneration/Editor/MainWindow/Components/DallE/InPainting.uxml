@@ -5,6 +5,7 @@
         <ContentGeneration.Editor.MainWindow.Components.ImageSelection name="image" Label="Image" Button-Text="Select Image" tooltip="Upload the image you want to enhance, refine, or add elements to using AI.  Tip: Use high-quality source images for better results" />
         <ui:Label name="imageRequiredLabel" text="Image is required" class="error-label" />
         <ContentGeneration.Editor.MainWindow.Components.ImageSelection name="mask" Label="Mask" Button-Text="Select Mask" tooltip="Upload a mask if you want the resulting image to conform to the shape of the mask.  Usage: Useful for applying specific shapes or contours to the generated image" />
+        <ui:Label name="maskRequiredLabel" text="Mask is required" class="error-label" />
         <ContentGeneration.Editor.MainWindow.Components.DallE.DallEParametersElement name="dallEParametersElement" />
         <ContentGeneration.Editor.MainWindow.Components.GenerationOptionsElement name="generationOptions" />
         <ui:Button name="generateButton" text="Generate" class="generateButton" />

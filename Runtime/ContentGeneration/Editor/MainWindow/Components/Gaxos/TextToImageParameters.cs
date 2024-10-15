@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using ContentGeneration.Models;
 using ContentGeneration.Models.Gaxos;
 using UnityEngine.UIElements;
 
@@ -76,6 +77,17 @@ namespace ContentGeneration.Editor.MainWindow.Components.Gaxos
             return gaxosParametersElement.GetCode() +
                    $"\t\tWidth = {width.value}\n" +
                    $"\t\tHeight = {height.value}\n";
+        }
+
+        public void Show(Favorite favorite)
+        {
+            var gaxosTextToImageParameters = favorite.GeneratorParameters.ToObject<GaxosTextToImageParameters>();
+            gaxosParametersElement.Show(gaxosTextToImageParameters);
+            generationOptions.Show(favorite.GenerationOptions);
+            
+            width.value = (int)gaxosTextToImageParameters.Width;
+            height.value = (int)gaxosTextToImageParameters.Height;
+            CodeHasChanged();
         }
     }
 }

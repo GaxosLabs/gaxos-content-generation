@@ -29,5 +29,7 @@ namespace ContentGeneration.Editor.MainWindow.Components.StabilityAI
                 generationOptions,
                 data: data);
         }
+
+        public override Generator generator => Generator.StabilityTextToImageUltra;
     }
 }

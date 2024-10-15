@@ -31,6 +31,8 @@ namespace ContentGeneration.Editor.MainWindow.Components.RequestsList
         Button refreshButton => this.Q<Button>("refreshButton");
         Button deleteButton => this.Q<Button>("deleteButton");
         ScrollView imagesContainer => this.Q<ScrollView>("imagesContainer");
+        Button saveFavorite => this.Q<Button>("saveFavorite");
+        Button deleteFavorite => this.Q<Button>("deleteFavorite");
 
         public override VisualElement contentContainer => this.Q<VisualElement>("childrenContainer");
 
@@ -60,6 +62,36 @@ namespace ContentGeneration.Editor.MainWindow.Components.RequestsList
                         }
 
                         deleteButton.SetEnabled(true);
+                    });
+                }
+            };
+            saveFavorite.clicked += () =>
+            {
+                if (saveFavorite.enabledSelf)
+                {
+                    refreshButton.SetEnabled(false);
+                    ContentGenerationApi.Instance.AddFavorite(value.ID).Finally(() =>
+                    {
+                        ContentGenerationStore.Instance.RefreshFavoritesAsync().Finally(() =>
+                        {
+                            value = value;
+                            refreshButton.SetEnabled(true);
+                        });
+                    });
+                }
+            };
+            deleteFavorite.clicked += () =>
+            {
+                if (deleteFavorite.enabledSelf)
+                {
+                    refreshButton.SetEnabled(false);
+                    ContentGenerationApi.Instance.DeleteFavorite(value.ID).Finally(() =>
+                    {
+                        ContentGenerationStore.Instance.RefreshFavoritesAsync().Finally(() =>
+                        {
+                            value = value;
+                            refreshButton.SetEnabled(true);
+                        });
                     });
                 }
             };
@@ -98,36 +130,42 @@ namespace ContentGeneration.Editor.MainWindow.Components.RequestsList
                 if (value == null)
                     return;
 
-                switch (value.Generator)
+                var generatorName = value.Generator.ToString();
+                if (generatorName.StartsWith("Stability"))
                 {
-                    case Generator.StabilityTextToImage:
-                        requestedItem.subWindowName = "Stability AI Text To Image";
-                        requestedItem.subWindowIcon = "Stability AI";
-                        break;
-                    case Generator.StabilityImageToImage:
-                        requestedItem.subWindowName = "Stability AI Image To Image";
-                        requestedItem.subWindowIcon = "Stability AI";
-                        break;
-                    case Generator.StabilityMasking:
-                        requestedItem.subWindowName = "Stability AI Masking";
-                        requestedItem.subWindowIcon = "Stability AI";
-                        break;
-                    case Generator.DallETextToImage:
-                        requestedItem.subWindowName = "Dall-E Text To Image";
-                        requestedItem.subWindowIcon = "Dall-E";
-                        break;
-                    case Generator.DallEInpainting:
-                        requestedItem.subWindowName = "Dall-E Inpainting";
-                        requestedItem.subWindowIcon = "Dall-E";
-                        break;
-                    case Generator.MeshyTextToMesh:
-                    default:
-                        requestedItem.subWindowName = value.Generator.ToString();
-                        requestedItem.subWindowIcon = null;
-                        break;
+                    requestedItem.subWindowIcon = "Stability AI";
                 }
+                else if (generatorName.StartsWith("Meshy"))
+                {
+                    requestedItem.subWindowIcon = "Meshy";
+                }
+                else if (generatorName.StartsWith("Gaxos"))
+                {
+                    requestedItem.subWindowIcon = "Gaxos Labs AI";
+                }
+                else
+                {
+                    requestedItem.subWindowIcon = null;
+                }
+                
+                requestedItem.subWindowName = generatorName.CamelCaseToSpacesAndUpperCaseEachWord();
 
                 status.text = value.Status.ToString();
+                if (value.Status != RequestStatus.Generated)
+                {
+                    saveFavorite.style.display = DisplayStyle.None;
+                    deleteFavorite.style.display = DisplayStyle.None;
+                }
+                else
+                {
+                    var isFavorite = ContentGenerationStore.Instance.Favorites.Any(i => i.ID == value.ID);
+                    saveFavorite.style.display =  isFavorite ? DisplayStyle.None : DisplayStyle.Flex;
+                    deleteFavorite.style.display =  isFavorite ? DisplayStyle.Flex : DisplayStyle.None;
+                }
+
+                refreshButton.style.display =
+                    value.Status == RequestStatus.Pending ? DisplayStyle.Flex : DisplayStyle.None;
+                
                 status.ClearClassList();
                 status.AddToClassList(status.text.ToLower());
                 generator.text = value.Generator.ToString();

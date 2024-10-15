@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using ContentGeneration.Models;
 using ContentGeneration.Models.DallE;
 using UnityEngine.UIElements;
 
@@ -66,6 +67,15 @@ namespace ContentGeneration.Editor.MainWindow.Components.DallE
         public string GetCode()
         {
             return dallEParametersElement?.GetCode();
+        }
+
+        public void Show(Favorite favorite)
+        {
+            var dallEParameters = favorite.GeneratorParameters.ToObject<DallETextToImageParameters>();
+            dallEParametersElement.Show(dallEParameters);
+            generationOptions.Show(favorite.GenerationOptions);
+            
+            CodeHasChanged();
         }
     }
 }

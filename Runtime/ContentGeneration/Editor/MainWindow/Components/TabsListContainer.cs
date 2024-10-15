@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine.UIElements;
 
 namespace ContentGeneration.Editor.MainWindow.Components
@@ -41,18 +42,35 @@ namespace ContentGeneration.Editor.MainWindow.Components
             });
             RegisterCallback<AttachToPanelEvent>(_ =>
             {
-                foreach (var visualElement in contentContainer!.Children())
+                var selectIndex = 0;
+                var children = contentContainer!.Children().ToArray();
+                for (int i = 0; i < children.Length; i++)
                 {
+                    var visualElement = children[i];
                     if (visualElement is Tab t)
                     {
                         if (createdTabs.Add(t.tabName))
                         {
                             list.choices.Add(t.tabName);
                         }
+                        if (MainWindow.instance.showFavorite != null)
+                        {
+                            var generatorVisualElements = t.Children().
+                                Where(i => i is IGeneratorVisualElement).Cast<IGeneratorVisualElement>();
+                            foreach (var generatorVisualElement in generatorVisualElements)
+                            {
+                                if (generatorVisualElement.generator == MainWindow.instance.showFavorite?.Generator)
+                                {
+                                    selectIndex = i;
+                                    generatorVisualElement.Show(MainWindow.instance.showFavorite);
+                                    MainWindow.instance.showFavorite = null;
+                                }
+                            }
+                        }
                     }
                 }
 
-                list.index = 0;
+                list.index = selectIndex;
             });
         }
     }

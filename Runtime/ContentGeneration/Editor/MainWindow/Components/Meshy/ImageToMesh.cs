@@ -29,5 +29,7 @@ namespace ContentGeneration.Editor.MainWindow.Components.Meshy
                 parameters,
                 generationOptions, data: data);
         }
+
+        public override Generator generator => Generator.MeshyImageTo3d;
     }
 }

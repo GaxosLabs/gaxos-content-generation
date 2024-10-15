@@ -6,7 +6,8 @@ using UnityEngine.UIElements;
 
 namespace ContentGeneration.Editor.MainWindow.Components.Meshy
 {
-    public class TextToVoxel : ParametersBasedGenerator<TextToVoxelParameters, MeshyTextToVoxelParameters>
+    public class TextToVoxel : ParametersBasedGenerator<TextToVoxelParameters, MeshyTextToVoxelParameters>,
+        IGeneratorVisualElement
     {
         public new class UxmlFactory : UxmlFactory<TextToVoxel, UxmlTraits>
         {
@@ -29,5 +30,7 @@ namespace ContentGeneration.Editor.MainWindow.Components.Meshy
                 parameters,
                 generationOptions, data: data);
         }
+
+        public override Generator generator => Generator.MeshyTextToVoxel;
     }
 }

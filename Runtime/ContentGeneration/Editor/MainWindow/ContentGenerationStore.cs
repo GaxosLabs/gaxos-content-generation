@@ -107,5 +107,25 @@ namespace ContentGeneration.Editor.MainWindow
             stats = currentStats;
             OnStatsChanged?.Invoke(currentStats);
         }
+        
+        public readonly List<Favorite> Favorites = new();
+        public event Action<List<Favorite>> OnFavoritesChanged;
+        CancellationTokenSource _lastRefreshFavoritesListRequest;
+
+        public async Task RefreshFavoritesAsync()
+        {
+            _lastRefreshFavoritesListRequest?.Cancel();
+            var cts = _lastRefreshFavoritesListRequest = new CancellationTokenSource();
+
+            var currentFavorites = await ContentGenerationApi.Instance.GetFavorites();
+            if (cts.IsCancellationRequested)
+            {
+                return;
+            }
+
+            Favorites.Clear();
+            Favorites.AddRange(currentFavorites);
+            OnFavoritesChanged?.Invoke(Favorites);
+        }
     }
 }

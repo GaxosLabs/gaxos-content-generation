@@ -10,7 +10,7 @@ namespace ContentGeneration.Models.Stability
         [JsonProperty("clip_guidance_preset"), JsonConverter(typeof(ClipGuidancePresetConverter))]
         public ClipGuidancePreset ClipGuidancePreset = ClipGuidancePreset.None;
 
-        [JsonProperty("sampler"), JsonConverter(typeof(SamplerConverter))]
+        [JsonProperty("sampler", NullValueHandling = NullValueHandling.Ignore), JsonConverter(typeof(SamplerConverter))]
         public Sampler? Sampler;
 
         [JsonProperty("samples")] public uint Samples = 1;

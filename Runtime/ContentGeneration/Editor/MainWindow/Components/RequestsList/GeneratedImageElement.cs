@@ -70,7 +70,7 @@ namespace ContentGeneration.Editor.MainWindow.Components.RequestsList
         {
             generatedAsset = v;
             image.image = null;
-            image.AddManipulator(new Clickable(evt =>
+            image.AddManipulator(new Clickable(_ =>
             {
                 Application.OpenURL(generatedAsset.URL);
             }));

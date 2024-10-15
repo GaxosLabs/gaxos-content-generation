@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using ContentGeneration.Helpers;
+using ContentGeneration.Models;
 using ContentGeneration.Models.Stability;
 using UnityEngine;
 using UnityEngine.UIElements;
@@ -142,6 +143,25 @@ namespace ContentGeneration.Editor.MainWindow.Components.StabilityAI
                 $"\t\tSeed = {seed.value},\n" +
                 (sendStylePreset.value ? $"\t\tStylePreset = StylePreset.{(StylePreset)stylePreset.value},\n" : "") +
                 $"\t\tOutputFormat = OutputFormat.{(OutputFormat)outputFormat.value},\n";
+        }
+
+        public void Show(Favorite favorite)
+        {
+            var stabilityParameters = favorite.GeneratorParameters.ToObject<StabilityCoreTextToImageParameters>();
+            generationOptions.Show(favorite.GenerationOptions);
+
+            prompt.value = stabilityParameters.Prompt;
+            aspectRatio.value = stabilityParameters.AspectRatio;
+            negativePrompt.value = stabilityParameters.NegativePrompt;
+            seed.value = (int)stabilityParameters.Seed;
+            sendStylePreset.value = stabilityParameters.StylePreset.HasValue;
+            if (stabilityParameters.StylePreset.HasValue)
+            {
+                stylePreset.value = stabilityParameters.StylePreset.Value;
+            }
+            outputFormat.value = stabilityParameters.OutputFormat;
+
+            CodeHasChanged();
         }
     }
 }

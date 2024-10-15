@@ -22,7 +22,7 @@
         <ui:TextField picking-mode="Ignore" label="Sampler" name="sampler" multiline="true" auto-correction="true" keyboard-type="ASCIICapable" tooltip="Sampling engine to use for denoising the generated image, check the documentation for the available options" />
         <ui:TextField picking-mode="Ignore" label="Scheduler" name="scheduler" multiline="true" auto-correction="true" keyboard-type="ASCIICapable" tooltip="Noise schedule that will remove the noise from the generated image, check the documentation for the available options" />
         
-        <ui:Slider show-input-field="true" picking-mode="Ignore" label="Denoise" value="1.0" low-value="1" high-value="35" name="denoise" tooltip="How much information of the latents should be erased by noise" />
+        <ui:Slider show-input-field="true" picking-mode="Ignore" label="Denoise" value="1.0" low-value="0" high-value="1" name="denoise" tooltip="How much information of the latents should be erased by noise" />
         
         <ui:TextField picking-mode="Ignore" label="Loras" name="loras" multiline="true" auto-correction="true" keyboard-type="ASCIICapable" tooltip="Comma separated list of LoRas that will modify the style of your image, check the documentation for the available options" />
     </ui:VisualElement>

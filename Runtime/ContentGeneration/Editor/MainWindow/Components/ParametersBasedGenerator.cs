@@ -14,9 +14,10 @@ namespace ContentGeneration.Editor.MainWindow.Components
         bool Valid();
         void ApplyParameters(T parameters);
         string GetCode();
+        void Show(Favorite generatorParameters);
     }
     
-    public abstract class ParametersBasedGenerator<T, TU> : VisualElementComponent 
+    public abstract class ParametersBasedGenerator<T, TU> : VisualElementComponent, IGeneratorVisualElement 
         where T : VisualElement, IParameters<TU>
         where TU: new()
     {
@@ -97,6 +98,13 @@ namespace ContentGeneration.Editor.MainWindow.Components
                 "\t},\n" +
                 parameters.generationOptions?.GetCode() +
                 ")";
+        }
+
+        public abstract Generator generator { get; }
+
+        public void Show(Favorite favorite)
+        {
+            parameters.Show(favorite);
         }
     }
 }

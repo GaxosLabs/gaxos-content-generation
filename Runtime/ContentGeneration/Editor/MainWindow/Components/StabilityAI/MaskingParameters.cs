@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using ContentGeneration.Models;
 using ContentGeneration.Models.Stability;
 using UnityEngine;
 using UnityEngine.UIElements;
@@ -74,9 +75,12 @@ namespace ContentGeneration.Editor.MainWindow.Components.StabilityAI
             imageRequired.style.visibility = Visibility.Hidden;
             maskRequired.style.visibility = Visibility.Hidden;
 
-            mask.style.display = (MaskSource)maskSource.value == MaskSource.InitImageAlpha
-                ? DisplayStyle.None
-                : DisplayStyle.Flex;
+            RegisterCallback<AttachToPanelEvent>(_ =>
+                {
+                    mask.style.display = (MaskSource)maskSource.value == MaskSource.InitImageAlpha
+                        ? DisplayStyle.None
+                        : DisplayStyle.Flex;
+                });
             maskSource.RegisterValueChangedCallback(evt =>
             {
                 mask.style.display = (MaskSource)evt.newValue == MaskSource.InitImageAlpha
@@ -144,6 +148,17 @@ namespace ContentGeneration.Editor.MainWindow.Components.StabilityAI
                    (maskSourceValue == MaskSource.InitImageAlpha ? "" : "\t\tMaskImage = <Texture2D object>,\n") +
                    $"\t\tMaskSource = MaskSource.{maskSourceValue},\n" +
                    stabilityParameters.GetCode();
+        }
+
+        public void Show(Favorite favorite)
+        {
+            var stabilityMaskedImageParameters = favorite.GeneratorParameters.ToObject<StabilityMaskedImageParameters>();
+            stabilityParameters.Show(stabilityMaskedImageParameters);
+            generationOptions.Show(favorite.GenerationOptions);
+            
+            engine.value = stabilityMaskedImageParameters.EngineId;
+            maskSource.value = stabilityMaskedImageParameters.MaskSource;
+            CodeHasChanged();
         }
     }
 }

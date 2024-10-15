@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine.UIElements;
 
 namespace ContentGeneration.Editor.MainWindow.Components
@@ -20,24 +21,25 @@ namespace ContentGeneration.Editor.MainWindow.Components
         public override VisualElement contentContainer => this.Q<VisualElement>("contentContainer");
         VisualElement tabToggles => this.Q<VisualElement>("tabToggles");
 
-        readonly HashSet<string> createdTabs = new();
+        readonly Dictionary<string, RadioButton> createdTabs = new();
 
         public TabsContainer()
         {
-            RegisterCallback<AttachToPanelEvent>(e =>
+            RegisterCallback<AttachToPanelEvent>(_ =>
             {
-                RadioButton firstRadioButton = null;
+                RadioButton showRadioButton = null;
                 foreach (var visualElement in contentContainer!.Children())
                 {
                     if (visualElement is Tab t)
                     {
-                        if (createdTabs.Add(t.tabName))
+                        if (!createdTabs.ContainsKey(t.tabName))
                         {
                             var tabToggle = new RadioButton(t.tabName);
-                            if (firstRadioButton == null)
+                            if (showRadioButton == null)
                             {
-                                firstRadioButton = tabToggle;
+                                showRadioButton = tabToggle;
                             }
+                            createdTabs.Add(t.tabName, tabToggle);
                             tabToggle.RegisterValueChangedCallback(v =>
                             {
                                 visualElement.style.display = v.newValue ? DisplayStyle.Flex : DisplayStyle.None;
@@ -45,12 +47,29 @@ namespace ContentGeneration.Editor.MainWindow.Components
                             tabToggles.Add(tabToggle);
                             visualElement.style.display = DisplayStyle.None;
                         }
+                        if (MainWindow.instance.showFavorite != null)
+                        {
+                            var generatorVisualElements = t.Children().
+                                Where(i => i is IGeneratorVisualElement).Cast<IGeneratorVisualElement>();
+                            foreach (var generatorVisualElement in generatorVisualElements)
+                            {
+                                if (generatorVisualElement.generator == MainWindow.instance.showFavorite?.Generator)
+                                {
+                                    showRadioButton = createdTabs[t.tabName];
+                                    generatorVisualElement.Show(MainWindow.instance.showFavorite);
+                                    MainWindow.instance.showFavorite = null;
+                                }
+                            }
+                        }
                     }
                 }
 
-                if (firstRadioButton != null)
+                if (showRadioButton != null)
                 {
-                    firstRadioButton.value = true;
+                    foreach (var radioButton in createdTabs.Values)
+                    {
+                        radioButton.value = showRadioButton == radioButton;
+                    }
                 }
             });
         }

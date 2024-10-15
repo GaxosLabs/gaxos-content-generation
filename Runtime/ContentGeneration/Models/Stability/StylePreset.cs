@@ -31,7 +31,7 @@ namespace ContentGeneration.Models.Stability
             var str = value switch
             {
                 StylePreset.ThreeDModel => "3d-model",
-                _ => CamelCaseToDashes(value.ToString())
+                _ => value.ToString().CamelCaseToDashes()
             };
             writer.WriteValue(str);
         }
@@ -42,7 +42,7 @@ namespace ContentGeneration.Models.Stability
             {
                 return StylePreset.ThreeDModel.ToString();
             }
-            return DashesToCamelCase(str);
+            return str.DashesToCamelCase();
         }
     }
 }

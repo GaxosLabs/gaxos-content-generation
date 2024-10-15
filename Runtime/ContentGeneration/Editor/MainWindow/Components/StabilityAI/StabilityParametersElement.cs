@@ -40,13 +40,8 @@ namespace ContentGeneration.Editor.MainWindow.Components.StabilityAI
         {
             addPrompt.clicked += () =>
             {
-                promptsContainer.Add(new TextPrompt(sender =>
-                    {
-                        promptsContainer.Remove(sender);
-                        CodeHasChanged?.Invoke();
-                    },
-                    () => CodeHasChanged?.Invoke()));
-                CodeHasChanged.Invoke();
+                AddPrompt();
+                CodeHasChanged?.Invoke();
             };
             promptRequired.style.visibility = Visibility.Hidden;
 
@@ -87,6 +82,16 @@ namespace ContentGeneration.Editor.MainWindow.Components.StabilityAI
             });
             stylePreset.value = stylePreset.choices[0];
             stylePreset.RegisterValueChangedCallback(_ => CodeHasChanged?.Invoke());
+        }
+
+        void AddPrompt()
+        {
+            promptsContainer.Add(new TextPrompt(sender =>
+                {
+                    promptsContainer.Remove(sender);
+                    CodeHasChanged?.Invoke();
+                },
+                () => CodeHasChanged?.Invoke()));
         }
 
         TextPrompt[] prompts
@@ -153,6 +158,40 @@ namespace ContentGeneration.Editor.MainWindow.Components.StabilityAI
             {
                 stabilityParameters.StylePreset = stylePreset.value;
             }
+        }
+
+        public void Show(StabilityParameters stabilityParameters)
+        {
+            while (promptsContainer.childCount < stabilityParameters.TextPrompts.Length)
+            {
+                AddPrompt();
+            }
+
+            while (promptsContainer.childCount > stabilityParameters.TextPrompts.Length)
+            {
+                promptsContainer.RemoveAt(0);
+            }
+
+            var prompts = this.prompts;
+            for (var i = 0; i < stabilityParameters.TextPrompts.Length; i++)
+            {
+                prompts[i].prompt.Text = stabilityParameters.TextPrompts[i].Text;
+                prompts[i].prompt.Weight = stabilityParameters.TextPrompts[i].Weight;
+            }
+
+            cfgScale.value = (int)stabilityParameters.CfgScale;
+            clipGuidancePreset.value = stabilityParameters.ClipGuidancePreset;
+            sendSampler.value = stabilityParameters.Sampler.HasValue;
+            if (stabilityParameters.Sampler.HasValue)
+            {
+                sampler.value = stabilityParameters.Sampler.Value;
+            }
+
+            samples.value = (int)stabilityParameters.Samples;
+            seed.value = (int)stabilityParameters.Seed;
+            steps.value = (int)stabilityParameters.Steps;
+            stylePreset.value = string.IsNullOrEmpty(stabilityParameters.StylePreset) ?
+                "<None>" : stabilityParameters.StylePreset;
         }
     }
 }

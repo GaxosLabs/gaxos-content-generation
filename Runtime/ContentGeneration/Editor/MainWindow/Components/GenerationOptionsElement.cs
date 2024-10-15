@@ -103,5 +103,28 @@ namespace ContentGeneration.Editor.MainWindow.Components
 
             return ret;
         }
+
+        public void Show(GenerationOptions generationOptions)
+        {
+            if(generationOptions == null)
+            {
+                makeTransparentColor.value = false;
+                improvePrompt.value = false;
+            }
+            else
+            {
+                makeTransparentColor.value = generationOptions.TransparentColor.HasValue;
+                if(generationOptions.TransparentColor.HasValue)
+                {
+                    transparentColor.value = new Color(
+                        generationOptions.TransparentColor.Value.r,
+                        generationOptions.TransparentColor.Value.g,
+                        generationOptions.TransparentColor.Value.b
+                    );
+                }
+                transparentColorReplaceDelta.value = generationOptions.TransparentColorReplaceDelta;
+                improvePrompt.value = generationOptions.ImprovePrompt;
+            }
+        }
     }
 }

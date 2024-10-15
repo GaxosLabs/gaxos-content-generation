@@ -165,5 +165,14 @@ namespace ContentGeneration.Editor.MainWindow.Components.DallE
             dallEParameters.Height = uint.Parse(r[1]);
             dallEParameters.Style = m == Model.DallE2 ? null : (Style)generationStyle.value;
         }
+
+        public void Show(DallEParameters dallEParameters)
+        {
+            prompt.value = dallEParameters.Prompt;
+            model.value = dallEParameters.Model;
+            nSamples.value = (int)dallEParameters.N;
+            quality.value = dallEParameters.Quality ?? Quality.Standard;
+            resolution.value = $"{dallEParameters.Width}x{dallEParameters.Height}";
+        }
     }
 }

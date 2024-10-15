@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using ContentGeneration.Models;
 using ContentGeneration.Models.Stability;
 using UnityEngine.UIElements;
 
@@ -235,6 +236,19 @@ namespace ContentGeneration.Editor.MainWindow.Components.StabilityAI
                 $"\t\tWidth = {uint.Parse(width.value)},\n" +
                 $"\t\tHeight = {uint.Parse(height.value)},\n" +
                 stabilityParameters.GetCode();
+        }
+
+        public void Show(Favorite favorite)
+        {
+            var stabilityParameters = favorite.GeneratorParameters.ToObject<StabilityTextToImageParameters>();
+            this.stabilityParameters.Show(stabilityParameters);
+            generationOptions.Show(favorite.GenerationOptions);
+            
+            engine.value = stabilityParameters.EngineId;
+            width.value = stabilityParameters.Width.ToString();
+            height.value = stabilityParameters.Height.ToString();
+
+            CodeHasChanged();
         }
     }
 }

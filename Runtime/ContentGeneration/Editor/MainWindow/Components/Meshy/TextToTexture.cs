@@ -1,6 +1,8 @@
 using System.Collections.Generic;
 using System.IO;
 using ContentGeneration.Helpers;
+using ContentGeneration.Models;
+using ContentGeneration.Models.DallE;
 using ContentGeneration.Models.Meshy;
 using UnityEditor;
 using UnityEditor.UIElements;
@@ -10,7 +12,7 @@ using Resolution = ContentGeneration.Models.Meshy.Resolution;
 
 namespace ContentGeneration.Editor.MainWindow.Components.Meshy
 {
-    public class TextToTexture : VisualElementComponent
+    public class TextToTexture : VisualElementComponent, IGeneratorVisualElement
     {
         public new class UxmlFactory : UxmlFactory<TextToTexture, UxmlTraits>
         {
@@ -194,6 +196,23 @@ namespace ContentGeneration.Editor.MainWindow.Components.Meshy
                 "\t},\n" +
                 $"{generationOptionsElement?.GetCode()}" +
                 ")";
+        }
+
+        public Generator generator => Generator.MeshyTextToTexture;
+        public void Show(Favorite favorite)
+        {
+            var parameters = favorite.GeneratorParameters.ToObject<MeshyTextToTextureParameters>();
+            generationOptionsElement.Show(favorite.GenerationOptions);
+
+            objectPrompt.value = parameters.ObjectPrompt;
+            stylePrompt.value = parameters.StylePrompt;
+            negativePrompt.value = parameters.NegativePrompt;
+            enableOriginalUv.value = parameters.EnableOriginalUV;
+            enablePbr.value = parameters.EnablePbr;
+            resolution.value = parameters.Resolution;
+            artStyle.value = parameters.ArtStyle;
+                
+            RefreshCode();
         }
     }
 }

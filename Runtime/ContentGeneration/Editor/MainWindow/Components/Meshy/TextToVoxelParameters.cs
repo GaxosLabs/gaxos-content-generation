@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using ContentGeneration.Helpers;
+using ContentGeneration.Models;
 using ContentGeneration.Models.Meshy;
 using UnityEngine;
 using UnityEngine.UIElements;
@@ -131,6 +132,16 @@ namespace ContentGeneration.Editor.MainWindow.Components.Meshy
                    $"\t\tVoxelSizeShrinkFactor = VoxelSizeShrinkFactor.{voxelSizeShrinkFactor.value},\n" +
                    $"\t\tNegativePrompt = \"{negativePrompt.value}\",\n" +
                    (sendSeed.value ? $"\t\tHeight = {seed.value}\n" : "");
+        }
+
+        public void Show(Favorite favorite)
+        {
+            var parameters = favorite.GeneratorParameters.ToObject<MeshyTextToVoxelParameters>();
+            prompt.value = parameters.Prompt;
+            voxelSizeShrinkFactor.value = parameters.VoxelSizeShrinkFactor;
+            negativePrompt.value = parameters.NegativePrompt;
+            sendSeed.value = parameters.Seed.HasValue;
+            seed.value = parameters.Seed ?? 0;
         }
     }
 }

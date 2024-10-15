@@ -1,3 +1,4 @@
+using System;
 using System.Linq;
 using ContentGeneration.Editor.MainWindow.Components;
 using ContentGeneration.Editor.MainWindow.Components.BasicExamples;
@@ -6,6 +7,8 @@ using ContentGeneration.Editor.MainWindow.Components.Gaxos;
 using ContentGeneration.Editor.MainWindow.Components.Meshy;
 using ContentGeneration.Editor.MainWindow.Components.Multi;
 using ContentGeneration.Editor.MainWindow.Components.RequestsList;
+using ContentGeneration.Editor.MainWindow.Components.FavoritesList;
+using ContentGeneration.Editor.MainWindow.Components.StabilityAI;
 using ContentGeneration.Helpers;
 using ContentGeneration.Models;
 using UnityEditor;
@@ -19,12 +22,19 @@ namespace ContentGeneration.Editor.MainWindow
         [SerializeField] VisualTreeAsset _root;
         SubWindowToggle[] _allToggles;
 
+        GaxosTab _gaxosTab;
+        DallETab _dallETab;
+        StabilityTab _stabilityAITab;
+        MeshyTab _meshyTab;
+
+        public static MainWindow instance { get; private set; }
+
         [MenuItem("AI Content Generation/Main window")]
         public static void ShowMainWindow()
         {
-            var wnd = GetWindow<MainWindow>();
-            wnd.minSize = new Vector2(500, 300);
-            wnd.titleContent = new GUIContent("AI Content Generation");
+            instance = GetWindow<MainWindow>();
+            instance.minSize = new Vector2(500, 300);
+            instance.titleContent = new GUIContent("AI Content Generation");
         }
 
         public void CreateGUI()
@@ -32,13 +42,19 @@ namespace ContentGeneration.Editor.MainWindow
             var rootInstance = _root.Instantiate();
             rootInstance.style.height = new StyleLength(new Length(100, LengthUnit.Percent));
 
-            var gaxos = rootInstance.Q<GaxosTab>();
-            var dallE = rootInstance.Q<DallETab>();
-            var stabilityAI = rootInstance.Q<Components.StabilityAI.StabilityTab>();
-            var meshy = rootInstance.Q<MeshyTab>();
+            rootInstance.RegisterCallback<AttachToPanelEvent>(_ =>
+            {
+                instance = this;
+            });
+
+            _gaxosTab = rootInstance.Q<GaxosTab>();
+            _dallETab = rootInstance.Q<DallETab>();
+            _stabilityAITab = rootInstance.Q<StabilityTab>();
+            _meshyTab = rootInstance.Q<MeshyTab>();
             var multiTextToImage = rootInstance.Q<MultiTextToImage>();
             var multiMasking = rootInstance.Q<MultiMasking>();
             var requestsList = rootInstance.Q<RequestsListTab>();
+            var favoritesList = rootInstance.Q<FavoritesListTab>();
             var basicGeneration = rootInstance.Q<BasicExamplesTab>();
             var configuration = rootInstance.Q<Configuration>();
 
@@ -52,26 +68,25 @@ namespace ContentGeneration.Editor.MainWindow
             var sideMenuItemsContainer = rootInstance.Q<VisualElement>("sideMenuItemsContainer");
             var sideMenuGeneratorsContainer = rootInstance.Q<VisualElement>("sideMenuGeneratorsContainer");
             var sideMenuMultiGeneratorsContainer = rootInstance.Q<VisualElement>("sideMenuMultiGeneratorsContainer");
-            _allToggles = sideMenuItemsContainer.Children().
-                Concat(sideMenuGeneratorsContainer.Children()).
-                Concat(sideMenuMultiGeneratorsContainer.Children()).
-                Where(c => c is SubWindowToggle).Cast<SubWindowToggle>().ToArray();
-            
+            _allToggles = sideMenuItemsContainer.Children().Concat(sideMenuGeneratorsContainer.Children())
+                .Concat(sideMenuMultiGeneratorsContainer.Children()).Where(c => c is SubWindowToggle)
+                .Cast<SubWindowToggle>().ToArray();
+
             rootInstance.Q<SubWindowToggleIcon>("subWindowToggleGaxos").OnToggled += (sender, v) =>
             {
-                ToggleSubWindow(sender, v, subWindowsContainer, gaxos);
+                ToggleSubWindow(sender, v, subWindowsContainer, _gaxosTab);
             };
             rootInstance.Q<SubWindowToggleIcon>("subWindowToggleDallE").OnToggled += (sender, v) =>
             {
-                ToggleSubWindow(sender, v, subWindowsContainer, dallE);
+                ToggleSubWindow(sender, v, subWindowsContainer, _dallETab);
             };
             rootInstance.Q<SubWindowToggleIcon>("subWindowToggleStabilityAI").OnToggled += (sender, v) =>
             {
-                ToggleSubWindow(sender, v, subWindowsContainer, stabilityAI);
+                ToggleSubWindow(sender, v, subWindowsContainer, _stabilityAITab);
             };
             rootInstance.Q<SubWindowToggleIcon>("subWindowToggleMeshy").OnToggled += (sender, v) =>
             {
-                ToggleSubWindow(sender, v, subWindowsContainer, meshy);
+                ToggleSubWindow(sender, v, subWindowsContainer, _meshyTab);
             };
             rootInstance.Q<SubWindowToggleIcon>("subWindowToggleMultiTextToImage").OnToggled += (sender, v) =>
             {
@@ -85,6 +100,10 @@ namespace ContentGeneration.Editor.MainWindow
             {
                 ToggleSubWindow(sender, v, subWindowsContainer, requestsList);
             };
+            rootInstance.Q<SubWindowToggle>("subWindowToggleFavoritesList").OnToggled += (sender, v) =>
+            {
+                ToggleSubWindow(sender, v, subWindowsContainer, favoritesList);
+            };
             rootInstance.Q<SubWindowToggle>("subWindowToggleBasicExamples").OnToggled += (sender, v) =>
             {
                 ToggleSubWindow(sender, v, subWindowsContainer, basicGeneration);
@@ -97,7 +116,7 @@ namespace ContentGeneration.Editor.MainWindow
 
             var credits = rootInstance.Q<TextField>("credits");
             var refreshCredits = rootInstance.Q<Button>("refreshCredits");
-            
+
             void RefreshStats(Stats v)
             {
                 if (v == null)
@@ -105,8 +124,10 @@ namespace ContentGeneration.Editor.MainWindow
                     credits.value = "";
                     return;
                 }
-                credits.value =  $"{v.Credits.Total - v.Credits.Used} / {v.Credits.Total}";
+
+                credits.value = $"{v.Credits.Total - v.Credits.Used} / {v.Credits.Total}";
             }
+
             ContentGenerationStore.Instance.OnStatsChanged += RefreshStats;
             RefreshStats(ContentGenerationStore.Instance.stats);
             refreshCredits.clicked += () =>
@@ -114,10 +135,7 @@ namespace ContentGeneration.Editor.MainWindow
                 if (!refreshCredits.enabledSelf)
                     return;
                 refreshCredits.SetEnabled(false);
-                ContentGenerationStore.Instance.RefreshStatsAsync().Finally(() =>
-                {
-                    refreshCredits.SetEnabled(true);
-                });
+                ContentGenerationStore.Instance.RefreshStatsAsync().Finally(() => { refreshCredits.SetEnabled(true); });
             };
             if (string.IsNullOrEmpty(Settings.instance.apiKey))
             {
@@ -130,7 +148,7 @@ namespace ContentGeneration.Editor.MainWindow
 
             rootVisualElement.Add(rootInstance);
         }
-        
+
         void ToggleSubWindow(SubWindowToggle sender, bool v, VisualElement subWindowsContainer,
             VisualElement subWindow)
         {
@@ -151,6 +169,43 @@ namespace ContentGeneration.Editor.MainWindow
             {
                 subWindowsContainer.Remove(subWindow);
             }
+        }
+
+        public Favorite showFavorite;
+        public void GoTo(Favorite favorite)
+        {
+            string toggleName;
+            switch (favorite.Generator)
+            {
+                case Generator.StabilityTextToImage:
+                case Generator.StabilityTextToImageCore:
+                case Generator.StabilityTextToImageUltra:
+                case Generator.StabilityDiffusion3:
+                case Generator.StabilityStableFast3d:
+                case Generator.StabilityImageToImage:
+                case Generator.StabilityMasking:
+                    toggleName = "subWindowToggleStabilityAI";
+                    break;
+                case Generator.DallETextToImage:
+                case Generator.DallEInpainting:
+                    toggleName = "subWindowToggleDallE";
+                    break;
+                case Generator.MeshyTextToMesh:
+                case Generator.MeshyTextToTexture:
+                case Generator.MeshyTextToVoxel:
+                case Generator.MeshyImageTo3d:
+                    toggleName = "subWindowToggleMeshy";
+                    break;
+                case Generator.GaxosTextToImage:
+                case Generator.GaxosMasking:
+                    toggleName = "subWindowToggleGaxos";
+                    break;
+                default:
+                    throw new ArgumentOutOfRangeException("generator", favorite.Generator.ToString());
+            }
+
+            _allToggles.First(i => i.name == toggleName).ToggleOn();
+            showFavorite = favorite;
         }
     }
 }

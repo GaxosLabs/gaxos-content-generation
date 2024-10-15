@@ -1,13 +1,15 @@
 using System;
 using System.Collections.Generic;
 using ContentGeneration.Helpers;
+using ContentGeneration.Models;
+using ContentGeneration.Models.DallE;
 using ContentGeneration.Models.Stability;
 using UnityEngine;
 using UnityEngine.UIElements;
 
 namespace ContentGeneration.Editor.MainWindow.Components.StabilityAI
 {
-    public class ImageToImage : VisualElementComponent
+    public class ImageToImage : VisualElementComponent, IGeneratorVisualElement
     {
         public new class UxmlFactory : UxmlFactory<ImageToImage, UxmlTraits>
         {
@@ -172,6 +174,34 @@ namespace ContentGeneration.Editor.MainWindow.Components.StabilityAI
                 "\t},\n" +
                 $"{generationOptions.GetCode()}" +
                 ")";
+        }
+
+        public Generator generator => Generator.StabilityImageToImage;
+        public void Show(Favorite favorite)
+        {
+            var parameters = favorite.GeneratorParameters.ToObject<StabilityImageToImageParameters>();
+            stabilityParameters.Show(parameters);
+            generationOptions.Show(favorite.GenerationOptions);
+
+            engine.value = parameters.EngineId;
+            initImageMode.value = parameters.InitImageMode;
+            if(parameters.ImageStrength.HasValue)
+            {
+                imageStrength.value = parameters.ImageStrength.Value;
+            }
+
+            if (parameters.StepScheduleStart.HasValue)
+            {
+                stepScheduleStart.value = parameters.StepScheduleStart.Value;
+            }
+
+            sendStepScheduleEnd.value = parameters.StepScheduleEnd.HasValue;
+            if (parameters.StepScheduleEnd.HasValue)
+            {
+                stepScheduleEnd.value = parameters.StepScheduleEnd.Value;
+            }
+
+            RefreshCode();
         }
     }
 }

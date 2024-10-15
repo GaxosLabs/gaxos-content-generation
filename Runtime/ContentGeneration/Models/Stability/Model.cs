@@ -1,3 +1,5 @@
+using System;
+using System.Diagnostics;
 using ContentGeneration.Helpers;
 using Newtonsoft.Json;
 
@@ -12,12 +14,19 @@ namespace ContentGeneration.Models.Stability
     {
         public override void WriteJson(JsonWriter writer, Model value, JsonSerializer serializer)
         {
-            writer.WriteValue(CamelCaseToDashes(value.ToString()));
+            var str = value switch
+            {
+                Model.Sd3Large => "sd3-large",
+                Model.Sd3LargeTurbo => "sd3-large-turbo",
+                Model.Sd3Medium => "sd3-medium",
+                _ => throw new ArgumentOutOfRangeException(nameof(value), value, null)
+            };
+            writer.WriteValue(str);
         }
 
         protected override string AdaptString(string str)
         {
-            return DashesToCamelCase(str);
+            return str.DashesToCamelCase();
         }
     }
 }

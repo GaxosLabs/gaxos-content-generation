@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using ContentGeneration.Models;
 using ContentGeneration.Models.Gaxos;
 using UnityEngine;
 using UnityEngine.UIElements;
@@ -38,7 +39,7 @@ namespace ContentGeneration.Editor.MainWindow.Components.Gaxos
                 mask.style.display = value ? DisplayStyle.None : DisplayStyle.Flex;
                 if (!value)
                 {
-                    maskRequired.style.display = DisplayStyle.None;
+                    maskRequired.style.visibility = Visibility.Hidden;
                 }
             }
         }
@@ -89,6 +90,15 @@ namespace ContentGeneration.Editor.MainWindow.Components.Gaxos
         {
             return gaxosParametersElement.GetCode() +
                    "\t\tMask = <Texture2D object>,\n";
+        }
+
+        public void Show(Favorite favorite)
+        {
+            var gaxosMaskingParameters = favorite.GeneratorParameters.ToObject<GaxosMaskingParameters>();
+            gaxosParametersElement.Show(gaxosMaskingParameters);
+            generationOptions.Show(favorite.GenerationOptions);
+            
+            CodeHasChanged();
         }
     }
 }

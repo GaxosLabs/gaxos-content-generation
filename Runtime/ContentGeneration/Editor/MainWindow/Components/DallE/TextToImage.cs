@@ -28,5 +28,7 @@ namespace ContentGeneration.Editor.MainWindow.Components.DallE
                     generationOptions, 
                     data: data);
         }
+
+        public override Generator generator => Generator.DallETextToImage;
     }
 }

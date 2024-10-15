@@ -1,12 +1,14 @@
 using System.Collections.Generic;
 using ContentGeneration.Helpers;
+using ContentGeneration.Models;
+using ContentGeneration.Models.DallE;
 using ContentGeneration.Models.Meshy;
 using UnityEngine;
 using UnityEngine.UIElements;
 
 namespace ContentGeneration.Editor.MainWindow.Components.Meshy
 {
-    public class TextToMesh : VisualElementComponent
+    public class TextToMesh : VisualElementComponent, IGeneratorVisualElement
     {
         public new class UxmlFactory : UxmlFactory<TextToMesh, UxmlTraits>
         {
@@ -132,6 +134,19 @@ namespace ContentGeneration.Editor.MainWindow.Components.Meshy
                 "\t},\n" +
                 $"{generationOptionsElement?.GetCode()}" +
                 ")";
+        }
+
+        public Generator generator => Generator.MeshyTextToMesh;
+        public void Show(Favorite favorite)
+        {
+            var parameters = favorite.GeneratorParameters.ToObject<MeshyTextToMeshParameters>();
+            generationOptionsElement.Show(favorite.GenerationOptions);
+
+            prompt.value = parameters.Prompt;
+            negativePrompt.value = parameters.NegativePrompt;
+            artStyle.value = parameters.ArtStyle;
+            
+            RefreshCode();
         }
     }
 }

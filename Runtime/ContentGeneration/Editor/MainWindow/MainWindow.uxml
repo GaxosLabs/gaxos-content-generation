@@ -33,6 +33,9 @@
                             <ui:Label tabindex="-1" text="Requests List" parse-escape-sequences="true" display-tooltip-when-elided="true" class="sideMenuItemHeader" />
                             <ui:VisualElement class="sideMenuItemSeparator" />
                             <ContentGeneration.Editor.MainWindow.Components.SubWindowToggle Sub-Window-Name="Requests List" name="subWindowToggleRequestsList" />
+                            <ui:Label tabindex="-1" text="Favorites List" parse-escape-sequences="true" display-tooltip-when-elided="true" class="sideMenuItemHeader" />
+                            <ui:VisualElement class="sideMenuItemSeparator" />
+                            <ContentGeneration.Editor.MainWindow.Components.SubWindowToggle Sub-Window-Name="Favorites List" name="subWindowToggleFavoritesList" />
                             <ui:Label tabindex="-1" text="Basic Examples" parse-escape-sequences="true" display-tooltip-when-elided="true" class="sideMenuItemHeader" />
                             <ui:VisualElement class="sideMenuItemSeparator" />
                             <ContentGeneration.Editor.MainWindow.Components.SubWindowToggle Sub-Window-Name="Basic Examples" name="subWindowToggleBasicExamples" />
@@ -51,6 +54,7 @@
                 <ContentGeneration.Editor.MainWindow.Components.Multi.MultiTextToImage />
                 <ContentGeneration.Editor.MainWindow.Components.Multi.MultiMasking />
                 <ContentGeneration.Editor.MainWindow.Components.RequestsList.RequestsListTab />
+                <ContentGeneration.Editor.MainWindow.Components.FavoritesList.FavoritesListTab />
                 <ContentGeneration.Editor.MainWindow.Components.BasicExamples.BasicExamplesTab />
                 <ContentGeneration.Editor.MainWindow.Components.Configuration />
             </ui:VisualElement>
