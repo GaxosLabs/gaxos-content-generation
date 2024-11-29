@@ -12,6 +12,6 @@
 	"samples": [],
 	"repository": {
 		"type": "git",
-		"url": "https://github.com/GaxosLabs/gaxos-content-generation"
+		"url": "https://github.com/GaxosLabs/gaxos-content-generation.git"
 	}
 }
