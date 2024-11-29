@@ -18,6 +18,11 @@ Gaxos Labs is a cutting-edge suite of AI tools designed to revolutionize game de
 
 - [Installation Guide](https://gaxoslabs.ai/documentation/getting-started)
 
+### ⚠️ **IMPORTANT**
+
+After installing the plugin for the first time you might get some errors, *make sure to restart Unity*
+
+
 ### 💬 **Community and Support**
 - **Discord**: Join our [Discord server](https://discord.com/invite/ZvKKeC7ruA) for real-time support, discussions, and feedback.
 - **GitHub Issues**: Found a bug or have a feature request? Open an issue, and we’ll address it ASAP.
