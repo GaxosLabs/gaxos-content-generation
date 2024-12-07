@@ -22,6 +22,7 @@
                                 <ContentGeneration.Editor.MainWindow.Components.SubWindowToggleIcon Sub-Window-Name="Gaxos Labs AI" name="subWindowToggleGaxos" />
                                 <ContentGeneration.Editor.MainWindow.Components.SubWindowToggleIcon Sub-Window-Name="Dall-E" name="subWindowToggleDallE" />
                                 <ContentGeneration.Editor.MainWindow.Components.SubWindowToggleIcon Sub-Window-Name="Stability AI" name="subWindowToggleStabilityAI" />
+                                <ContentGeneration.Editor.MainWindow.Components.SubWindowToggleIcon Sub-Window-Name="Recraft" name="subWindowToggleRecraft" />
                                 <ContentGeneration.Editor.MainWindow.Components.SubWindowToggleIcon Sub-Window-Name="Meshy" name="subWindowToggleMeshy" />
                                 <ContentGeneration.Editor.MainWindow.Components.SubWindowToggleIcon Sub-Window-Name="Eleven Labs" name="subWindowToggleElevenLabs" />
                             </ui:VisualElement>
@@ -53,6 +54,7 @@
                 <ContentGeneration.Editor.MainWindow.Components.StabilityAI.StabilityTab />
                 <ContentGeneration.Editor.MainWindow.Components.Meshy.MeshyTab />
                 <ContentGeneration.Editor.MainWindow.Components.ElevenLabs.ElevenLabsTab />
+                <ContentGeneration.Editor.MainWindow.Components.Recraft.RecraftTab />
                 <ContentGeneration.Editor.MainWindow.Components.Multi.MultiTextToImage />
                 <ContentGeneration.Editor.MainWindow.Components.Multi.MultiMasking />
                 <ContentGeneration.Editor.MainWindow.Components.RequestsList.RequestsListTab />

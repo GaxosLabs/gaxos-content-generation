@@ -10,6 +10,7 @@ using ContentGeneration.Models.DallE;
 using ContentGeneration.Models.ElevenLabs;
 using ContentGeneration.Models.Gaxos;
 using ContentGeneration.Models.Meshy;
+using ContentGeneration.Models.Recraft;
 using ContentGeneration.Models.Stability;
 using Newtonsoft.Json;
 using UnityEngine;
@@ -417,6 +418,16 @@ namespace ContentGeneration
         {
             return RequestGeneration(
                 Generator.ElevenLabsTextToSpeech,
+                generatorParameters, options, data);
+        }
+
+        public Task<string> RequestRecraftTextToImageGeneration(
+            RecraftTextToImageParameters generatorParameters,
+            GenerationOptions options = GenerationOptions.None,
+            object data = null)
+        {
+            return RequestGeneration(
+                Generator.RecraftTextToImage,
                 generatorParameters, options, data);
         }
     }

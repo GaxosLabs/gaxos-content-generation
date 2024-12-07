@@ -1,5 +1,6 @@
 using System;
 using System.Linq;
+using ContentGeneration.Editor.MainWindow.Components.Recraft;
 using ContentGeneration.Editor.MainWindow.Components;
 using ContentGeneration.Editor.MainWindow.Components.BasicExamples;
 using ContentGeneration.Editor.MainWindow.Components.DallE;
@@ -28,6 +29,7 @@ namespace ContentGeneration.Editor.MainWindow
         StabilityTab _stabilityAITab;
         MeshyTab _meshyTab;
         ElevenLabsTab _elevenLabsTab;
+        RecraftTab _recraftTab;
 
         public static MainWindow instance { get; private set; }
 
@@ -54,6 +56,7 @@ namespace ContentGeneration.Editor.MainWindow
             _stabilityAITab = rootInstance.Q<StabilityTab>();
             _meshyTab = rootInstance.Q<MeshyTab>();
             _elevenLabsTab = rootInstance.Q<ElevenLabsTab>();
+            _recraftTab = rootInstance.Q<RecraftTab>();
             var multiTextToImage = rootInstance.Q<MultiTextToImage>();
             var multiMasking = rootInstance.Q<MultiMasking>();
             var requestsList = rootInstance.Q<RequestsListTab>();
@@ -94,6 +97,10 @@ namespace ContentGeneration.Editor.MainWindow
             rootInstance.Q<SubWindowToggleIcon>("subWindowToggleElevenLabs").OnToggled += (sender, v) =>
             {
                 ToggleSubWindow(sender, v, subWindowsContainer, _elevenLabsTab);
+            };
+            rootInstance.Q<SubWindowToggleIcon>("subWindowToggleRecraft").OnToggled += (sender, v) =>
+            {
+                ToggleSubWindow(sender, v, subWindowsContainer, _recraftTab);
             };
             rootInstance.Q<SubWindowToggleIcon>("subWindowToggleMultiTextToImage").OnToggled += (sender, v) =>
             {
@@ -210,6 +217,9 @@ namespace ContentGeneration.Editor.MainWindow
                 case Generator.ElevenLabsSound:
                 case Generator.ElevenLabsTextToSpeech:
                     toggleName = "subWindowToggleElevenLabs";
+                    break;
+                case Generator.RecraftTextToImage:
+                    toggleName = "subWindowToggleRecraft";
                     break;
                 default:
                     throw new ArgumentOutOfRangeException("generator", favorite.Generator.ToString());

@@ -11,7 +11,8 @@ namespace ContentGeneration.Models
         DallETextToImage, DallEInpainting,
         MeshyTextToMesh, MeshyTextToTexture, MeshyTextToVoxel, MeshyImageTo3d,
         GaxosTextToImage, GaxosMasking,
-        ElevenLabsSound, ElevenLabsTextToSpeech
+        ElevenLabsSound, ElevenLabsTextToSpeech,
+        RecraftTextToImage
     }
     
     internal class GeneratorTypeConverter : EnumJsonConverter<Generator>
@@ -37,6 +38,7 @@ namespace ContentGeneration.Models
                 Generator.GaxosMasking => "gaxos-masking",
                 Generator.ElevenLabsSound => "elevenlabs-sound",
                 Generator.ElevenLabsTextToSpeech => "elevenlabs-text-to-speech",
+                Generator.RecraftTextToImage => "recraft-text-to-image",
                 _ => generator.ToString()
             };
         }
